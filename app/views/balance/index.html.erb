@@ -1,0 +1,12 @@
+<div class="span12">
+<table class="table table-striped">
+  <tr>
+    <th>Дата</th>
+    <th>RSUM</th>
+    <th>S</th>
+    <th>Наименование</th>
+    <th>Назнеачение</th>
+  </tr>
+  <%= render :partial => "balance/balance_item", :collection => @balance, :as => :item  %>
+</table>
+</div>

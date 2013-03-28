@@ -1,0 +1,24 @@
+<div class="span12">
+  <h2>Касса/Вик</h2>
+  <table class="table table-striped">
+    <tr>
+      <th>Дата</th>
+      <th>Код</th>
+      <th>Наименование</th>
+      <th>SUM</th>
+      <th>BN1</th>
+      <th>BN2</th>
+      <th>BN3</th>
+      <th>BN4</th>
+      <th>BN5</th>
+      <th>AWT</th>
+      <th>BK1</th>
+      <th>BK2</th>
+      <th>BK3</th>
+      <th>BK4</th>
+      <th>BK5</th>
+    </tr>
+    <%= render :partial => "cash/cash_item", :collection => @cash, :as => :item  %>
+  </table>
+  <%= will_paginate @cash, :class => "flickr_pagination", :next_label => ">>", :previous_label => "<<" %>
+</div>
