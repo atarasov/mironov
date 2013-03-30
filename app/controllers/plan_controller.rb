@@ -2,7 +2,20 @@
 class PlanController < ApplicationController
 
   def index
-    @plans = Asrt.paginate(:page => params[:page], :per_page => 15)
+    if params[:year]
+      @plans = Asrt.paginate(:page => params[:page], :per_page => 20).where("YEAR(DAT) = ?",params[:year])
+    else
+      @plans = Asrt.paginate(:page => params[:page], :per_page => 20)
+    end
+
+
+    @p = Asrt.select("DISTINCT YEAR(DAT) AS YEARS")
+
+    @m =[]
+
+    @p.each do |o|
+      @m << o[:YEARS].to_i
+    end
 
   end
 

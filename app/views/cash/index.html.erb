@@ -1,3 +1,4 @@
+<% if current_user.admin? %>
 <div class="span12">
   <h2>Касса/Вик</h2>
   <table class="table table-striped">
@@ -22,3 +23,6 @@
   </table>
   <%= will_paginate @cash, :class => "flickr_pagination", :next_label => ">>", :previous_label => "<<" %>
 </div>
+<% else %>
+    <h2>Недостаточно прав</h2>
+<% end %>

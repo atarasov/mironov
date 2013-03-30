@@ -1,5 +1,5 @@
 class CashcController < ApplicationController
   def index
-    @cashc = Cashc.paginate(:page => params[:page], :per_page => 15)
+    @cashc = Cashc.paginate(:page => params[:page], :per_page => 20)
   end
 end

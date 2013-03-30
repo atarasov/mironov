@@ -1,0 +1,20 @@
+<div id="loginBlock">
+<h2>Регистрация</h2>
+
+<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+  <%= devise_error_messages! %>
+
+  <div><%= f.label :login %>
+  <%= f.text_field :login , :autofocus => true %></div>
+      <br />
+  <div><%= f.label :password %>
+  <%= f.password_field :password %></div>
+
+  <div><%= f.label :password_confirmation %>
+  <%= f.password_field :password_confirmation %></div>
+
+  <div><%= f.submit "ОК" %></div>
+<% end %>
+
+<%= render "devise/shared/links" %>
+</div>

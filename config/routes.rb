@@ -1,5 +1,7 @@
 Mironov::Application.routes.draw do
 
+  devise_for :users
+
   match 'balance/' => 'balance#index'
   match 'cash/' => 'cash#index'
   match 'cashc/' => 'cashc#index'

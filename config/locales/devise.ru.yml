@@ -2,8 +2,6 @@
 # Другие переводы на http://github.com/plataformatec/devise/wiki/I18n
 
 ru:
-  will_paginate:
-    page_gap: "..."
   errors:
     messages:
       expired: "устарела. Пожалуйста, запросите новую"

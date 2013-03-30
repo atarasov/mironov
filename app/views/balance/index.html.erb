@@ -1,3 +1,4 @@
+<% if current_user.admin? %>
 <div class="span12">
 <table class="table table-striped">
   <tr>
@@ -10,3 +11,6 @@
   <%= render :partial => "balance/balance_item", :collection => @balance, :as => :item  %>
 </table>
 </div>
+<% else %>
+        <h2>Недостаточно прав</h2>
+<% end %>

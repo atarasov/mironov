@@ -1,38 +1,13 @@
+<% if current_user.admin? %>
 <% content_for :sidebar do %>
-    <div class="span2">
+    <div class="span3">
       <div class="well sidebar-nav">
-        <ul class="nav nav-list">
-          <li class="nav-header">Sidebar</li>
-          <li><%= link_to "Кондитерские(всего)", planshow_url(1) %></li>
-          <li><%= link_to "Карамель(всего)",  planshow_url(2)  %></li>
-          <li><%= link_to "Карамель(1)",  planshow_url(3)  %></li>
-          <li><%= link_to "Карам.прогр(2)",  planshow_url(4)  %></li>
-          <li><%= link_to "Карамель(3)",  planshow_url(5)  %></li>
-          <li><%= link_to "Карамель(глаз)",  planshow_url(6)  %></li>
-          <li><%= link_to "Карамель(фас)",  planshow_url(7) %></li>
-          <li><%= link_to "Конфеты(всего)",  planshow_url(8)  %></li>
-          <li><%= link_to "Конфеты(1)",  planshow_url(9)  %></li>
-          <li><%= link_to "Конфеты(2)",  planshow_url(10) %></li>
-          <li><%= link_to "Драже(всего)",  planshow_url(11)  %></li>
-          <li><%= link_to "Драже вес/фас",  planshow_url(12)  %></li>
-          <li><%= link_to "Арахис ж/c вес",  planshow_url(13)  %></li>
-          <li><%= link_to "Арахис ж/с фас",  planshow_url(14)  %></li>
-          <li><%= link_to "Ирис",  planshow_url(15) %></li>
-          <li><%= link_to "Сгущеное молоко",  planshow_url(16) %></li>
-          <li><%= link_to "Печенье (всего)",  planshow_url(17)  %></li>
-          <li><%= link_to "Печенье (вес)",  planshow_url(18)  %></li>
-          <li><%= link_to "Печенье (глазр)",  planshow_url(19)  %></li>
-          <li><%= link_to "Печенье (фас)",  planshow_url(20)  %></li>
-          <li><%= link_to "Глазурь",  planshow_url(21)  %></li>
-          <li><%= link_to "Брак (прив-карам)", planshow_url(22) %></li>
-          <li><%= link_to "Брак (карам)", planshow_url(23)  %></li>
-          <li><%= link_to "Брак (конфет)",  planshow_url(24) %></li>
-        </ul>
+        <%= render_navigation :level => 2 %>
       </div><!--/.well -->
     </div><!--/span-->
 <% end %>
 
-<div class="span10">
+<div class="span9">
 <ul class="nav nav-tabs" id="myTab">
   <li><a href="#home">План</a></li>
   <li><a href="#profile">На месяц</a></li>
@@ -52,3 +27,6 @@
   </div>
 </div>
 </div>
+<% else %>
+    <h2>Недостаточно прав</h2>
+<% end %>
