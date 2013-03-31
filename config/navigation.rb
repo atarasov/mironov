@@ -11,7 +11,7 @@ SimpleNavigation::Configuration.run do |navigation|
 
   # Specify the class that will be applied to the current leaf of
   # active navigation items. Defaults to 'simple-navigation-active-leaf'
-  # navigation.active_leaf_class = 'your_active_leaf_class'
+   navigation.active_leaf_class = 'your_active_leaf_class'
 
   # Item keys are normally added to list items as id.
   # This setting turns that off
@@ -50,7 +50,7 @@ SimpleNavigation::Configuration.run do |navigation|
     #                            against the current URI.  You may also use a proc, or the symbol <tt>:subpath</tt>. 
     #
     primary.item :conference, 'Совещание', conference_url
-    primary.item :plan, 'Выполнения плана', plan_url do |plan|
+    primary.item :plan, 'Выполнения плана', plan_url  do |plan|
       plan.dom_class = "nav nav-list"
       plan.item :plan_ешеду, 'Продукты'
       plan.item :plan1, 'Кондитерские(всего)', planshow_url(1)

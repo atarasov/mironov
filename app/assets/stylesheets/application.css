@@ -63,3 +63,12 @@ body {
     padding-right: 15px;
     padding-top: 10px;
     text-shadow: 0 1px 0 #FFFFFF;}
+
+
+.navbar .nav li > a.active{background-color: #E5E5E5; !important}
+.navbar .nav li > a.active:hover{background-color: #E5E5E5; !important}
+.navbar .nav a.active{color: #555555;}
+
+.sidebar-nav li > a.active{background-color: #0088CC; !important}
+.sidebar-nav li > a.active:hover{background-color: #0088CC; !important}
+.sidebar-nav a.active{color: #FFFFFF;}

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
@@ -36,7 +36,7 @@
   </head>
   <body>
 
-    <div class="navbar navbar-static-top">
+    <div class="navbar navbar-fluid-top">
       <div class="navbar-inner">
         <div class="container-fluid">
           <a class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse">
@@ -51,10 +51,9 @@
         </div>
       </div>
     </div>
-    <%= bootstrap_flash %>
     <div class="container-fluid">
       <div class="row-fluid">
-
+        <%= bootstrap_flash %>
             <%= yield :sidebar %>
 
 
