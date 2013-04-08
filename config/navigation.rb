@@ -49,34 +49,46 @@ SimpleNavigation::Configuration.run do |navigation|
     #                            when the item should be highlighted, you can set a regexp which is matched
     #                            against the current URI.  You may also use a proc, or the symbol <tt>:subpath</tt>. 
     #
-    primary.item :conference, 'Совещание', conference_url
+    @asort = Assortment.where("level > 0")
+    primary.item :conference, 'Совещание', root_url do |conf|
+      conf.dom_class = "nav nav-list"
+      conf.item :plan_item, 'Продукция'
+      @asort.each do |a|
+        conf.item :conf, a.name, conferenceshow_url(a.old_id)
+      end
+    end
     primary.item :plan, 'Выполнения плана', plan_url  do |plan|
       plan.dom_class = "nav nav-list"
-      plan.item :plan_ешеду, 'Продукты'
-      plan.item :plan1, 'Кондитерские(всего)', planshow_url(1)
-      plan.item :plan2, 'Карамель(всего)', planshow_url(2)
-      plan.item :plan3, 'Карамель(1)', planshow_url(3)
-      plan.item :plan4, 'Карам.прогр(2)', planshow_url(4)
-      plan.item :plan5, 'Карамель(3)', planshow_url(5)
-      plan.item :plan6, 'Карамель(глаз)', planshow_url(6)
-      plan.item :plan7, 'Карамель(фас)', planshow_url(7)
-      plan.item :plan8, 'Конфеты(всего)', planshow_url(8)
-      plan.item :plan9, 'Конфеты(1)', planshow_url(9)
-      plan.item :plan10, 'Конфеты(2)', planshow_url(10)
-      plan.item :plan11, 'Драже(всего)', planshow_url(11)
-      plan.item :plan12, 'Драже вес/фас', planshow_url(12)
-      plan.item :plan13, 'Арахис ж/c вес', planshow_url(13)
-      plan.item :plan14, 'Арахис ж/с фас', planshow_url(14)
-      plan.item :plan15, 'Ирис', planshow_url(15)
-      plan.item :plan16, 'Сгущеное молоко', planshow_url(16)
-      plan.item :plan17, 'Печенье (всего)', planshow_url(17)
-      plan.item :plan18, 'Печенье (вес)', planshow_url(18)
-      plan.item :plan19, 'Печенье (глазр)', planshow_url(19)
-      plan.item :plan20, 'Печенье (фас)', planshow_url(20)
-      plan.item :plan21, 'Глазурь', planshow_url(21)
-      plan.item :plan22, 'Брак (прив-карам)', planshow_url(22)
-      plan.item :plan23, 'Брак (карам)', planshow_url(23)
-      plan.item :plan24, 'Брак (конфет)', planshow_url(24)
+
+      plan.item :plan_item, 'Продукция'
+      @asort.each do |a|
+        plan.item :plan1, a.name, planshow_url(a.old_id)
+      end
+
+      #plan.item :plan1, 'Кондитерские(всего)', planshow_url(1)
+      #plan.item :plan2, 'Карамель(всего)', planshow_url(2)
+      #plan.item :plan3, 'Карамель(1)', planshow_url(3)
+      #plan.item :plan4, 'Карам.прогр(2)', planshow_url(4)
+      #plan.item :plan5, 'Карамель(3)', planshow_url(5)
+      #plan.item :plan6, 'Карамель(глаз)', planshow_url(6)
+      #plan.item :plan7, 'Карамель(фас)', planshow_url(7)
+      #plan.item :plan8, 'Конфеты(всего)', planshow_url(8)
+      #plan.item :plan9, 'Конфеты(1)', planshow_url(9)
+      #plan.item :plan10, 'Конфеты(2)', planshow_url(10)
+      #plan.item :plan11, 'Драже(всего)', planshow_url(11)
+      #plan.item :plan12, 'Драже вес/фас', planshow_url(12)
+      #plan.item :plan13, 'Арахис ж/c вес', planshow_url(13)
+      #plan.item :plan14, 'Арахис ж/с фас', planshow_url(14)
+      #plan.item :plan15, 'Ирис', planshow_url(15)
+      #plan.item :plan16, 'Сгущеное молоко', planshow_url(16)
+      #plan.item :plan17, 'Печенье (всего)', planshow_url(17)
+      #plan.item :plan18, 'Печенье (вес)', planshow_url(18)
+      #plan.item :plan19, 'Печенье (глазр)', planshow_url(19)
+      #plan.item :plan20, 'Печенье (фас)', planshow_url(20)
+      #plan.item :plan21, 'Глазурь', planshow_url(21)
+      #plan.item :plan22, 'Брак (прив-карам)', planshow_url(22)
+      #plan.item :plan23, 'Брак (карам)', planshow_url(23)
+      #plan.item :plan24, 'Брак (конфет)', planshow_url(24)
     end
     primary.item :implementation, 'Реализация продукции', implementation_url
     primary.item :cash, 'Касса/Вик', cash_url

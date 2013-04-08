@@ -77,12 +77,13 @@ class PlanController < ApplicationController
 
     @bar3 = LazyHighCharts::HighChart.new('Area') do |f|
       f.options[:xAxis][:categories] = @y
-      f.series(:type=> 'spline', :name=>'Сделанно позавчера',:data=> @d3)
-      f.series(:type=> 'spline', :name=>'Сделанно вчера',:data=> @d2)
-      f.series(:type=> 'spline', :name=>'Сделанно сегодня',:data=> @d)
-      f.title({ :text=>"График изменения выполненности плана на текущий день относительно прошлых лет"})
+      f.labels(:items=>[:html=>"Total fruit consumption", :style=>{:left=>"40px", :top=>"8px", :color=>"black"} ])
+      f.series(:type=> 'bar', :name=>'Сделанно позавчера',:data=> @d3)
+      f.series(:type=> 'bar', :name=>'Сделанно вчера',:data=> @d2)
+      f.series(:type=> 'bar', :name=>'Сделанно сегодня',:data=> @d)
+      #f.plotOptions[{:bar => {  :dataLabels => { :enabled => true} }}],
+      f.plot_options({ :bar=> {:dataLabels => { :enabled => true}}})
       f.html_options[:style] = "width:1200px !important; height:400px !important;"
-
     end
 
 

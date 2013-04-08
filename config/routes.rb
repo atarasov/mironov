@@ -8,8 +8,9 @@ Mironov::Application.routes.draw do
   match 'implementation/' => 'implementation#index'
   match 'plan/' => 'plan#index'
   match 'plan/:id' => 'plan#show', :as => :planshow
+  match 'conference/:id' => 'conference#show', :as => :conferenceshow
   match 'conference/' => 'conference#index'
-  root :to => 'main#index'
+  root :to => 'conference#index'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

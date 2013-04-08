@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130330073611) do
+ActiveRecord::Schema.define(:version => 20130408183502) do
 
   create_table "ASRT", :id => false, :force => true do |t|
     t.integer  "K_SW"
@@ -193,6 +193,13 @@ ActiveRecord::Schema.define(:version => 20130330073611) do
     t.decimal  "S",                     :precision => 15, :scale => 2
     t.string   "NAMEPO", :limit => 80
     t.string   "NAZN",   :limit => 252
+  end
+
+  create_table "assortments", :force => true do |t|
+    t.string   "name"
+    t.integer  "old_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "users", :force => true do |t|

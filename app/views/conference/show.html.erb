@@ -7,10 +7,10 @@
         </div><!--/span-->
     <% end %>
     <div class="span9">
-<h3><%= @plan.NAIM %></h3>
+      <h3><%= @plan.NAIM %></h3>
       <%= high_chart("my_bar_div", @bar) %>
       <%= high_chart("my_bar_div1", @bar2) %>
-</div>
+    </div>
 <% else %>
     <h2>Недостаточно прав</h2>
 <% end %>
