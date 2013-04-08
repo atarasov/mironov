@@ -14,7 +14,7 @@ gem 'lazy_high_charts'
 gem 'will_paginate', '~> 3.0'
 gem 'devise'
 gem "simple-navigation"
-#gem "datagrid"
+
 
 
 # Gems used only for assets and not required
