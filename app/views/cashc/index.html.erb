@@ -1,27 +1,21 @@
 <% if current_user.admin? %>
 <div class="span12">
-  <h2>Касса/Вик-С</h2>
+  <ul class="years">
+    <% @m.each do |year| %>
+        <li><%= link_to_unless_current year, plan_url(:year => year)%></li>
+    <% end %>
+  </ul>
+  <br/>
+  <br/>
+  <h3>"Виктория - С" Данные по банкам и по кассе  - <%= Russian::strftime(@cashc.first.DAT, "%d %B %Y")%></h3>
   <table class="table table-striped table-hover">
     <tr>
-      <th>Дата</th>
-      <th>Код</th>
       <th>Наименование</th>
-      <th>SUM</th>
-      <th>BN1</th>
-      <th>BN2</th>
-      <th>BN3</th>
-      <th>BN4</th>
-      <th>BN5</th>
-      <th>AWT</th>
-      <th>BK1</th>
-      <th>BK2</th>
-      <th>BK3</th>
-      <th>BK4</th>
-      <th>BK5</th>
+      <th>Сбербанк</th>
+      <th>Россельхоз банк</th>
     </tr>
     <%= render :partial => "cashc/cashc_item", :collection => @cashc, :as => :item  %>
   </table>
-  <%= will_paginate @cashc, :class => "flickr_pagination", :next_label => ">>", :previous_label => "<<" %>
 </div>
 <% else %>
     <h2>Недостаточно прав</h2>

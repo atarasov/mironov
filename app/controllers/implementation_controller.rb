@@ -7,7 +7,7 @@ class ImplementationController < ApplicationController
       @implementations = Implementation.where("YEAR(DAT) = 2012 AND MONTH(DAT) = ? AND DAY(DAT) = ?", Time.now.month, Time.now.day )
     end
 
-    @p = Asrt.select("DISTINCT YEAR(DAT) AS YEARS")
+    @p = Implementation.select("DISTINCT YEAR(DAT) AS YEARS")
 
     @m =[]
 

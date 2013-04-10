@@ -1,17 +1,7 @@
-<tr>
-  <td><%= item.DAT.strftime('%Y-%m-%d') if item.DAT  %></td>
-  <td><%= item.KOD %></td>
-  <td><%= item.NAIM %></td>
-  <td><%= item.SUM %></td>
-  <td><%= item.BN1 %></td>
-  <td><%= item.BN2 %></td>
-  <td><%= item.BN3 %></td>
-  <td><%= item.BN4 %></td>
-  <td><%= item.BN5 %></td>
-  <td><%= item.AWT %></td>
-  <td><%= item.BK1 %></td>
-  <td><%= item.BK2 %></td>
-  <td><%= item.BK3 %></td>
-  <td><%= item.BK4 %></td>
-  <td><%= item.BK5 %></td>
-</tr>
+<% if item.NAIM != "" %>
+    <tr>
+      <td><%= item.NAIM %></td>
+      <td><%= item.BN1 %></td>
+      <td><%= item.BN2 %></td>
+    </tr>
+<% end %>
