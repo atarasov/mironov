@@ -16,6 +16,8 @@
 //= require highcharts
 //= require highstock
 //= require twitter/bootstrap/bootstrap-tab.js
+//= require twitter/bootstrap/bootstrap-transition.js
+//= require twitter/bootstrap/bootstrap-collapse.js
 //= require_tree .
 
 

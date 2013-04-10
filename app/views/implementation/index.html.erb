@@ -1,23 +1,23 @@
 <% if current_user.admin? %>
 <div class="span12">
-
-  <h1>Реализация</h1>
-  <table class="table table-striped">
+  <ul class="years">
+    <% @m.each do |year| %>
+        <li><%= link_to_unless_current year, plan_url(:year => year)%></li>
+    <% end %>
+  </ul>
+  <br/>
+  <br/>
+  <h3>Реализация продукции  - <%= Russian::strftime(@implementations.first.DAT, "%d %B %Y")%></h3>
+  <table class="table table-hover">
     <tr>
-      <th>Дата</th>
-      <th>Код</th>
       <th>Наименование</th>
-      <th>Сумма 1</th>
-      <th>Сумма 2</th>
-      <th>Сумма 3</th>
+      <th>Реализация за день</th>
+      <th>Реализация с начала месяца</th>
+      <th>Реализация c начала года</th>
     </tr>
+
     <%= render :partial => "implementation/implementation_item", :collection => @implementations, :as => :item  %>
   </table>
-  <%= will_paginate @implementations, :class => "flickr_pagination", :next_label => ">>", :previous_label => "<<" %>
-
-
-
-
     </div>
 <% else %>
     <h2>Недостаточно прав</h2>

@@ -72,3 +72,31 @@ body {
 .sidebar-nav li > a.active{background-color: #0088CC;}
 .sidebar-nav li > a.active:hover{background-color: #0088CC;}
 .sidebar-nav a.active{color: #FFFFFF;}
+
+.margin10{margin-left: 10px}
+.margin15{margin-left: 15px}
+#accordion-plan td.more {
+    border-top-color: #DDDDDD;
+    border-top-style: solid;
+    border-top-width: 0;
+    line-height: 18px;
+    padding-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    text-align: left;
+    vertical-align: top;
+}
+
+.collapse {
+    -webkit-transition: opacity 2.25s linear;
+    -moz-transition: opacity 2.25s linear;
+    -ms-transition: opacity 2.25s linear;
+    -o-transition: opacity 2.25s linear;
+    transition: opacity 2.25s linear;
+}
+.fact-progress .progress, .plan-progress .progress{margin: 0!important;height: 35px;}
+.progress .bar{padding: 8px!important; font-size: 20px!important;}
+.fact-progress, .plan-progress{margin:20px;}
+#accordion-plan tr.accordion-toggle td{font-weight: bold;}
+#accordion-plan tr.accordion-toggle.collapsed td{font-weight: normal;}

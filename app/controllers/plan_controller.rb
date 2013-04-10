@@ -3,9 +3,9 @@ class PlanController < ApplicationController
 
   def index
     if params[:year]
-      @plans = Asrt.paginate(:page => params[:page], :per_page => 20).where("YEAR(DAT) = ?",params[:year])
+      @plans = Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?",params[:year], Time.now.month, Time.now.day )
     else
-      @plans = Asrt.paginate(:page => params[:page], :per_page => 20)
+      @plans = Asrt.where("YEAR(DAT) = 2012 AND MONTH(DAT) = ? AND DAY(DAT) = ?", Time.now.month, Time.now.day )
     end
 
 

@@ -1,6 +1,19 @@
 class ImplementationController < ApplicationController
   PER_PAGE = 20
   def index
-    @implementations = Implementation.paginate(:page => params[:page], :per_page => 20)
+    if params[:year]
+      @implementations = Implementation.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?",params[:year], Time.now.month, Time.now.day )
+    else
+      @implementations = Implementation.where("YEAR(DAT) = 2012 AND MONTH(DAT) = ? AND DAY(DAT) = ?", Time.now.month, Time.now.day )
+    end
+
+    @p = Asrt.select("DISTINCT YEAR(DAT) AS YEARS")
+
+    @m =[]
+
+    @p.each do |o|
+      @m << o[:YEARS].to_i
+    end
+
   end
 end

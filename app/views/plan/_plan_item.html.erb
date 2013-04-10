@@ -1,8 +1,42 @@
-<tr>
-  <td><%= item.DAT.strftime('%Y-%m-%d') %></td>
-  <td><%= item.KOD %></td>
+<tr class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion-plan" href="#item<%= item.N %>">
   <td><%= item.NAIM %></td>
   <td><%= item.PLM %></td>
   <td><%= item.PLS %></td>
-  <td><%= item.PLD %></td>
+  <td><%= item.VRS %></td>
+  <td><%= item.VRD %></td>
+  <td><%= item.OST %></td>
+</tr>
+
+<tr>
+  <td colspan="6" class="more">
+    <div id="item<%= item.N %>" class=" accordion-body collapse">
+      <div class="plan-progress">
+        <% if item.PLM.to_i > 0 %>
+
+            <div class="progress">
+              <div class="bar bar-success" style="width: <%= number_to_percentage((item.PLS / item.PLM) *100, :precision => 0) %>;">План
+                текущий - <%= number_to_percentage((item.PLS / item.PLM) *100, :precision => 0) %></div>
+              <div class="bar bar-danger" style="width: <%= number_to_percentage( 100 - (item.PLS / item.PLM) *100, :precision => 0) %>;">
+                План осталось - <%= number_to_percentage(100 - (item.PLS / item.PLM) *100, :precision => 0) %></div>
+            </div>
+
+        <% else %>
+            Нет данных
+        <% end %>
+      </div>
+      <div class="fact-progress">
+        <% if item.PLS.to_i > 0 %>
+            <div class="progress">
+              <div class="bar bar-success" style="width: <%= number_to_percentage((item.VRS / item.PLS) *100, :precision => 0) %>;">Факт
+                текущий - <%= number_to_percentage((item.VRS / item.PLS) *100, :precision => 0) %></div>
+              <div class="bar bar-danger" style="width: <%= number_to_percentage( 100 - (item.VRS / item.PLS) *100, :precision => 0) %>;">Факт
+                осталось -  <%= number_to_percentage(100 - (item.VRS / item.PLS) *100, :precision => 0) %></div>
+            </div>
+        <% else %>
+            Нет данных
+        <% end %>
+      </div>
+
+    </div>
+  </td>
 </tr>
