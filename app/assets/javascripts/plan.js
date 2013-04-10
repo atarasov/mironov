@@ -10,3 +10,4 @@ $('a[class="tab-pane"]').on('show', function (e) {
     e.target // activated tab
     e.relatedTarget // previous tab
 })
+
