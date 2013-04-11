@@ -7,7 +7,7 @@
   </ul>
   <br/>
   <br/>
-  <h3>Реализация продукции  - <%= Russian::strftime(@implementations.first.DAT, "%d %B %Y")%></h3>
+  <h3>Реализация продукции  - <%= @implementations.first.DAT.to_date %></h3>
   <table class="table table-hover">
     <tr>
       <th>Наименование</th>

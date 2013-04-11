@@ -20,80 +20,76 @@ class PlanController < ApplicationController
   end
 
   def show
-
-    @m = []
-    @s = []
-    @d = []
-    @d2 = []
-    @d3 = []
-    @y = []
-    s = "2010-"+Time.now.strftime('%m-%d 00:00:00')
-    d = "2009-"+Time.now.strftime('%m-%d 00:00:00')
-
-    @months = Asrt.where('N = ? AND DN = ? AND MONTH(DAT) = ?', params[:id], Time.now.day, Time.now.strftime('%m'))
-    @months2 = Asrt.where('N = ? AND DN = ? AND MONTH(DAT) = ?', params[:id], Time.now.day - 1, Time.now.strftime('%m'))
-    @months3 = Asrt.where('N = ? AND DN = ? AND MONTH(DAT) = ?', params[:id], Time.now.day - 2 , Time.now.strftime('%m'))
-    @cur_month = Asrt.where('N = ? AND MONTH(DAT) = ? AND YEAR(DAT) = ?', params[:id], Time.now.strftime('%m'), Time.now.strftime('%Y').to_i - 1)
-    #@plan = Asrt.where(:N => params[:id], :DAT => s.to_s).first
-    #@old_plan = Asrt.where(:N => params[:id], :DAT => d.to_s).first
-    @months.each do |o|
-      @m << o[:PLM].to_f
-      @s << o[:PLS].to_f
-      @d << o[:PLD].to_f
-      @y << o[:DAT].strftime('%Y')
-
-    end
-    @cur_d =[]
-    @cur_day =[]
-    @cur_month.each do |o|
-      @cur_d << o[:PLD].to_f
-      @cur_day << o[:DAT].strftime('%d')
-
+    @month_plans_arr = []
+    @days_plans_arr = []
+    2008.upto Time.now.year.to_i do |year|
+      1.upto 12 do |month|
+        @day = Time.new(year,month,1).end_of_month.day
+        @month_plans_arr << Asrt.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], year, month, @day).first
+        @days_plans_arr << Asrt.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], year, month, Time.now.day).first
+      end
     end
 
-    @months2.each do |o|
-      @d2 << o[:PLD].to_f
+    @plan_arr =[]
+    @fact_arr =[]
+    @month_arr =[]
+    @days_plan_arr =[]
+    @days_fact_arr =[]
+    @days_month_arr =[]
 
+    @month_plans_arr.each do |m|
+      @plan_arr << m.PLM.to_f if m
+      @fact_arr << m.VRS.to_f if m
+      @month_arr << m.DAT.to_date if m
     end
 
-    @months3.each do |o|
-      @d3 << o[:PLD].to_f
-
-    end
-    @bar = LazyHighCharts::HighChart.new('Area') do |f|
-      f.options[:xAxis][:categories] = @y
-      f.series(:type=> 'spline', :name=>'План',:data=> @m)
-      f.title({ :text=>"График изменения плана относительно месяцов прошлых лет"})
-      f.html_options[:style] = "width:1200px !important; height:400px !important;"
+    @days_plans_arr.each do |d|
+      @days_plan_arr << d.PLM.to_f if d
+      @days_fact_arr << d.VRS.to_f if d
+      @days_month_arr << d.DAT.to_date if d
     end
 
-    @bar2 = LazyHighCharts::HighChart.new('Area') do |f|
-      f.options[:xAxis][:categories] = @y
-      f.series(:type=> 'spline', :name=>'План',:data=> @m)
-      f.series(:type=> 'spline', :name=>'Выполняемость плана',:data=> @s)
-      f.title({ :text=>"График изменения выполненности плана относительно месяцов прошлых лет"})
-      f.html_options[:style] = "width:1200px !important; height:400px !important;"
-    end
 
-    @bar3 = LazyHighCharts::HighChart.new('Area') do |f|
-      f.options[:xAxis][:categories] = @y
+    @bar_graph = LazyHighCharts::HighChart.new('Area') do |f|
+      f.options[:xAxis][:categories] = @month_arr
       f.labels(:items=>[:html=>"Total fruit consumption", :style=>{:left=>"40px", :top=>"8px", :color=>"black"} ])
-      f.series(:type=> 'bar', :name=>'Сделанно позавчера',:data=> @d3)
-      f.series(:type=> 'bar', :name=>'Сделанно вчера',:data=> @d2)
-      f.series(:type=> 'bar', :name=>'Сделанно сегодня',:data=> @d)
+      f.series(:type=> 'bar', :name=>'План',:data=> @plan_arr)
+      f.series(:type=> 'bar', :name=>'Факт',:data=> @fact_arr)
       #f.plotOptions[{:bar => {  :dataLabels => { :enabled => true} }}],
       f.plot_options({ :bar=> {:dataLabels => { :enabled => true}}})
-      f.html_options[:style] = "width:1200px !important; height:400px !important;"
+      f.html_options[:style] = "width:100% !important; height:3400px !important;"
     end
 
-
-    @bar4 = LazyHighCharts::HighChart.new('Area') do |f|
-      f.options[:xAxis][:categories] = @cur_day
-      f.series(:type=> 'spline', :name=>'Сделанно',:data=> @cur_d)
-      f.title({ :text=>"График выполняемости плана на текущий месяц"})
-      f.html_options[:style] = "width:1200px !important; height:400px !important;"
+    @line_graph = LazyHighCharts::HighChart.new('Area') do |f|
+      f.options[:xAxis][:gridLineWidth] =  1
+      f.series(:type=> 'spline', :name=>'План',:data=> @plan_arr)
+      f.series(:type=> 'spline', :name=>'Факт',:data=> @fact_arr)
+      f.title({ :text=>"График изменения плана относительно месяцов прошлых лет"})
+      f.html_options[:style] = "width:100% !important; height:400px !important;"
+      f.tooltip({:shared => true, :crosshairs=> true })
+      f.xAxis({:labels => {:rotation => -90, :align => 'right'}, :categories => @month_arr })
 
     end
+
+    @days_bar_graph = LazyHighCharts::HighChart.new('Area') do |f|
+      f.options[:xAxis][:categories] = @days_month_arr
+      f.labels(:items=>[:html=>"Total fruit consumption", :style=>{:left=>"40px", :top=>"8px", :color=>"black"} ])
+      f.series(:type=> 'bar', :name=>'План',:data=> @days_plan_arr)
+      f.series(:type=> 'bar', :name=>'Факт',:data=> @days_fact_arr)
+      #f.plotOptions[{:bar => {  :dataLabels => { :enabled => true} }}],
+      f.plot_options({ :bar=> {:dataLabels => { :enabled => true}}})
+      f.html_options[:style] = "width:100% !important; height:3400px !important;"
+    end
+
+    @days_line_graph = LazyHighCharts::HighChart.new('Area') do |f|
+      f.series(:type=> 'spline', :name=>'План',:data=> @days_plan_arr)
+      f.series(:type=> 'spline', :name=>'Факт',:data=> @days_fact_arr)
+      f.title({ :text=>"График изменения плана относительно месяцов прошлых лет"})
+      f.html_options[:style] = "width:100% !important; height:400px !important;"
+      f.tooltip({:shared => true, :crosshairs=> true })
+      f.xAxis({:labels => {:rotation => -90, :align => 'right'}, :categories => @days_month_arr })
+    end
+
   end
 
 

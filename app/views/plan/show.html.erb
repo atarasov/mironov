@@ -1,32 +1,20 @@
 <% if current_user.admin? %>
-<% content_for :sidebar do %>
-    <div class="span3">
-      <div class="well sidebar-nav">
-        <%= render_navigation :level => 2 %>
-      </div><!--/.well -->
-    </div><!--/span-->
-<% end %>
 
-<div class="span9">
+
+<div class="span12">
 <ul class="nav nav-tabs" id="myTab">
-  <li><a href="#home">План</a></li>
-  <li><a href="#profile">На месяц</a></li>
-  <li><a href="#messages">На день</a></li>
+  <li><a href="#month">По месяцам</a></li>
+  <li><a href="#day">По дням</a></li>
 </ul>
 
 <div class="tab-content">
-  <div class="tab-pane" id="home">
-
-
-
-    <%= high_chart("my_bar_div", @bar) %>
+  <div class="tab-pane" id="month">
+    <%#= high_chart("monthBarGraph", @bar_graph) %>
+    <%= high_chart("monthLineGraph", @line_graph) %>
   </div>
-  <div class="tab-pane" id="profile">
-    <%= high_chart("my_bar2_div", @bar2) %>
-  </div>
-  <div class="tab-pane" id="messages">
-    <%= high_chart("my_bar3_div", @bar3) %>
-    <%= high_chart("my_bar4_div", @bar4) %>
+  <div class="tab-pane" id="day">
+    <%#= high_chart("daysBarGraph", @days_bar_graph) %>
+    <%#= high_chart("daysLineGraph", @days_line_graph) %>
   </div>
 </div>
 </div>
