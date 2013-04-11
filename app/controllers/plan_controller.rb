@@ -52,20 +52,20 @@ class PlanController < ApplicationController
 
     @bar_graph = LazyHighCharts::HighChart.new('Area') do |f|
       f.options[:xAxis][:categories] = @month_arr
-      f.labels(:items=>[:html=>"Total fruit consumption", :style=>{:left=>"40px", :top=>"8px", :color=>"black"} ])
+      f.labels(:items=>[:html=>"Динамика выполнения плана по месяцам", :style=>{:left=>"40px", :top=>"8px", :color=>"black"} ])
       f.series(:type=> 'bar', :name=>'План',:data=> @plan_arr)
       f.series(:type=> 'bar', :name=>'Факт',:data=> @fact_arr)
       #f.plotOptions[{:bar => {  :dataLabels => { :enabled => true} }}],
       f.plot_options({ :bar=> {:dataLabels => { :enabled => true}}})
-      f.html_options[:style] = "width:100% !important; height:3400px !important;"
+      f.html_options[:style] = "width:90% !important; height:3400px !important;"
     end
 
     @line_graph = LazyHighCharts::HighChart.new('Area') do |f|
       f.options[:xAxis][:gridLineWidth] =  1
       f.series(:type=> 'spline', :name=>'План',:data=> @plan_arr)
       f.series(:type=> 'spline', :name=>'Факт',:data=> @fact_arr)
-      f.title({ :text=>"График изменения плана относительно месяцов прошлых лет"})
-      f.html_options[:style] = "width:100% !important; height:400px !important;"
+      f.title({ :text=>"Динамика выполнения плана по месяцам"})
+      f.html_options[:style] = "width:100% !important; height:800px !important;"
       f.tooltip({:shared => true, :crosshairs=> true })
       f.xAxis({:labels => {:rotation => -90, :align => 'right'}, :categories => @month_arr })
 
@@ -73,7 +73,7 @@ class PlanController < ApplicationController
 
     @days_bar_graph = LazyHighCharts::HighChart.new('Area') do |f|
       f.options[:xAxis][:categories] = @days_month_arr
-      f.labels(:items=>[:html=>"Total fruit consumption", :style=>{:left=>"40px", :top=>"8px", :color=>"black"} ])
+      f.labels(:items=>[:html=>"Динамика выполнения плана по месяцам за "+Time.now.day+" рабочих дней", :style=>{:left=>"40px", :top=>"10px", :color=>"black"} ])
       f.series(:type=> 'bar', :name=>'План',:data=> @days_plan_arr)
       f.series(:type=> 'bar', :name=>'Факт',:data=> @days_fact_arr)
       #f.plotOptions[{:bar => {  :dataLabels => { :enabled => true} }}],
@@ -84,8 +84,8 @@ class PlanController < ApplicationController
     @days_line_graph = LazyHighCharts::HighChart.new('Area') do |f|
       f.series(:type=> 'spline', :name=>'План',:data=> @days_plan_arr)
       f.series(:type=> 'spline', :name=>'Факт',:data=> @days_fact_arr)
-      f.title({ :text=>"График изменения плана относительно месяцов прошлых лет"})
-      f.html_options[:style] = "width:100% !important; height:400px !important;"
+      f.title({ :text=>"Динамика выполнения плана по месяцам за "+Time.now.day+" рабочих дней"})
+      f.html_options[:style] = "width:90% !important; height:800px !important;"
       f.tooltip({:shared => true, :crosshairs=> true })
       f.xAxis({:labels => {:rotation => -90, :align => 'right'}, :categories => @days_month_arr })
     end
