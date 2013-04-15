@@ -7,7 +7,7 @@
   </ul>
   <br/>
   <br/>
-  <h3>"Виктория - С" Данные по банкам и по кассе  - <%= @cashc.first.DAT.to_date%></h3>
+  <h3>"Виктория - С" Данные по банкам и по кассе  - <%= @cashc.first.DAT.to_date if @cashc.first %></h3>
   <table class="table table-striped table-hover">
     <tr>
       <th>Наименование</th>

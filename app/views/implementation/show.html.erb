@@ -1,0 +1,21 @@
+<% if current_user.admin? %>
+    <div class="span12">
+      <ul class="nav nav-tabs" id="myTab">
+        <li><a href="#month">По месяцам</a></li>
+        <li><a href="#day">По дням</a></li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane" id="month">
+          <%#= high_chart("monthBarGraph", @bar_graph) %>
+          <%= high_chart("monthLineGraph", @line_graph) %>
+        </div>
+        <div class="tab-pane" id="day">
+          <%#= high_chart("daysBarGraph", @days_bar_graph) %>
+          <%= high_chart("daysLineGraph", @days_line_graph) %>
+        </div>
+      </div>
+    </div>
+<% else %>
+    <h2>Недостаточно прав</h2>
+<% end %>

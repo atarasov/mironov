@@ -1,10 +1,10 @@
-<tr class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion-plan" href="#item<%= item.N %>">
+<tr >
   <td><%= link_to item.NAIM, planshow_url(item.N) %></td>
-  <td><%= item.PLM %></td>
-  <td><%= item.PLS %></td>
-  <td><%= item.VRS %></td>
-  <td><%= item.VRD %></td>
-  <td><%= item.OST %></td>
+  <td class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion-plan" href="#item<%= item.N %>"><%= item.PLM %></td>
+  <td class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion-plan" href="#item<%= item.N %>"><%= item.PLS %></td>
+  <td class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion-plan" href="#item<%= item.N %>"><%= item.VRS %></td>
+  <td class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion-plan" href="#item<%= item.N %>"><%= item.VRD %></td>
+  <td class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion-plan" href="#item<%= item.N %>"><%= item.OST %></td>
 </tr>
 
 <tr>
