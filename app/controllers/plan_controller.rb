@@ -22,7 +22,7 @@ class PlanController < ApplicationController
   def show
     @month_plans_arr = []
     @days_plans_arr = []
-    2008.upto Time.now.year.to_i do |year|
+    Time.now.year.to_i.downto 2008  do |year|
       1.upto 12 do |month|
         @day = Time.new(year,month,1).end_of_month.day
         @month_plans_arr << Asrt.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], year, month, @day).first
