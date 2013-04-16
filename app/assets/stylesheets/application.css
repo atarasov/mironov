@@ -50,7 +50,7 @@
 }
 
 body {
-    font-size: 23px !important;
+    font-size: 20px !important;
 }
 
 #loginBlock{width: 250px; margin: 0 auto;}
@@ -100,5 +100,7 @@ body {
 .fact-progress, .plan-progress{margin:20px;}
 #accordion-plan tr.accordion-toggle td{font-weight: bold;}
 #accordion-plan tr.accordion-toggle.collapsed td{font-weight: normal;}
+g.highcharts-axis-labels text{font-size: 14px !important;}
+g.highcharts-tooltip tspan{font-size: 18px !important;}
 
 

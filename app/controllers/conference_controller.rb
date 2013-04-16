@@ -20,8 +20,8 @@ class ConferenceController < ApplicationController
 
 
       f.yAxis({ :min=> 0, :title=> {:text => "Тонны", :align =>'high'}})
-      f.tooltip({ :suffix=> 'тонн'})
-      f.html_options[:style] = "width:1200px !important; height:300px !important;"
+      f.tooltip({:shared => true,:valueSuffix => ' тонн'})
+      f.html_options[:style] = "width:95% !important; height:200px !important;"
     end
 
     @bar2 = LazyHighCharts::HighChart.new('Area1') do |f|
@@ -31,8 +31,8 @@ class ConferenceController < ApplicationController
       f.series(:type=> 'bar', :name=>'Выработка дневная',:data=> [@plan.VRD.to_i])
       f.plot_options({ :bar=> {:dataLabels => { :enabled => true}}})
       f.yAxis({ :min=> 0, :title=> {:text => "Тонны", :align =>'high'}})
-      f.tooltip({ :suffix=> 'тонн'})
-      f.html_options[:style] = "width:1200px !important; height:300px !important;"
+      f.tooltip({:shared => true,:valueSuffix => ' тонн'})
+      f.html_options[:style] = "width:95% !important; height:200px !important;"
       f.legend({ layout: 'vertical',
                  align: 'right',
                  verticalAlign: 'top',
@@ -54,8 +54,8 @@ class ConferenceController < ApplicationController
       f.series(:type=> 'bar', :name=>'План на месяц',:data=> [@plan.PLM.to_i])
       f.plot_options({ :bar=> {:dataLabels => { :enabled => true}}})
       f.yAxis({ :min=> 0, :title=> {:text => "Тонны", :align =>'high'}, :labels =>  { :overflow => 'justify'}})
-      f.tooltip({ :suffix=> 'тонн'})
-      f.html_options[:style] = "width:1200px !important; height:200px !important;"
+      f.tooltip({:shared => true,:valueSuffix => ' тонн'})
+      f.html_options[:style] = "width:95% !important; height:200px !important;"
       f.legend({ layout: 'vertical',
                  align: 'right',
                  verticalAlign: 'top',
@@ -74,8 +74,8 @@ class ConferenceController < ApplicationController
       f.series(:type=> 'bar', :name=>'Выработка дневная',:data=> [@plan.VRD.to_i])
       f.plot_options({ :bar=> {:dataLabels => { :enabled => true}}})
       f.yAxis({ :min=> 0, :title=> {:text => "Тонны", :align =>'high'}})
-      f.tooltip({ :suffix=> 'тонн'})
-      f.html_options[:style] = "width:1200px !important; height:200px !important;"
+      f.tooltip({:shared => true,:valueSuffix => ' тонн'})
+      f.html_options[:style] = "width:95% !important; height:200px !important;"
       f.legend({ layout: 'vertical',
                  align: 'right',
                  verticalAlign: 'top',
