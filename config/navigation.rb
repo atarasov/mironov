@@ -57,7 +57,7 @@ SimpleNavigation::Configuration.run do |navigation|
         conf.item :conf, a.name, conferenceshow_url(a.old_id)
       end
     end
-    primary.item :plan, 'Выполнения плана', plan_url  do |plan|
+    primary.item :plan, 'Выполнения плана', plan_url, :highlights_on => /\/plan/  do |plan|
       plan.dom_class = "nav nav-list"
 
       plan.item :plan_item, 'Продукция'
@@ -90,7 +90,7 @@ SimpleNavigation::Configuration.run do |navigation|
       #plan.item :plan23, 'Брак (карам)', planshow_url(23)
       #plan.item :plan24, 'Брак (конфет)', planshow_url(24)
     end
-    primary.item :implementation, 'Реализация продукции', implementation_url
+    primary.item :implementation, 'Реализация продукции', implementation_url, :highlights_on => /\/implementation/
     primary.item :cash, 'Касса/Вик', cash_url
     primary.item :cashс, 'Касса/Вик-С', cashc_url
     primary.item :balance, 'Расход/оплата ресурсов', balance_url

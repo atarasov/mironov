@@ -5,7 +5,7 @@ class ConferenceController < ApplicationController
 
     @bar = LazyHighCharts::HighChart.new('Area') do |f|
       f.options[:xAxis][:categories] = []
-      f.series(:type=> 'bar', :name=>'План текущий',:data=> [@plan.PLD.to_i])
+      f.series(:type=> 'bar', :name=>'План нарастающий',:data=> [@plan.PLD.to_i])
       f.series(:type=> 'bar', :name=>'План на месяц',:data=> [@plan.PLM.to_i])
       f.plot_options({ :bar=> {:dataLabels => { :enabled => true}}})
       f.legend({ layout: 'vertical',
@@ -50,7 +50,7 @@ class ConferenceController < ApplicationController
 
     @bar = LazyHighCharts::HighChart.new('Area') do |f|
       f.options[:xAxis][:categories] = []
-      f.series(:type=> 'bar', :name=>'План текущий',:data=> [@plan.PLD.to_i])
+      f.series(:type=> 'bar', :name=>'План нарастающий',:data=> [@plan.PLD.to_i])
       f.series(:type=> 'bar', :name=>'План на месяц',:data=> [@plan.PLM.to_i])
       f.plot_options({ :bar=> {:dataLabels => { :enabled => true}}})
       f.yAxis({ :min=> 0, :title=> {:text => "Тонны", :align =>'high'}, :labels =>  { :overflow => 'justify'}})

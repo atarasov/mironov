@@ -46,7 +46,7 @@ class ImplementationController < ApplicationController
         s =Implementation.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ? AND N = ?",m.DAT.to_date.year, m.DAT.to_date.month, Time.now.day, params[:id]).first
         @day_to_now_arr << s.SUMM.to_f
         @date_arr << s.DAT.to_date.to_s
-        #raise @years_count_arr.inspect
+        @name = s.NAIM
       end
     end
 
@@ -72,11 +72,20 @@ class ImplementationController < ApplicationController
       f.options[:xAxis][:gridLineWidth] =  1
       f.series(:type=> 'spline', :name=>'Реализация за месяц',:data=> @month_arr )
       f.series(:type=> 'spline', :name=>'Реализация на сегодняшний день(нарастающая)',:data=> @day_to_now_arr)
-      f.title({ :text=>"Динамика реализации"})
+      f.title({ :text=>"Динамика реализации - <b>" +@name +"</b>"})
       f.exporting({ :enabled => true})
       f.html_options[:style] = "width:96% !important; height:800px !important;"
       f.tooltip({:shared => true, :crosshairs=> true,:valueSuffix => ' т'})
       f.xAxis({:labels => {:rotation => -90, :align => 'right'}, :categories => @date_arr })
+      f.legend({ layout: 'vertical',
+                 align: 'right',
+                 verticalAlign: 'top',
+                 x: -100,
+                 y: -10,
+                 floating: true,
+                 borderWidth: 1,
+                 backgroundColor: '#FFFFFF',
+                 shadow: true})
 
     end
 
@@ -92,10 +101,19 @@ class ImplementationController < ApplicationController
 
     @days_line_graph = LazyHighCharts::HighChart.new('Area') do |f|
       f.series(:type=> 'area', :name=>'План',:data=>@day_to_now_arr)
-      f.title({ :text=>"Динамика реализации за "+Time.now.day.to_s+" рабочих дней"})
+      f.title({ :text=>"Динамика реализации за "+Time.now.day.to_s+" рабочих дней - <b>" +@name+"</b>"})
       f.html_options[:style] = "width:96% !important; height:800px !important;"
       f.tooltip({:shared => true, :crosshairs=> true })
       f.xAxis({:labels => {:rotation => -90, :align => 'right'}, :categories => @date_arr })
+      f.legend({ layout: 'vertical',
+                 align: 'right',
+                 verticalAlign: 'top',
+                 x: -100,
+                 y: -10,
+                 floating: true,
+                 borderWidth: 1,
+                 backgroundColor: '#FFFFFF',
+                 shadow: true})
     end
 
   end
