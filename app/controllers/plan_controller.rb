@@ -56,7 +56,7 @@ class PlanController < ApplicationController
     @days_plans_arr.each do |d|
       @days_plan_arr << d.PLS.to_f if d
       @days_fact_arr << d.VRS.to_f if d
-      @days_month_arr << d.DAT.to_date.to_s + '(<b>'+d.PLM.to_f.to_s+'</b>)' if d
+      @days_month_arr << d.DAT.to_date.to_s + '<br/>(<b>'+d.PLM.to_f.to_s+'</b>) тонн' if d
       #@name = d.NAIM
     end
 
