@@ -221,7 +221,7 @@ class ImplementationController < ApplicationController
     #end
 
     @days_line_graph = LazyHighCharts::HighChart.new('Area') do |f|
-      f.series(:type=> 'area', :name=>'План',:data=>@day_to_now_arr)
+      f.series(:type=> 'area', :name=>'Реализация за'+Time.now.day.to_s+'рабочих дней',:data=>@day_to_now_arr)
       f.title({ :text=>"Динамика реализации за "+Time.now.day.to_s+" рабочих дней - <b>" +@name+"</b>"})
       f.html_options[:style] = "width:96% !important; height:800px !important;"
       f.tooltip({:shared => true, :crosshairs=> true })
