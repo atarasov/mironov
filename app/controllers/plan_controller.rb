@@ -44,7 +44,7 @@ class PlanController < ApplicationController
       if m
         @plan_arr << m.PLM.to_f
         @fact_arr << m.VRS.to_f
-        @month_arr << m.DAT.to_date.to_s+"  (<b>"+ Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) <= ? AND N = ?",m.DAT.to_date.year, m.DAT.to_date.month, params[:id]).sum("VRD").to_s+" тонн</b>)"
+        @month_arr << m.DAT.to_date.to_s+"  <br/>(<b>"+ Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) <= ? AND N = ?",m.DAT.to_date.year, m.DAT.to_date.month, params[:id]).sum("VRD").to_s+" тонн</b>)"
         @years_count_arr << Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) <= ? AND N = ?",m.DAT.to_date.year, m.DAT.to_date.month, params[:id]).sum("VRD").to_f
         #raise @years_count_arr.inspect
         @name = m.NAIM
@@ -168,7 +168,7 @@ class PlanController < ApplicationController
       if m
         @plan_arr << m.PLM.to_f
         @fact_arr << m.VRS.to_f
-        @month_arr << m.DAT.to_date.to_s+"  (<b>"+ Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) <= ? AND N = ?",m.DAT.to_date.year, m.DAT.to_date.month, params[:id]).sum("VRD").to_s+" тонн</b>)"
+        @month_arr << m.DAT.to_date.to_s+"  <br/>(<b>"+ Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) <= ? AND N = ?",m.DAT.to_date.year, m.DAT.to_date.month, params[:id]).sum("VRD").to_s+" тонн</b>)"
         @years_count_arr << Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) <= ? AND N = ?",m.DAT.to_date.year, m.DAT.to_date.month, params[:id]).sum("VRD").to_f
         #raise @years_count_arr.inspect
         @name = m.NAIM

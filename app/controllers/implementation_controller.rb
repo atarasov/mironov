@@ -45,7 +45,7 @@ class ImplementationController < ApplicationController
         @month_arr << m.SUMM.to_f
         s =Implementation.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ? AND N = ?",m.DAT.to_date.year, m.DAT.to_date.month, Time.now.day, params[:id]).first
         @day_to_now_arr << s.SUMM.to_f
-        @date_arr << s.DAT.to_date.to_s+"  (<b>"+ Implementation.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ? AND N = ?",m.DAT.to_date.year, m.DAT.to_date.month, Time.now.day, params[:id]).first.SUMY.to_s+" тонн</b>)"
+        @date_arr << s.DAT.to_date.to_s+"  <br/>(<b>"+ Implementation.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ? AND N = ?",m.DAT.to_date.year, m.DAT.to_date.month, Time.now.day, params[:id]).first.SUMY.to_s+" тонн</b>)"
         @name = s.NAIM
       end
     end
@@ -156,7 +156,7 @@ class ImplementationController < ApplicationController
         @month_arr << m.SUMM.to_f
         s =Implementation.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ? AND N = ?",m.DAT.to_date.year, m.DAT.to_date.month, Time.now.day, params[:id]).first
         @day_to_now_arr << s.SUMM.to_f
-        @date_arr << s.DAT.to_date.to_s+"  (<b>"+ Implementation.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ? AND N = ?",m.DAT.to_date.year, m.DAT.to_date.month, Time.now.day, params[:id]).first.SUMY.to_s+" тонн</b>)"
+        @date_arr << s.DAT.to_date.to_s+"  <br/>(<b>"+ Implementation.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ? AND N = ?",m.DAT.to_date.year, m.DAT.to_date.month, Time.now.day, params[:id]).first.SUMY.to_s+" тонн</b>)"
         @name = s.NAIM
       end
     end
