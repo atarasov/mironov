@@ -35,7 +35,7 @@
     <%= favicon_link_tag 'favicon.ico', :rel => 'shortcut icon' %>
   </head>
   <body>
-
+  <% if current_user && current_user.admin? %>
     <div class="navbar navbar-fluid-top">
       <div class="navbar-inner">
         <div class="container-fluid">
@@ -46,14 +46,15 @@
           </a>
           <a class="brand" href="/ ">ОАО "Виктория"</a>
           <div class="container-fluid nav-collapse">
-            <%= render_navigation :level => 1%>
+            <%= render_navigation :level => 1 %>
             <ul class="nav pull-right">
-              <li><a href="/ ">Численность - 932</a></li>
+              <li><a href="/">Численность - 932</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
       </div>
     </div>
+  <% end %>
     <div class="container-fluid">
       <div class="row-fluid">
         <%= bootstrap_flash %>

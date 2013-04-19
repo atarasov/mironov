@@ -7,8 +7,10 @@ Mironov::Application.routes.draw do
   match 'cashc/' => 'cashc#index'
   match 'implementation/' => 'implementation#index'
   match 'implementation/:id'=> 'implementation#show', :as => :implementationshow
+  match 'implementation/:id/all'=> 'implementation#all', :as => :implementationall
   match 'plan/' => 'plan#index'
   match 'plan/:id' => 'plan#show', :as => :planshow
+  match 'plan/:id/all' => 'plan#all', :as => :planall
   match 'conference/:id' => 'conference#show', :as => :conferenceshow
   match 'conference/' => 'conference#index'
   root :to => 'conference#index'

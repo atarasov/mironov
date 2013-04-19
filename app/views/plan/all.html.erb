@@ -1,6 +1,7 @@
 <% if current_user.admin? %>
+
+
     <div class="span12">
-      <p><%= link_to "Данные за все время", implementationall_url(params[:id]) %></p>
       <ul class="nav nav-tabs" id="myTab">
         <li><a href="#month">По месяцам</a></li>
         <li><a href="#day">По дням</a></li>
@@ -8,11 +9,13 @@
 
       <div class="tab-content">
         <div class="tab-pane" id="month">
+          Динамика выполнения плана по месяцам - <b><%= @name %></b>
           <%= high_chart("monthBarGraph", @bar_graph) %>
           <%= high_chart("monthLineGraph", @line_graph) %>
         </div>
         <div class="tab-pane" id="day">
-          <%#= high_chart("daysBarGraph", @days_bar_graph) %>
+          Динамика выполнения плана по месяцам за <%=Time.now.day.to_s %> рабочих дней - <b><%= @name %></b>
+          <%= high_chart("daysBarGraph", @days_bar_graph) %>
           <%= high_chart("daysLineGraph", @days_line_graph) %>
         </div>
       </div>
