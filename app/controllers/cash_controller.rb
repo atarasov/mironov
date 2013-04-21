@@ -1,4 +1,4 @@
-class CashController < ApplicationController
+class CashController < BaseController
   def index
     if params[:year]
       @cash = Cash.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?",params[:year], Time.now.month, Time.now.day )

@@ -1,5 +1,5 @@
 # encoding: utf-8
-class PlanController < BaseController
+class PlanController < ApplicationController
 
   def index
     if params[:year]
@@ -44,7 +44,7 @@ class PlanController < BaseController
       if m
         @plan_arr << m.PLM.to_f
         @fact_arr << m.VRS.to_f
-        @month_arr << Russian::strftime(m.DAT.to_date, "%d %B %y").to_s+"  <br/>(<b>"+ Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) <= ? AND N = ?",m.DAT.to_date.year, m.DAT.to_date.month, params[:id]).sum("VRD").to_s+" тонн</b>)"
+        @month_arr << m.DAT.to_date.to_s+"  <br/>(<b>"+ Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) <= ? AND N = ?",m.DAT.to_date.year, m.DAT.to_date.month, params[:id]).sum("VRD").to_s+" тонн</b>)"
         @years_count_arr << Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) <= ? AND N = ?",m.DAT.to_date.year, m.DAT.to_date.month, params[:id]).sum("VRD").to_f
         #raise @years_count_arr.inspect
         @name = m.NAIM
@@ -56,18 +56,18 @@ class PlanController < BaseController
     @days_plans_arr.each do |d|
       @days_plan_arr << d.PLS.to_f if d
       @days_fact_arr << d.VRS.to_f if d
-      @days_month_arr << Russian::strftime(d.DAT.to_date, "%d %B %y").to_s + '<br/>(<b>'+d.PLM.to_f.to_s+'</b>) тонн' if d
+      @days_month_arr << d.DAT.to_date.to_s + '(<b>'+d.PLM.to_f.to_s+'</b>)' if d
       #@name = d.NAIM
     end
 
 
     @bar_graph = LazyHighCharts::HighChart.new('Area') do |f|
       f.options[:xAxis][:categories] = @month_arr
-      f.series(:type=> 'bar', :name=>'План на месяц',:data=> @plan_arr)
-      f.series(:type=> 'bar', :name=>'Факт нарастающий',:data=> @fact_arr)
+      f.series(:type=> 'bar', :name=>'План',:data=> @plan_arr)
+      f.series(:type=> 'bar', :name=>'Факт',:data=> @fact_arr)
       #f.plotOptions[{:bar => {  :dataLabels => { :enabled => true} }}],
       f.plot_options({ :bar=> {:dataLabels => { :enabled => true}}})
-      f.html_options[:style] = "width:100% !important; height:900px !important;"
+      f.html_options[:style] = "width:100% !important; height:1200px !important;"
       f.tooltip({:shared => true, :crosshairs=> true,:valueSuffix => ' тонн'})
       f.legend({ layout: 'vertical',
                  align: 'right',
@@ -82,8 +82,8 @@ class PlanController < BaseController
 
     @line_graph = LazyHighCharts::HighChart.new('Area') do |f|
       f.options[:xAxis][:gridLineWidth] =  1
-      f.series(:type=> 'spline', :name=>'План на месяц',:data=> @plan_arr)
-      f.series(:type=> 'spline', :name=>'Факт нарастающий',:data=> @fact_arr)
+      f.series(:type=> 'spline', :name=>'План',:data=> @plan_arr)
+      f.series(:type=> 'spline', :name=>'Факт',:data=> @fact_arr)
       f.title({ :text=>"Динамика выполнения плана по месяцам - <b>" +@name+"</b>"})
       f.exporting({ :enabled => true})
       f.html_options[:style] = " !important; height:800px !important;"
@@ -104,11 +104,11 @@ class PlanController < BaseController
 
     @days_bar_graph = LazyHighCharts::HighChart.new('Area') do |f|
       f.options[:xAxis][:categories] = @days_month_arr
-      f.series(:type=> 'bar', :name=>'План нарастающий',:data=> @days_plan_arr)
-      f.series(:type=> 'bar', :name=>'Факт нарастающий',:data=> @days_fact_arr)
+      f.series(:type=> 'bar', :name=>'План',:data=> @days_plan_arr)
+      f.series(:type=> 'bar', :name=>'Факт',:data=> @days_fact_arr)
       #f.plotOptions[{:bar => {  :dataLabels => { :enabled => true} }}],
       f.plot_options({ :bar=> {:dataLabels => { :enabled => true}}})
-      f.html_options[:style] = "width:100% !important; height:900px !important;"
+      f.html_options[:style] = "width:100% !important; height:1200px !important;"
       f.tooltip({:shared => true, :crosshairs=> true,:valueSuffix => ' т'})
       f.legend({ layout: 'vertical',
                  align: 'right',
@@ -122,8 +122,8 @@ class PlanController < BaseController
     end
 
     @days_line_graph = LazyHighCharts::HighChart.new('Area') do |f|
-      f.series(:type=> 'spline', :name=>'План нарастающий',:data=> @days_plan_arr)
-      f.series(:type=> 'spline', :name=>'Факт нарастающий',:data=> @days_fact_arr)
+      f.series(:type=> 'spline', :name=>'План',:data=> @days_plan_arr)
+      f.series(:type=> 'spline', :name=>'Факт',:data=> @days_fact_arr)
       f.tooltip({:shared => true, :crosshairs=> true,:valueSuffix => ' т'})
       f.title({ :text=>"Динамика выполнения плана по месяцам за "+Time.now.day.to_s+" рабочих дней - <b>" +@name+"</b>"})
       f.html_options[:style] = "width:96% !important; height:800px !important;"
@@ -168,7 +168,7 @@ class PlanController < BaseController
       if m
         @plan_arr << m.PLM.to_f
         @fact_arr << m.VRS.to_f
-        @month_arr << Russian::strftime(m.DAT.to_date, "%d %B %y").to_s+"  <br/>(<b>"+ Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) <= ? AND N = ?",m.DAT.to_date.year, m.DAT.to_date.month, params[:id]).sum("VRD").to_s+" тонн</b>)"
+        @month_arr << m.DAT.to_date.to_s+"  <br/>(<b>"+ Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) <= ? AND N = ?",m.DAT.to_date.year, m.DAT.to_date.month, params[:id]).sum("VRD").to_s+" тонн</b>)"
         @years_count_arr << Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) <= ? AND N = ?",m.DAT.to_date.year, m.DAT.to_date.month, params[:id]).sum("VRD").to_f
         #raise @years_count_arr.inspect
         @name = m.NAIM
@@ -180,15 +180,15 @@ class PlanController < BaseController
     @days_plans_arr.each do |d|
       @days_plan_arr << d.PLS.to_f if d
       @days_fact_arr << d.VRS.to_f if d
-      @days_month_arr << Russian::strftime(d.DAT.to_date, "%d %B %y").to_s + '(<b>'+d.PLM.to_f.to_s+'</b>)' if d
+      @days_month_arr << d.DAT.to_date.to_s + '(<b>'+d.PLM.to_f.to_s+'</b>)' if d
       #@name = d.NAIM
     end
 
 
     @bar_graph = LazyHighCharts::HighChart.new('Area') do |f|
       f.options[:xAxis][:categories] = @month_arr
-      f.series(:type=> 'bar', :name=>'План на месяц',:data=> @plan_arr)
-      f.series(:type=> 'bar', :name=>'Факт нарастающий',:data=> @fact_arr)
+      f.series(:type=> 'bar', :name=>'План',:data=> @plan_arr)
+      f.series(:type=> 'bar', :name=>'Факт',:data=> @fact_arr)
       #f.plotOptions[{:bar => {  :dataLabels => { :enabled => true} }}],
       f.plot_options({ :bar=> {:dataLabels => { :enabled => true}}})
       f.html_options[:style] = "width:100% !important; height:3600px !important;"
@@ -206,8 +206,8 @@ class PlanController < BaseController
 
     @line_graph = LazyHighCharts::HighChart.new('Area') do |f|
       f.options[:xAxis][:gridLineWidth] =  1
-      f.series(:type=> 'spline', :name=>'План на месяц',:data=> @plan_arr)
-      f.series(:type=> 'spline', :name=>'Факт нарастающий',:data=> @fact_arr)
+      f.series(:type=> 'spline', :name=>'План',:data=> @plan_arr)
+      f.series(:type=> 'spline', :name=>'Факт',:data=> @fact_arr)
       f.title({ :text=>"Динамика выполнения плана по месяцам - <b>" +@name+"</b>"})
       f.exporting({ :enabled => true})
       f.html_options[:style] = " !important; height:800px !important;"
@@ -228,8 +228,8 @@ class PlanController < BaseController
 
     @days_bar_graph = LazyHighCharts::HighChart.new('Area') do |f|
       f.options[:xAxis][:categories] = @days_month_arr
-      f.series(:type=> 'bar', :name=>'План нарастающий',:data=> @days_plan_arr)
-      f.series(:type=> 'bar', :name=>'Факт нарастающий',:data=> @days_fact_arr)
+      f.series(:type=> 'bar', :name=>'План',:data=> @days_plan_arr)
+      f.series(:type=> 'bar', :name=>'Факт',:data=> @days_fact_arr)
       #f.plotOptions[{:bar => {  :dataLabels => { :enabled => true} }}],
       f.plot_options({ :bar=> {:dataLabels => { :enabled => true}}})
       f.html_options[:style] = "width:100% !important; height:3600px !important;"
@@ -246,8 +246,8 @@ class PlanController < BaseController
     end
 
     @days_line_graph = LazyHighCharts::HighChart.new('Area') do |f|
-      f.series(:type=> 'spline', :name=>'План нарастающий',:data=> @days_plan_arr)
-      f.series(:type=> 'spline', :name=>'Факт нарастающий',:data=> @days_fact_arr)
+      f.series(:type=> 'spline', :name=>'План',:data=> @days_plan_arr)
+      f.series(:type=> 'spline', :name=>'Факт',:data=> @days_fact_arr)
       f.tooltip({:shared => true, :crosshairs=> true,:valueSuffix => ' т'})
       f.title({ :text=>"Динамика выполнения плана по месяцам за "+Time.now.day.to_s+" рабочих дней - <b>" +@name+"</b>"})
       f.html_options[:style] = "width:96% !important; height:800px !important;"

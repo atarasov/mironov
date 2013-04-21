@@ -50,7 +50,7 @@ SimpleNavigation::Configuration.run do |navigation|
     #                            against the current URI.  You may also use a proc, or the symbol <tt>:subpath</tt>. 
     #
     @asort = Assortment.where("level > 0")
-    primary.item :conference, 'Совещание', root_url do |conf|
+    primary.item :conference, 'Совещание', conference_url do |conf|
       conf.dom_class = "nav nav-list"
       conf.item :plan_item, 'Продукция'
       @asort.each do |a|

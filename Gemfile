@@ -14,9 +14,10 @@ gem 'lazy_high_charts'
 gem 'will_paginate', '~> 3.0'
 gem 'devise'
 gem "simple-navigation"
-#gem "russian", '~> 0.6.0'
-
-
+gem "russian", '~> 0.6.0'
+gem 'activeadmin'
+gem "meta_search", '>= 1.1.0.pre'
+gem "cancan"
 
 # Gems used only for assets and not required
 # in production environments by default.

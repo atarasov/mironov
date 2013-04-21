@@ -1,5 +1,5 @@
 # encoding: utf-8
-class ImplementationController < BaseController
+class ImplementationController < ApplicationController
   PER_PAGE = 20
   def index
     if params[:year]
@@ -45,7 +45,7 @@ class ImplementationController < BaseController
         @month_arr << m.SUMM.to_f
         s =Implementation.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ? AND N = ?",m.DAT.to_date.year, m.DAT.to_date.month, Time.now.day, params[:id]).first
         @day_to_now_arr << s.SUMM.to_f
-        @date_arr << Russian::strftime(s.DAT.to_date, "%d %B %y").to_s+"  <br/>(<b>"+ Implementation.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ? AND N = ?",m.DAT.to_date.year, m.DAT.to_date.month, Time.now.day, params[:id]).first.SUMY.to_s+" тонн</b>)"
+        @date_arr << s.DAT.to_date.to_s+"  <br/>(<b>"+ Implementation.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ? AND N = ?",m.DAT.to_date.year, m.DAT.to_date.month, Time.now.day, params[:id]).first.SUMY.to_s+" тонн</b>)"
         @name = s.NAIM
       end
     end
@@ -65,7 +65,7 @@ class ImplementationController < BaseController
       f.series(:type=> 'bar', :name=>'Реализация на сегодняшний день('+Time.now.day.to_s+' рабочих дней) ',:data=> @day_to_now_arr)
       #f.plotOptions[{:bar => {  :dataLabels => { :enabled => true} }}],
       f.plot_options({ :bar=> {:dataLabels => { :enabled => true}}})
-      f.html_options[:style] = "width:100% !important; height:900px !important;"
+      f.html_options[:style] = "width:100% !important; height:1200px !important;"
       f.tooltip({:shared => true, :crosshairs=> true,:valueSuffix => ' тонн'})
       f.legend({ layout: 'vertical',
                  align: 'right',
@@ -109,31 +109,12 @@ class ImplementationController < BaseController
     #  f.html_options[:style] = "width:100% !important; height:3400px !important;"
     #end
 
-    #@days_line_graph = LazyHighCharts::HighChart.new('Area') do |f|
-    #  f.series(:type=> 'area', :name=>'Реализация за'+Time.now.day.to_s+'рабочих дней',:data=>@day_to_now_arr)
-    #  f.title({ :text=>"Динамика реализации за "+Time.now.day.to_s+" рабочих дней - <b>" +@name+"</b>"})
-    #  f.html_options[:style] = "width:96% !important; height:800px !important;"
-    #  f.tooltip({:shared => true, :crosshairs=> true })
-    #  f.xAxis({:labels => {:rotation => 0, :align => 'right'}, :categories => @date_arr })
-    #  f.legend({ layout: 'vertical',
-    #             align: 'right',
-    #             verticalAlign: 'top',
-    #             x: -100,
-    #             y: -10,
-    #             floating: true,
-    #             borderWidth: 1,
-    #             backgroundColor: '#FFFFFF',
-    #             shadow: true})
-    #end
-
-    @day_sbar_graph = LazyHighCharts::HighChart.new('Area') do |f|
+    @days_line_graph = LazyHighCharts::HighChart.new('Area') do |f|
+      f.series(:type=> 'area', :name=>'План',:data=>@day_to_now_arr)
+      f.title({ :text=>"Динамика реализации за "+Time.now.day.to_s+" рабочих дней - <b>" +@name+"</b>"})
+      f.html_options[:style] = "width:96% !important; height:800px !important;"
+      f.tooltip({:shared => true, :crosshairs=> true })
       f.xAxis({:labels => {:rotation => 0, :align => 'right'}, :categories => @date_arr })
-      f.title({ :text=>"Динамика реализации - <b>" +@name +"</b>"})
-      f.series(:type=> 'bar', :name=>'Реализация на сегодняшний день('+Time.now.day.to_s+' рабочих дней) ',:data=> @day_to_now_arr)
-      #f.plotOptions[{:bar => {  :dataLabels => { :enabled => true} }}],
-      f.plot_options({ :bar=> {:dataLabels => { :enabled => true}}})
-      f.html_options[:style] = "width:100% !important; height:800px !important;"
-      f.tooltip({:shared => true, :crosshairs=> true,:valueSuffix => ' тонн'})
       f.legend({ layout: 'vertical',
                  align: 'right',
                  verticalAlign: 'top',
@@ -175,7 +156,7 @@ class ImplementationController < BaseController
         @month_arr << m.SUMM.to_f
         s =Implementation.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ? AND N = ?",m.DAT.to_date.year, m.DAT.to_date.month, Time.now.day, params[:id]).first
         @day_to_now_arr << s.SUMM.to_f
-        @date_arr << Russian::strftime(s.DAT.to_date, "%d %B %y").to_s+"  <br/>(<b>"+ Implementation.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ? AND N = ?",m.DAT.to_date.year, m.DAT.to_date.month, Time.now.day, params[:id]).first.SUMY.to_s+" тонн</b>)"
+        @date_arr << s.DAT.to_date.to_s+"  <br/>(<b>"+ Implementation.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ? AND N = ?",m.DAT.to_date.year, m.DAT.to_date.month, Time.now.day, params[:id]).first.SUMY.to_s+" тонн</b>)"
         @name = s.NAIM
       end
     end
@@ -239,31 +220,12 @@ class ImplementationController < BaseController
     #  f.html_options[:style] = "width:100% !important; height:3400px !important;"
     #end
 
-    #@days_line_graph = LazyHighCharts::HighChart.new('Area') do |f|
-    #  f.series(:type=> 'area', :name=>'Реализация за'+Time.now.day.to_s+'рабочих дней',:data=>@day_to_now_arr)
-    #  f.title({ :text=>"Динамика реализации за "+Time.now.day.to_s+" рабочих дней - <b>" +@name+"</b>"})
-    #  f.html_options[:style] = "width:96% !important; height:800px !important;"
-    #  f.tooltip({:shared => true, :crosshairs=> true })
-    #  f.xAxis({:labels => {:rotation => -30, :align => 'right'}, :categories => @date_arr })
-    #  f.legend({ layout: 'vertical',
-    #             align: 'right',
-    #             verticalAlign: 'top',
-    #             x: -100,
-    #             y: -10,
-    #             floating: true,
-    #             borderWidth: 1,
-    #             backgroundColor: '#FFFFFF',
-    #             shadow: true})
-    #end
-
-    @day_sbar_graph = LazyHighCharts::HighChart.new('Area') do |f|
-      f.xAxis({:labels => {:rotation => 0, :align => 'right'}, :categories => @date_arr })
-      f.title({ :text=>"Динамика реализации - <b>" +@name +"</b>"})
-      f.series(:type=> 'bar', :name=>'Реализация на сегодняшний день('+Time.now.day.to_s+' рабочих дней) ',:data=> @day_to_now_arr)
-      #f.plotOptions[{:bar => {  :dataLabels => { :enabled => true} }}],
-      f.plot_options({ :bar=> {:dataLabels => { :enabled => true}}})
-      f.html_options[:style] = "width:100% !important; height:1200px !important;"
-      f.tooltip({:shared => true, :crosshairs=> true,:valueSuffix => ' тонн'})
+    @days_line_graph = LazyHighCharts::HighChart.new('Area') do |f|
+      f.series(:type=> 'area', :name=>'Реализация за'+Time.now.day.to_s+'рабочих дней',:data=>@day_to_now_arr)
+      f.title({ :text=>"Динамика реализации за "+Time.now.day.to_s+" рабочих дней - <b>" +@name+"</b>"})
+      f.html_options[:style] = "width:96% !important; height:800px !important;"
+      f.tooltip({:shared => true, :crosshairs=> true })
+      f.xAxis({:labels => {:rotation => -30, :align => 'right'}, :categories => @date_arr })
       f.legend({ layout: 'vertical',
                  align: 'right',
                  verticalAlign: 'top',

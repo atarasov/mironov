@@ -1,5 +1,5 @@
 # encoding: utf-8
-class ConferenceController < ApplicationController
+class ConferenceController < BaseController
   def index
     @plan = Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) = ?  AND DN = ? AND N = 1",2012,Time.now.month, Time.now.day).first
 

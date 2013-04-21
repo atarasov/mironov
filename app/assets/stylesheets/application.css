@@ -50,7 +50,8 @@
 }
 
 body {
-    font-size: 20px !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
 }
 
 #loginBlock{width: 250px; margin: 0 auto;}
@@ -103,4 +104,8 @@ body {
 g.highcharts-axis-labels text{font-size: 14px !important;}
 g.highcharts-tooltip tspan{font-size: 18px !important;}
 g.highcharts-data-labels g text tspan{font-size: 16px !important;}
+.table th, .table td{
+    padding-bottom: 0px !important;
+    padding-top: 3px !important;
+}
 

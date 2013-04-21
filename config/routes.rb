@@ -1,19 +1,23 @@
 Mironov::Application.routes.draw do
 
-  devise_for :users
+  devise_for :admin_users, ActiveAdmin::Devise.config do
+    ActiveAdmin.routes(self)
+  end
 
-  match 'balance/' => 'balance#index'
-  match 'cash/' => 'cash#index'
-  match 'cashc/' => 'cashc#index'
-  match 'implementation/' => 'implementation#index'
-  match 'implementation/:id'=> 'implementation#show', :as => :implementationshow
-  match 'implementation/:id/all'=> 'implementation#all', :as => :implementationall
-  match 'plan/' => 'plan#index'
-  match 'plan/:id' => 'plan#show', :as => :planshow
-  match 'plan/:id/all' => 'plan#all', :as => :planall
-  match 'conference/:id' => 'conference#show', :as => :conferenceshow
-  match 'conference/' => 'conference#index'
-  root :to => 'conference#index'
+  devise_for :users do
+    match 'balance/' => 'balance#index'
+    match 'cash/' => 'cash#index'
+    match 'cashc/' => 'cashc#index'
+    match 'implementation/' => 'implementation#index'
+    match 'implementation/:id' => 'implementation#show', :as => :implementationshow
+    match 'implementation/:id/all' => 'implementation#all', :as => :implementationall
+    match 'plan/' => 'plan#index'
+    match 'plan/:id' => 'plan#show', :as => :planshow
+    match 'plan/:id/all' => 'plan#all', :as => :planall
+    match 'conference/:id' => 'conference#show', :as => :conferenceshow
+    match 'conference/' => 'conference#index'
+    root :to => 'main#index'
+  end
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

@@ -1,0 +1,115 @@
+ru:
+  activerecord:
+      models:
+        implementation:
+          one:  "Реализация"
+#          few:  "Категории"
+#          many: "Категорий"
+          other: "Реализация"
+        cash:
+          one:  "Касса"
+          other: "Касса"
+        cashc:
+          one:  "Касса - С"
+          other: "Касса - С"
+        balance:
+          one:  "Расход-Оплата"
+          other: "Расход-Оплата"
+        asrt:
+          one:  "План"
+          other: "План"
+        admin_user:
+          one: Администратор
+          few: Администратора
+          many: Администраторы
+          other: "Администраторы"
+      attributes:
+        asrt:
+          C:
+          DAT: Дата
+          N:
+          KOD:
+          NAIM: Наименование
+          DN: День
+          PLM: План на месяц
+          PLS: План нарастающий
+          PLD: План дневной
+          VRY:
+          VRS: Факт нарастающий
+          VRD: Выработка дневная
+          OST: Остатки
+          OST1:
+          RLD:
+          NSS:
+          A1:
+          A2:
+          A3:
+          A4:
+          A5:
+          A6:
+          A7:
+          A8:
+          A9:
+          P:
+          AWT:
+        implementation:
+          S:
+          N:
+          DAT: Дата
+          DN: День
+          KOD:
+          NAIM: Наименование
+          SUM: Реализация за день
+          SUMM: Реализация с начала месяца
+          SUMY: Реализация с начала года
+          P:
+          AWT:
+        cash:
+          N:
+          DAT: Дата
+          KOD: Код
+          NAIM: Наименование
+          SUM: Сумма
+          BN1: Сбербанк
+          BN2: Россельхоз банк
+          BN3:
+          BN4:
+          BN5:
+          AWT:
+          BK1:
+          BK2:
+          BK3:
+          BK4:
+          BK5:
+        cashc:
+          N:
+          DAT: Дата
+          KOD: Код
+          NAIM: Наименование
+          SUM: Сумма
+          BN1: Сбербанк
+          BN2: Россельхоз банк
+          BN3:
+          BN4:
+          BN5:
+          AWT:
+          BK1:
+          BK2:
+          BK3:
+          BK4:
+          BK5:
+        balance:
+          DATA: Дата
+          DAT:
+          RSUM: Сумма
+          S: Сумма 2
+          NAMEPO: Наименование
+          NAZN: Назначение
+        admin_user:
+          current_sign_in_at: Дата текущего входа
+          last_sign_in_at: Дата последнего входа
+          sign_in_count: Количество входов
+          email: E-Mail
+  active_admin:
+      dashboard: Панель управления
+      powered_by: "&copy; Миронов В. И."
