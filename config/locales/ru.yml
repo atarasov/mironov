@@ -110,6 +110,25 @@ ru:
           last_sign_in_at: Дата последнего входа
           sign_in_count: Количество входов
           email: E-Mail
+          password: Пароль
+          password_confirmation: Подтверждение пароля
+          cash_admin: Редактирование кассы, расходов, баланса, численности
+          implementation_admin: Редактирование реализации
+          super_admin: Супер пользователь
+          plan_admin: Редактирование плана
   active_admin:
       dashboard: Панель управления
       powered_by: "&copy; Миронов В. И."
+      create_model: "Создать %{model}"
+      edit_model: "Изменить %{model}"
+      update_model: "Изменить %{model}"
+      delete_model: "Удалить %{model}"
+      details: "%{model} подробнее"
+      pagination:
+        empty: "%{model} не найдено"
+        one: "Результат: <b>1</b> %{model}"
+        one_page: "Результат: <b>%{n}</b> %{model}"
+        multiple: "Результат: %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> из <b>%{total}</b>"
+        entry:
+          one: "запись"
+          other: "записей"

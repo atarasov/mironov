@@ -1,5 +1,5 @@
 Mironov::Application.routes.draw do
-
+  root :to => 'main#index'
   devise_for :admin_users, ActiveAdmin::Devise.config do
     ActiveAdmin.routes(self)
   end
@@ -16,7 +16,7 @@ Mironov::Application.routes.draw do
     match 'plan/:id/all' => 'plan#all', :as => :planall
     match 'conference/:id' => 'conference#show', :as => :conferenceshow
     match 'conference/' => 'conference#index'
-    root :to => 'main#index'
+
   end
   # The priority is based upon order of creation:
   # first created -> highest priority.

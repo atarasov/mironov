@@ -212,7 +212,7 @@ ActiveAdmin.setup do |config|
   #
   #   end
 
-
+  config.download_links = [:xml, :pdf]
   # == Pagination
   #
   # Pagination is enabled by default for all resources.
@@ -232,3 +232,17 @@ ActiveAdmin.setup do |config|
 
 end
 
+module ActiveAdmin
+  module Views
+    class TableFor
+      def bool_column(attribute)
+        column(attribute){ |model| model[attribute] ? 'Да' : 'Нет' }
+      end
+    end
+    class AttributesTable
+      def bool_row(attribute)
+        row(attribute){ |model| model[attribute] ? 'Да' : 'Нет' }
+      end
+    end
+  end
+end
