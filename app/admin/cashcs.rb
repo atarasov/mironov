@@ -30,7 +30,7 @@ ActiveAdmin.register Cashc do
   form do |f|
     f.inputs "Касса Виктория-С" do
       f.input :N
-      f.input :DAT, :as => :date
+      f.input :DAT, :as => :datepicker
       f.input :KOD
       f.input :NAIM
       f.input :SUM

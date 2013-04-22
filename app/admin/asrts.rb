@@ -41,7 +41,7 @@ ActiveAdmin.register Asrt do
   form do |f|
     f.inputs "План" do
       f.input :C
-      f.input :DAT, :as => :date
+      f.input :DAT, :as => :datepicker
       f.input :N
       f.input :KOD
       f.input :NAIM, :as => :select, :collection => Assortment.all

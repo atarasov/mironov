@@ -26,7 +26,7 @@ ActiveAdmin.register Implementation do
     f.inputs "Реализация" do
       f.input :S
       f.input :N
-      f.input :DAT, :as => :date
+      f.input :DAT, :as => :datepicker
       f.input :DN
       f.input :KOD
       f.input :NAIM#, :as => :select, :collection => Assortment.all

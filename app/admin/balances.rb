@@ -21,7 +21,7 @@ ActiveAdmin.register Balance do
   form do |f|
     f.inputs "Расходы" do
       f.input :DATA
-      f.input :DAT, :as => :date
+      f.input :DAT, :as => :datepicker
       f.input :RSUM
       f.input :S
       f.input :NAMEPO
