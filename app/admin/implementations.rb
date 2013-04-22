@@ -26,10 +26,10 @@ ActiveAdmin.register Implementation do
     f.inputs "Реализация" do
       f.input :S
       f.input :N
-      f.input :DAT
+      f.input :DAT, :as => :date
       f.input :DN
       f.input :KOD
-      f.input :NAIM
+      f.input :NAIM, :as => :select, :collection => Assortment.all
       f.input :SUM
       f.input :SUMM
       f.input :SUMY

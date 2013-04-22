@@ -1,6 +1,11 @@
 ru:
   activerecord:
       models:
+        assortment:
+          one:  "Ассортимент"
+          few:  "Ассортимент"
+          many: "Ассортимент"
+          other: "Ассортимент"
         implementation:
           one:  "Реализация"
 #          few:  "Категории"
@@ -24,6 +29,12 @@ ru:
           many: Администраторы
           other: "Администраторы"
       attributes:
+        assortment:
+          name:
+            one: Наименование
+            few: Наименования
+            many: Наименования
+            other: Наименованию
         asrt:
           C:
           DAT: Дата

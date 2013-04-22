@@ -41,10 +41,10 @@ ActiveAdmin.register Asrt do
   form do |f|
     f.inputs "План" do
       f.input :C
-      f.input :DAT
+      f.input :DAT, :as => :date
       f.input :N
       f.input :KOD
-      f.input :NAIM
+      f.input :NAIM, :as => :select, :collection => Assortment.all
       f.input :DN
       f.input :PLM
       f.input :PLS
