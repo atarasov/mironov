@@ -29,7 +29,7 @@ ActiveAdmin.register Implementation do
       f.input :DAT, :as => :date
       f.input :DN
       f.input :KOD
-      f.input :NAIM, :as => :select, :collection => Assortment.all
+      f.input :NAIM#, :as => :select, :collection => Assortment.all
       f.input :SUM
       f.input :SUMM
       f.input :SUMY
