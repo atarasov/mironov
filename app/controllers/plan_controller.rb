@@ -22,7 +22,7 @@ class PlanController < BaseController
   def show
     @month_plans_arr = []
     @days_plans_arr = []
-    Time.now.year.to_i.downto (Time.now.year - 1).to_i  do |year|
+    (Time.now.year - 1).to_i.upto Time.now.year.to_i do |year|
       1.upto 12 do |month|
         @day = Time.new(year,month,1).end_of_month.day
         @month_plans_arr << Asrt.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], year, month, @day).first
@@ -33,6 +33,7 @@ class PlanController < BaseController
 
     @plan_arr =[]
     @itog =[]
+    @day_itog =[]
     @fact_arr =[]
     @month_arr =[]
     @years_count_arr  =[]
@@ -42,13 +43,13 @@ class PlanController < BaseController
 
     @month_plans_arr.each do |m|
       if m
-        @plan_arr << m.PLM.to_f
-        @fact_arr << m.VRS.to_f
-        @month_arr << Russian::strftime(m.DAT.to_date, "%d %B %y").to_s+"  <br/>(<b>"+ Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) <= ? AND N = ?",m.DAT.to_date.year, m.DAT.to_date.month, params[:id]).sum("VRD").to_s+" тонн</b>)"
-        @years_count_arr << Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) <= ? AND N = ?",m.DAT.to_date.year, m.DAT.to_date.month, params[:id]).sum("VRD").to_f
+        @plan_arr << m.PLM.to_f if m
+        @fact_arr << m.VRS.to_f if m
+        @month_arr << Russian::strftime(m.DAT.to_date, "%d %B %Y") if m#.to_s+"  <br/>(<b>"+ Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) <= ? AND N = ?",m.DAT.to_date.year, m.DAT.to_date.month, params[:id]).sum("VRD").to_s+" тонн</b>)"
+        @years_count_arr << Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) <= ? AND N = ?",m.DAT.to_date.year, m.DAT.to_date.month, params[:id]).sum("VRD").to_f if m
         #raise @years_count_arr.inspect
-        @name = m.NAIM
-        @itog << Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) <= ? AND N = ?",m.DAT.to_date.year, m.DAT.to_date.month, params[:id]).sum("VRD").to_f
+        @name = m.NAIM if m
+        @itog << Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) <= ? AND N = ?",m.DAT.to_date.year, m.DAT.to_date.month, params[:id]).sum("VRD").to_s+" т" if m
       end
     end
 
@@ -56,24 +57,26 @@ class PlanController < BaseController
     @days_plans_arr.each do |d|
       @days_plan_arr << d.PLS.to_f if d
       @days_fact_arr << d.VRS.to_f if d
-      @days_month_arr << Russian::strftime(d.DAT.to_date, "%d %B %y").to_s + '<br/>(<b>'+d.PLM.to_f.to_s+'</b>) тонн' if d
-      #@name = d.NAIM
+      @days_month_arr << Russian::strftime(d.DAT.to_date, "%d %B %y") if d#.to_s + '<br/>(<b>'+d.PLM.to_f.to_s+'</b>) тонн' if d
+      @day_itog << d.PLM.to_f.to_s+' т' if d
     end
 
 
     @bar_graph = LazyHighCharts::HighChart.new('Area') do |f|
-      f.options[:xAxis][:categories] = @month_arr
+      f.xAxis([{:labels => {:rotation => 0, :align => 'right'}, :categories => @month_arr},
+               {:labels => {:rotation => 0, :align => 'left'}, :categories => @itog, linkedTo: 0, opposite: true}])
+      #f.options[:xAxis][:categories] = @month_arr
       f.series(:type=> 'bar', :name=>'План на месяц',:data=> @plan_arr)
       f.series(:type=> 'bar', :name=>'Факт нарастающий',:data=> @fact_arr)
       #f.plotOptions[{:bar => {  :dataLabels => { :enabled => true} }}],
       f.plot_options({ :bar=> {:dataLabels => { :enabled => true}}})
       f.html_options[:style] = "width:100% !important; height:900px !important;"
-      f.tooltip({:shared => true, :crosshairs=> true,:valueSuffix => ' тонн'})
+      f.tooltip({:shared => true, :crosshairs=> true,:valueSuffix => ' т'})
       f.legend({ layout: 'vertical',
                  align: 'right',
                  verticalAlign: 'top',
-                 x: -100,
-                 y: -10,
+                 x: -150,
+                 y: 0,
                  floating: true,
                  borderWidth: 1,
                  backgroundColor: '#FFFFFF',
@@ -81,7 +84,7 @@ class PlanController < BaseController
     end
 
     @line_graph = LazyHighCharts::HighChart.new('Area') do |f|
-      f.options[:xAxis][:gridLineWidth] =  1
+      f.options[:xAxis][:gridLineWidth] =  2
       f.series(:type=> 'spline', :name=>'План на месяц',:data=> @plan_arr)
       f.series(:type=> 'spline', :name=>'Факт нарастающий',:data=> @fact_arr)
       f.title({ :text=>"Динамика выполнения плана по месяцам - <b>" +@name+"</b>"})
@@ -93,8 +96,8 @@ class PlanController < BaseController
       f.legend({ layout: 'vertical',
                  align: 'right',
                  verticalAlign: 'top',
-                 x: -100,
-                 y: -10,
+                 x: -150,
+                 y: 0,
                  floating: true,
                  borderWidth: 1,
                  backgroundColor: '#FFFFFF',
@@ -103,18 +106,19 @@ class PlanController < BaseController
     end
 
     @days_bar_graph = LazyHighCharts::HighChart.new('Area') do |f|
-      f.options[:xAxis][:categories] = @days_month_arr
+      f.xAxis([{:labels => {:rotation => 0, :align => 'right'}, :categories => @days_month_arr},
+               {:labels => {:rotation => 0, :align => 'left'}, :categories => @day_itog, linkedTo: 0, opposite: true}])
       f.series(:type=> 'bar', :name=>'План нарастающий',:data=> @days_plan_arr)
       f.series(:type=> 'bar', :name=>'Факт нарастающий',:data=> @days_fact_arr)
       #f.plotOptions[{:bar => {  :dataLabels => { :enabled => true} }}],
       f.plot_options({ :bar=> {:dataLabels => { :enabled => true}}})
-      f.html_options[:style] = "width:100% !important; height:900px !important;"
+      f.html_options[:style] = "width:95% !important; height:900px !important;"
       f.tooltip({:shared => true, :crosshairs=> true,:valueSuffix => ' т'})
       f.legend({ layout: 'vertical',
                  align: 'right',
                  verticalAlign: 'top',
-                 x: -100,
-                 y: -10,
+                 x: -150,
+                 y: 0,
                  floating: true,
                  borderWidth: 1,
                  backgroundColor: '#FFFFFF',
@@ -146,7 +150,7 @@ class PlanController < BaseController
   def all
     @month_plans_arr = []
     @days_plans_arr = []
-    Time.now.year.to_i.downto 2008  do |year|
+    2008.up_to Time.now.year.to_i  do |year|
       1.upto 12 do |month|
         @day = Time.new(year,month,1).end_of_month.day
         @month_plans_arr << Asrt.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], year, month, @day).first
@@ -157,6 +161,7 @@ class PlanController < BaseController
 
     @plan_arr =[]
     @itog =[]
+    @day_itog =[]
     @fact_arr =[]
     @month_arr =[]
     @years_count_arr  =[]
@@ -166,13 +171,13 @@ class PlanController < BaseController
 
     @month_plans_arr.each do |m|
       if m
-        @plan_arr << m.PLM.to_f
-        @fact_arr << m.VRS.to_f
-        @month_arr << Russian::strftime(m.DAT.to_date, "%d %B %y").to_s+"  <br/>(<b>"+ Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) <= ? AND N = ?",m.DAT.to_date.year, m.DAT.to_date.month, params[:id]).sum("VRD").to_s+" тонн</b>)"
-        @years_count_arr << Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) <= ? AND N = ?",m.DAT.to_date.year, m.DAT.to_date.month, params[:id]).sum("VRD").to_f
+        @plan_arr << m.PLM.to_f if m
+        @fact_arr << m.VRS.to_f if m
+        @month_arr << Russian::strftime(m.DAT.to_date, "%d %B %Y") if m # .to_s+"  <br/>(<b>"+ Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) <= ? AND N = ?",m.DAT.to_date.year, m.DAT.to_date.month, params[:id]).sum("VRD").to_s+" тонн</b>)"
+        @years_count_arr << Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) <= ? AND N = ?",m.DAT.to_date.year, m.DAT.to_date.month, params[:id]).sum("VRD").to_f if m
         #raise @years_count_arr.inspect
         @name = m.NAIM
-        @itog << Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) <= ? AND N = ?",m.DAT.to_date.year, m.DAT.to_date.month, params[:id]).sum("VRD").to_f
+        @itog << Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) <= ? AND N = ?",m.DAT.to_date.year, m.DAT.to_date.month, params[:id]).sum("VRD").to_s+" т" if m
       end
     end
 
@@ -180,13 +185,14 @@ class PlanController < BaseController
     @days_plans_arr.each do |d|
       @days_plan_arr << d.PLS.to_f if d
       @days_fact_arr << d.VRS.to_f if d
-      @days_month_arr << Russian::strftime(d.DAT.to_date, "%d %B %y").to_s + '(<b>'+d.PLM.to_f.to_s+'</b>)' if d
-      #@name = d.NAIM
+      @days_month_arr << Russian::strftime(d.DAT.to_date, "%d %B %Y").to_s if d# + '(<b>'+d.PLM.to_f.to_s+'</b>)' if d
+      @day_itog << d.PLM.to_f.to_s+' тонн' if d
     end
 
 
     @bar_graph = LazyHighCharts::HighChart.new('Area') do |f|
-      f.options[:xAxis][:categories] = @month_arr
+      f.xAxis([{:labels => {:rotation => 0, :align => 'right'}, :categories => @month_arr},
+               {:labels => {:rotation => 0, :align => 'left'}, :categories => @itog, linkedTo: 0, opposite: true}])
       f.series(:type=> 'bar', :name=>'План на месяц',:data=> @plan_arr)
       f.series(:type=> 'bar', :name=>'Факт нарастающий',:data=> @fact_arr)
       #f.plotOptions[{:bar => {  :dataLabels => { :enabled => true} }}],
@@ -196,8 +202,8 @@ class PlanController < BaseController
       f.legend({ layout: 'vertical',
                  align: 'right',
                  verticalAlign: 'top',
-                 x: -100,
-                 y: -10,
+                 x: -150,
+                 y: 0,
                  floating: true,
                  borderWidth: 1,
                  backgroundColor: '#FFFFFF',
@@ -227,7 +233,8 @@ class PlanController < BaseController
     end
 
     @days_bar_graph = LazyHighCharts::HighChart.new('Area') do |f|
-      f.options[:xAxis][:categories] = @days_month_arr
+      f.xAxis([{:labels => {:rotation => 0, :align => 'right'}, :categories => @days_month_arr},
+               {:labels => {:rotation => 0, :align => 'left'}, :categories => @day_itog, linkedTo: 0, opposite: true}])
       f.series(:type=> 'bar', :name=>'План нарастающий',:data=> @days_plan_arr)
       f.series(:type=> 'bar', :name=>'Факт нарастающий',:data=> @days_fact_arr)
       #f.plotOptions[{:bar => {  :dataLabels => { :enabled => true} }}],
@@ -237,8 +244,8 @@ class PlanController < BaseController
       f.legend({ layout: 'vertical',
                  align: 'right',
                  verticalAlign: 'top',
-                 x: -100,
-                 y: -10,
+                 x: -150,
+                 y: -0,
                  floating: true,
                  borderWidth: 1,
                  backgroundColor: '#FFFFFF',
