@@ -1,10 +1,10 @@
 # encoding: utf-8
 ActiveAdmin.register Asrt do
   index do
-    column :C
+    #column :C
     column :DAT
-    column :N
-    column :KOD
+    #column :N
+    #column :KOD
     column :NAIM
     column :DN
     column :PLM
@@ -17,17 +17,17 @@ ActiveAdmin.register Asrt do
     column :OST1
     column :RLD
     column :NSS
-    column :A1
-    column :A2
-    column :A3
-    column :A4
-    column :A5
-    column :A6
-    column :A7
-    column :A8
-    column :A9
-    column :P
-    column :AWT
+    #column :A1
+    #column :A2
+    #column :A3
+    #column :A4
+    #column :A5
+    #column :A6
+    #column :A7
+    #column :A8
+    #column :A9
+    #column :P
+    #column :AWT
 
     default_actions
   end
@@ -42,10 +42,10 @@ ActiveAdmin.register Asrt do
     f.inputs "План" do
       f.input :C
       f.input :DAT, :as => :datepicker
-      f.input :N
+      #f.input :N
       f.input :KOD
       f.input :NAIM, :as => :select, :collection => Assortment.all
-      f.input :DN
+      #f.input :DN
       f.input :PLM
       f.input :PLS
       f.input :PLD
@@ -56,19 +56,27 @@ ActiveAdmin.register Asrt do
       f.input :OST1
       f.input :RLD
       f.input :NSS
-      f.input :A1
-      f.input :A2
-      f.input :A3
-      f.input :A4
-      f.input :A5
-      f.input :A6
-      f.input :A7
-      f.input :A8
-      f.input :A9
-      f.input :P
-      f.input :AWT
+      #f.input :A1
+      #f.input :A2
+      #f.input :A3
+      #f.input :A4
+      #f.input :A5
+      #f.input :A6
+      #f.input :A7
+      #f.input :A8
+      #f.input :A9
+      #f.input :P
+      #f.input :AWT
     end
     f.actions
+  end
+
+
+  before_save do |asrt|
+    asrt.N = params[:implementation][:NAIM]
+    asrt.NAIM = Direction.find(params[:implementation][:NAIM]).name
+    asrt.DN = params[:implementation][:DAT].to_date.day
+
   end
 
 end

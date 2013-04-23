@@ -48,7 +48,20 @@
           <div class="container-fluid nav-collapse">
             <%= render_navigation :level => 1 %>
             <ul class="nav pull-right">
-              <li><a href="/">Численность - 932</a></li>
+              <li><a href="/">Численность - <%= Quantity.where(:date => Time.now.to_date).first ? Quantity.where(:date => Time.now.to_date).first.kol : Quantity.last.kol %>
+                <% if Quantity.where(:date => Time.now.to_date).first && Quantity.where(:date => Time.now.to_date - 1.day).first
+                   @last_day = Quantity.where(:date => Time.now.to_date - 1.day).first.kol
+                   @current_day = Quantity.where(:date => Time.now.to_date).first.kol
+                %>
+                <% if @current_day > @last_day %>
+                        <span class="label label-success">+ <%= @current_day - @last_day %></span>
+                <% end %>
+                <% if @current_day < @last_day %>
+                        <span class="label label-important">- <%= @last_day - @current_day %></span>
+                <% end %>
+                <% end %>
+              </a>
+                </li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>

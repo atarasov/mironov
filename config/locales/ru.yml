@@ -1,6 +1,16 @@
 ru:
   activerecord:
       models:
+        direction:
+          one:  "Направление"
+          few:  "Направления"
+          many: "Направления"
+          other: "Направления"
+        quantity:
+          one:  "Численность"
+          few:  "Численность"
+          many: "Численность"
+          other: "Численность"
         assortment:
           one:  "Ассортимент"
           few:  "Ассортимент"
@@ -29,6 +39,9 @@ ru:
           many: Администраторы
           other: "Администраторы"
       attributes:
+        quantity:
+          kol: количество
+          date: дата
         assortment:
           name:
             one: Наименование
@@ -127,6 +140,9 @@ ru:
           implementation_admin: Редактирование реализации
           super_admin: Супер пользователь
           plan_admin: Редактирование плана
+        direction:
+          name: Направление
+          old_id: Старый id
   active_admin:
       dashboard: Панель управления
       powered_by: "&copy; Миронов В. И."

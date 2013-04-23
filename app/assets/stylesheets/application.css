@@ -53,6 +53,10 @@ body {
     font-size: 16px !important;
     font-weight: bold !important;
 }
+.navbar {
+    font-size: 16px !important;
+    font-weight: normal !important;
+}
 
 #loginBlock{width: 250px; margin: 0 auto;}
 .years{list-style: none; display: inline;}

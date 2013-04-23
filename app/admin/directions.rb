@@ -1,5 +1,5 @@
 # encoding: utf-8
-ActiveAdmin.register Assortment do
+ActiveAdmin.register Direction do
   index do
     column :name
     column :old_id
@@ -17,11 +17,12 @@ ActiveAdmin.register Assortment do
 
 
   form do |f|
-    f.inputs "Ассортимент" do
+    f.inputs "Направление" do
       f.input :name
       f.input :old_id
     end
     f.actions
 
   end
+  
 end
