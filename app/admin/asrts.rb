@@ -6,17 +6,17 @@ ActiveAdmin.register Asrt do
     #column :N
     #column :KOD
     column :NAIM
-    column :DN
+    #column :DN
     column :PLM
     column :PLS
     column :PLD
-    column :VRY
+    #column :VRY
     column :VRS
     column :VRD
     column :OST
-    column :OST1
+    #column :OST1
     column :RLD
-    column :NSS
+    #column :NSS
     #column :A1
     #column :A2
     #column :A3
@@ -33,29 +33,29 @@ ActiveAdmin.register Asrt do
   end
 
   filter :N
-  filter :KOD
+  #filter :KOD
   filter :NAIM
   filter :DN
 
 
   form do |f|
     f.inputs "План" do
-      f.input :C
+      #f.input :C
       f.input :DAT, :as => :datepicker
       #f.input :N
-      f.input :KOD
+      #f.input :KOD
       f.input :NAIM, :as => :select, :collection => Assortment.all
       #f.input :DN
-      f.input :PLM
-      f.input :PLS
+      #f.input :PLM
+      #f.input :PLS
       f.input :PLD
-      f.input :VRY
-      f.input :VRS
+      #f.input :VRY
+      #f.input :VRS
       f.input :VRD
       f.input :OST
-      f.input :OST1
+      #f.input :OST1
       f.input :RLD
-      f.input :NSS
+      #f.input :NSS
       #f.input :A1
       #f.input :A2
       #f.input :A3

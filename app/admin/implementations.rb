@@ -2,17 +2,18 @@
 ActiveAdmin.register Implementation do
 
   index do
-    column :S
+    #column :S
     column :N
     column :DAT
-    column :DN
+    #column :DN
     column :KOD
     column :NAIM
+    column :DN
     column :SUM
     column :SUMM
     column :SUMY
-    column :P
-    column :AWT
+    #column :P
+    #column :AWT
 
     default_actions
   end
@@ -24,17 +25,17 @@ ActiveAdmin.register Implementation do
 
   form do |f|
     f.inputs "Реализация" do
-      f.input :S
+      #f.input :S
       #f.input :N
       f.input :DAT, :as => :datepicker
       #f.input :DN
-      f.input :KOD
+      #f.input :KOD
       f.input :NAIM, :as => :select, :collection => Direction.all
       f.input :SUM
       #f.input :SUMM
       #f.input :SUMY
-      f.input :P
-      f.input :AWT
+      #f.input :P
+      #f.input :AWT
 
 
     end

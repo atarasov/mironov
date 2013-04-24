@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130423190826) do
+ActiveRecord::Schema.define(:version => 20130424181417) do
 
   create_table "ASRT", :id => false, :force => true do |t|
     t.integer  "K_SW"
@@ -261,6 +261,17 @@ ActiveRecord::Schema.define(:version => 20130423190826) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  create_table "plans", :force => true do |t|
+    t.float    "day"
+    t.float    "month"
+    t.date     "date"
+    t.integer  "assortment_id"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  add_index "plans", ["assortment_id"], :name => "index_plans_on_assortment_id"
 
   create_table "quantities", :force => true do |t|
     t.integer  "kol"
