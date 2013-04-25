@@ -1,4 +1,6 @@
+#include BestInPlace::BestInPlaceHelpers
 class ApplicationController < ActionController::Base
+  include BestInPlace::BestInPlaceHelpers
   before_filter :plan_create, :only => :index
   before_filter :implementation_create, :only => :index
   protect_from_forgery
