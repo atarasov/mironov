@@ -1,5 +1,12 @@
 //= require active_admin/base
+//= require best_in_place
+
+//$(document).ready(function() {
+
 jQuery(function($){
+    /* Activating Best In Place */
+    jQuery(".best_in_place").best_in_place();
+
     $.datepicker.regional['ru'] = {
         closeText: 'Закрыть',
         prevText: '&#x3c;Пред',

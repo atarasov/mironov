@@ -154,6 +154,9 @@ ru:
           name: Направление
           old_id: Старый id
   active_admin:
+      scopes:
+        all: Все записи
+        today: На сегодня
       dashboard: Панель управления
       powered_by: "&copy; Миронов В. И."
       create_model: "Создать %{model}"

@@ -4,7 +4,7 @@ class Ability
 
 
   def initialize(admin_user)
-    can :read, AdminMain
+    can :read, Assortment
     if admin_user.plan_admin?
       can :manage, Plan
       can :manage, Asrt

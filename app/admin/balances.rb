@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 ActiveAdmin.register Balance do
-
+  menu :parent => "Касса"
   index do
     column :DATA
     column :DAT

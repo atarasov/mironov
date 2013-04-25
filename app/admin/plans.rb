@@ -1,6 +1,10 @@
 # encoding: utf-8
 ActiveAdmin.register Plan do
   index do
+    #column(:assortment) { |i| best_in_place i, :assortment, :type => :select, :collection => Assortment.all.map {|a| [a.id, a.name]}, :path => [:admin, i] }
+    #column(:date) { |i| best_in_place i, :date, :type => :input, :path => [:admin, i] }
+    #column(:day) { |i| best_in_place i, :day, :type => :date, :path => [:admin, i] }
+    #column(:month) { |i| best_in_place i, :month, :type => :input, :path => [:admin, i] }
     column :assortment
     column :date
     column :day
@@ -8,6 +12,7 @@ ActiveAdmin.register Plan do
 
     default_actions
   end
+
 
 
 

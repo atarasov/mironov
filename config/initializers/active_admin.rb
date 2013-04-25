@@ -114,7 +114,7 @@ ActiveAdmin.setup do |config|
   # roots for each namespace.
   #
   # Default:
-  config.root_to = 'admin_mains#index'
+  config.root_to = 'assortments#index'
   #config.admin_root_to = 'admin_mains#index'
 
   # == Admin Comments

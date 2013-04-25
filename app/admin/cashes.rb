@@ -1,5 +1,6 @@
 # encoding: utf-8
 ActiveAdmin.register Cash do
+  menu :parent => "Касса"
 
   index do
     column :N
