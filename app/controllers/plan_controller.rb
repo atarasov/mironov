@@ -70,7 +70,7 @@ class PlanController < BaseController
       f.series(:type=> 'bar', :name=>'Факт нарастающий',:data=> @fact_arr)
       #f.plotOptions[{:bar => {  :dataLabels => { :enabled => true} }}],
       f.plot_options({ :bar=> {:dataLabels => { :enabled => true}}})
-      f.html_options[:style] = "width:100% !important; height:750px !important;"
+      f.html_options[:style] = "width:100% !important; height:900px !important;"
       f.tooltip({:shared => true, :crosshairs=> true,:valueSuffix => ' т'})
       f.legend({ layout: 'vertical',
                  align: 'right',

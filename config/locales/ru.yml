@@ -157,6 +157,12 @@ ru:
       scopes:
         all: Все записи
         today: На сегодня
+        day2: Вчера
+        day3: Позавчера
+        day4: 3 дня назад
+        day5: 4 дня назад
+        day6: 5 дней наза
+        day7: 6 дней назад
       dashboard: Панель управления
       powered_by: "&copy; Миронов В. И."
       create_model: "Создать %{model}"
