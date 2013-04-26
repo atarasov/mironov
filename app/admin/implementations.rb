@@ -7,27 +7,27 @@ ActiveAdmin.register Implementation do
     implementation.where("DAY(DAT) = ? AND MONTH(DAT) = ? AND YEAR(DAT) = ?", Time.now.day, Time.now.month, Time.now.year)
   end
 
-  scope :day2, :default => true do |implementation|
+  scope :day2 do |implementation|
     implementation.where("DAY(DAT) = ? AND MONTH(DAT) = ? AND YEAR(DAT) = ?", (Time.now - 1.day).day, (Time.now - 1.day).month, (Time.now - 1.day).year)
   end
 
-  scope :day3, :default => true do |implementation|
+  scope :day3 do |implementation|
     implementation.where("DAY(DAT) = ? AND MONTH(DAT) = ? AND YEAR(DAT) = ?", (Time.now - 2.day).day, (Time.now - 2.day).month, (Time.now - 2.day).year)
   end
 
-  scope :day4, :default => true do |implementation|
+  scope :day4 do |implementation|
     implementation.where("DAY(DAT) = ? AND MONTH(DAT) = ? AND YEAR(DAT) = ?", (Time.now - 3.day).day, (Time.now - 3.day).month, (Time.now - 3.day).year)
   end
 
-  scope :day5, :default => true do |implementation|
+  scope :day5 do |implementation|
     implementation.where("DAY(DAT) = ? AND MONTH(DAT) = ? AND YEAR(DAT) = ?", (Time.now - 4.day).day, (Time.now - 4.day).month, (Time.now - 4.day).year)
   end
 
-  scope :day6, :default => true do |implementation|
+  scope :day6 do |implementation|
     implementation.where("DAY(DAT) = ? AND MONTH(DAT) = ? AND YEAR(DAT) = ?", (Time.now - 5.day).day, (Time.now - 5.day).month, (Time.now - 5.day).year)
   end
 
-  scope :day7, :default => true do |implementation|
+  scope :day7 do |implementation|
     implementation.where("DAY(DAT) = ? AND MONTH(DAT) = ? AND YEAR(DAT) = ?", (Time.now - 6.day).day, (Time.now - 6.day).month, (Time.now - 6.day).year)
   end
 
