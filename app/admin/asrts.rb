@@ -1,6 +1,6 @@
 # encoding: utf-8
 ActiveAdmin.register Asrt do
-  require "best_in_place"
+
   scope :all
 
   scope :today, :default => true do |asrts|
