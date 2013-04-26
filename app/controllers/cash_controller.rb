@@ -1,9 +1,9 @@
 class CashController < BaseController
   def index
     if params[:year]
-      @cash = Cash.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?",params[:year], Time.now.month, Time.now.day )
+      @cash = Cash.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?",params[:year], Time.now.month, (Time.now - 1.day).day )
     else
-      @cash = Cash.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?", Time.now.year, Time.now.month, Time.now.day )
+      @cash = Cash.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?", Time.now.year, Time.now.month, (Time.now - 1.day).day )
     end
 
     @p = Cash.select("DISTINCT YEAR(DAT) AS YEARS")

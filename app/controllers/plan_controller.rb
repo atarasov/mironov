@@ -3,9 +3,9 @@ class PlanController < BaseController
 
   def index
     if params[:year]
-      @plans = Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?",params[:year], Time.now.month, Time.now.day )
+      @plans = Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?",params[:year], Time.now.month, (Time.now - 1.day).day )
     else
-      @plans = Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?",Time.now.year, Time.now.month, Time.now.day )
+      @plans = Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?",Time.now.year, Time.now.month, (Time.now - 1.day).day )
     end
 
 
@@ -26,7 +26,7 @@ class PlanController < BaseController
       1.upto 12 do |month|
         @day = Time.new(year,month,1).end_of_month.day
         @month_plans_arr << Asrt.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], year, month, @day).first
-        @days_plans_arr << Asrt.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], year, month, Time.now.day).first
+        @days_plans_arr << Asrt.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], year, month, (Time.now - 1.day).day).first
 
       end
     end
@@ -129,7 +129,7 @@ class PlanController < BaseController
       f.series(:type=> 'spline', :name=>'План нарастающий',:data=> @days_plan_arr)
       f.series(:type=> 'spline', :name=>'Факт нарастающий',:data=> @days_fact_arr)
       f.tooltip({:shared => true, :crosshairs=> true,:valueSuffix => ' т'})
-      f.title({ :text=>"Динамика выполнения плана по месяцам за "+Time.now.day.to_s+" рабочих дней - <b>" +@name+"</b>"})
+      f.title({ :text=>"Динамика выполнения плана по месяцам за "+(Time.now - 1.day).day.to_s+" рабочих дней - <b>" +@name+"</b>"})
       f.html_options[:style] = "width:96% !important; height:800px !important;"
       f.tooltip({:shared => true, :crosshairs=> true })
       f.plot_options({ :line=> {:dataLabels => { :enabled => true}}})
@@ -154,7 +154,7 @@ class PlanController < BaseController
       1.upto 12 do |month|
         @day = Time.new(year,month,1).end_of_month.day
         @month_plans_arr << Asrt.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], year, month, @day).first
-        @days_plans_arr << Asrt.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], year, month, Time.now.day).first
+        @days_plans_arr << Asrt.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], year, month, (Time.now - 1.day).day).first
 
       end
     end
@@ -256,7 +256,7 @@ class PlanController < BaseController
       f.series(:type=> 'spline', :name=>'План нарастающий',:data=> @days_plan_arr)
       f.series(:type=> 'spline', :name=>'Факт нарастающий',:data=> @days_fact_arr)
       f.tooltip({:shared => true, :crosshairs=> true,:valueSuffix => ' т'})
-      f.title({ :text=>"Динамика выполнения плана по месяцам за "+Time.now.day.to_s+" рабочих дней - <b>" +@name+"</b>"})
+      f.title({ :text=>"Динамика выполнения плана по месяцам за "+(Time.now - 1.day).day.to_s+" рабочих дней - <b>" +@name+"</b>"})
       f.html_options[:style] = "width:96% !important; height:800px !important;"
       f.tooltip({:shared => true, :crosshairs=> true })
       f.plot_options({ :line=> {:dataLabels => { :enabled => true}}})

@@ -1,7 +1,7 @@
 # encoding: utf-8
 class ConferenceController < BaseController
   def index
-    @plan = Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) = ?  AND DN = ? AND N = 1",Time.now.year,Time.now.month, Time.now.day).first
+    @plan = Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) = ?  AND DN = ? AND N = 1",Time.now.year,Time.now.month, (Time.now - 1.day).day).first
 
     @bar = LazyHighCharts::HighChart.new('Area') do |f|
       f.options[:xAxis][:categories] = []
@@ -46,7 +46,7 @@ class ConferenceController < BaseController
   end
 
   def show
-    @plan = Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) = ?  AND DN = ? AND N = ?",Time.now.year,Time.now.month, Time.now.day, params[:id]).first
+    @plan = Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) = ?  AND DN = ? AND N = ?",Time.now.year,Time.now.month, (Time.now - 1.day).day, params[:id]).first
 
     @bar = LazyHighCharts::HighChart.new('Area') do |f|
       f.options[:xAxis][:categories] = []
