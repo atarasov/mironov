@@ -3,7 +3,7 @@ class CashcController < BaseController
     if params[:year]
       @cashc = Cashc.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?",params[:year], Time.now.month, Time.now.day )
     else
-      @cashc = Cashc.where("YEAR(DAT) = 2012 AND MONTH(DAT) = ? AND DAY(DAT) = ?", Time.now.month, Time.now.day )
+      @cashc = Cashc.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?",Time.now.year, Time.now.month, Time.now.day )
     end
 
     @p = Cashc.select("DISTINCT YEAR(DAT) AS YEARS")

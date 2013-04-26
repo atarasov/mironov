@@ -1,6 +1,6 @@
 #include BestInPlace::BestInPlaceHelpers
 class ApplicationController < ActionController::Base
-  include BestInPlace::BestInPlaceHelpers
+  include BestInPlace
   before_filter :plan_create, :only => :index
   before_filter :implementation_create, :only => :index
   protect_from_forgery
@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
     @asrt = Asrt.where("DAY(DAT) = ? AND MONTH(DAT) = ? AND YEAR(DAT) = ?", Time.now.day, Time.now.month, Time.now.year)
     if @asrt && @asrt.size == 0
       Assortment.all.each do |assortment|
-        Asrt.create({:NAIM => assortment.name, :N => assortment.id, :DAT => Time.now + 1.day})
+        Asrt.create({:NAIM => assortment.name, :N => assortment.id, :DAT => Time.now})
       end
     end
   end
@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
     @impl = Implementation.where("DAY(DAT) = ? AND MONTH(DAT) = ? AND YEAR(DAT) = ?", Time.now.day, Time.now.month, Time.now.year)
     if @impl && @impl.size == 0
       Direction.all.each do |assortment|
-        Implementation.create({:NAIM => assortment.name, :N => assortment.id, :DAT => Time.now + 1.day})
+        Implementation.create({:NAIM => assortment.name, :N => assortment.id, :DAT => Time.now})
       end
     end
   end

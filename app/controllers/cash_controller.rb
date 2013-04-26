@@ -3,7 +3,7 @@ class CashController < BaseController
     if params[:year]
       @cash = Cash.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?",params[:year], Time.now.month, Time.now.day )
     else
-      @cash = Cash.where("YEAR(DAT) = 2012 AND MONTH(DAT) = ? AND DAY(DAT) = ?", Time.now.month, Time.now.day )
+      @cash = Cash.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?", Time.now.year, Time.now.month, Time.now.day )
     end
 
     @p = Cash.select("DISTINCT YEAR(DAT) AS YEARS")
