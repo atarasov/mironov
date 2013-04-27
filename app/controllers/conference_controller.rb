@@ -2,7 +2,11 @@
 class ConferenceController < BaseController
   def index
     @plan = Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) = ?  AND DN = ? AND N = 1",Time.now.year,Time.now.month, (Time.now - 1.day).day).first
-
+    #raise @plan.inspect
+    if @plan.blank? || @plan == nil
+      @plan = Asrt.where(" PLM IS NOT NULL AND PLD IS NOT NULL AND N = 1" ).last(1).first
+      #raise @plan.inspect
+    end
     @bar = LazyHighCharts::HighChart.new('Area') do |f|
       f.options[:xAxis][:categories] = []
       f.series(:type=> 'bar', :name=>'План нарастающий',:data=> [@plan.PLD.to_i])
@@ -47,7 +51,10 @@ class ConferenceController < BaseController
 
   def show
     @plan = Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) = ?  AND DN = ? AND N = ?",Time.now.year,Time.now.month, (Time.now - 1.day).day, params[:id]).first
-
+    if @plan.blank? || @plan == nil
+      @plan = Asrt.where(" PLM IS NOT NULL AND PLD IS NOT NULL AND N = ?", params[:id]).last(1).first
+      #raise @plan.inspect
+    end
     @bar = LazyHighCharts::HighChart.new('Area') do |f|
       f.options[:xAxis][:categories] = []
       f.series(:type=> 'bar', :name=>'План нарастающий',:data=> [@plan.PLD.to_i])
