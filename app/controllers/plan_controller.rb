@@ -2,10 +2,15 @@
 class PlanController < BaseController
 
   def index
-    if params[:year]
-      @plans = Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?",params[:year], Time.now.month, (Time.now - 1.day).day )
+    if params[:day]
+      @day = (Time.now - (params[:day].to_i + 1).day).day
     else
-      @plans = Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?",Time.now.year, Time.now.month, (Time.now - 1.day).day )
+      @day = (Time.now - 1.day).day
+    end
+    if params[:year]
+      @plans = Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?",params[:year], Time.now.month, @day )
+    else
+      @plans = Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?",Time.now.year, Time.now.month, @day)
     end
 
 

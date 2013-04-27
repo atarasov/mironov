@@ -2,10 +2,15 @@
 class ImplementationController < BaseController
   PER_PAGE = 20
   def index
-    if params[:year]
-      @implementations = Implementation.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?",params[:year], Time.now.month, (Time.now - 1.day).day )
+    if params[:day]
+      @day = (Time.now - (params[:day].to_i + 1).day).day
     else
-      @implementations = Implementation.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?",Time.now.year, Time.now.month, (Time.now - 1.day).day )
+      @day = (Time.now - 1.day).day
+    end
+    if params[:year]
+      @implementations = Implementation.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?",params[:year], Time.now.month, @day )
+    else
+      @implementations = Implementation.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?",Time.now.year, Time.now.month, @day )
     end
 
     @p = Implementation.select("DISTINCT YEAR(DAT) AS YEARS")

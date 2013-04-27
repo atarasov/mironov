@@ -2,7 +2,7 @@
 <div class="span12">
   <ul class="years">
     <% @m.each do |year| %>
-        <li><%= link_to_unless_current year, plan_url(:year => year)%></li>
+        <li><%= link_to_unless_current year, cash_url(:year => year)%></li>
     <% end %>
   </ul>
   <br/>
