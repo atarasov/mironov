@@ -8,7 +8,8 @@ ActiveAdmin.register Plan do
     column :assortment
     column :date
     column :day
-    column :month
+    #column :month
+    column(:month) { |i| best_in_place i, :month, :type => :input, :path => [:admin, i] }
 
     default_actions
   end
@@ -26,10 +27,13 @@ ActiveAdmin.register Plan do
     f.inputs "План на месяц/день" do
       f.input :assortment, :as => :select
       f.input :date, :as => :datepicker, :input_html => { :value => Time.now.end_of_month.to_date }
-      f.input :day
+      #f.input :day
       f.input :month
     end
     f.actions
 
+  end
+  before_save do |plan|
+    plan.day = params[:plan][:month].to_f/Time.now.end_of_month.to_date.day
   end
 end

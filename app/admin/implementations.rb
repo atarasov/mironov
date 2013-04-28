@@ -57,17 +57,17 @@ ActiveAdmin.register Implementation do
 
   form do |f|
     f.inputs "Реализация" do
-      #f.input :S
-      #f.input :N
+      f.input :S
+      f.input :N
       f.input :DAT, :as => :datepicker
-      #f.input :DN
-      #f.input :KOD
+      f.input :DN
+      f.input :KOD
       f.input :NAIM, :as => :select, :collection => Direction.all
       f.input :SUM
-      #f.input :SUMM
-      #f.input :SUMY
-      #f.input :P
-      #f.input :AWT
+      f.input :SUMM
+      f.input :SUMY
+      f.input :P
+      f.input :AWT
 
 
     end
@@ -75,19 +75,26 @@ ActiveAdmin.register Implementation do
   end
 
   before_save do |implementation|
-    #implementation.N = params[:implementation][:NAIM]
-    #implementation.NAIM = Direction.find(params[:implementation][:NAIM]).name
-    #implementation.DN = params[:implementation][:DAT].to_date.day
-    #if params[:implementation][:DAT].to_date.day ==  1
-    #  implementation.SUMM = params[:implementation][:SUM].to_f
-    #  if params[:implementation][:DAT].to_date.month ==  1
-    #    implementation.SUMY = params[:implementation][:SUM].to_f
-    #  else
-    #    implementation.SUMY = Implementation.where("DAT = ? AND N = ?",params[:implementation][:DAT].to_date - 1.day, params[:implementation][:NAIM]).first.SUMM.to_f + params[:implementation][:SUM].to_f
-    #  end
-    #else
-    #  implementation.SUMM = Implementation.where("DAT = ? AND N = ?",params[:implementation][:DAT].to_date - 1.day, params[:implementation][:NAIM]).first.SUMM.to_f + params[:implementation][:SUM].to_f
-    #  implementation.SUMY = Implementation.where("DAT = ? AND N = ?",params[:implementation][:DAT].to_date - 1.day, params[:implementation][:NAIM]).first.SUMY.to_f + params[:implementation][:SUM].to_f
-    #end
+    implementation.N = params[:implementation][:NAIM] if params[:implementation][:NAIM]
+    implementation.NAIM = Direction.find(params[:implementation][:NAIM]).name if params[:implementation][:NAIM]
+    implementation.DN = params[:implementation][:DAT].to_date.day if params[:implementation][:DAT]
+    #raise implementation.inspect
+    if (params[:implementation] && params[:implementation][:DAT] && params[:implementation][:DAT].to_date.day ==  1) || implementation.DAT.to_date.day ==  1
+      implementation.SUMM = params[:implementation][:SUM]? params[:implementation][:SUM].to_f : implementation.SUM.to_f
+      if (params[:implementation] && params[:implementation][:DAT] && params[:implementation][:DAT].to_date.month ==  1) || implementation.DAT.to_date.month ==  1
+        implementation.SUMY = params[:implementation][:SUM]? params[:implementation][:SUM].to_f : implementation.SUM.to_f
+      else
+        date = params[:implementation][:DAT]? params[:implementation][:DAT].to_date : implementation.DAT.to_date
+        sum = params[:implementation][:SUM]? params[:implementation][:SUM].to_f : implementation.SUM.to_f
+        naim = params[:implementation][:NAIM]? params[:implementation][:NAIM] : implementation.N
+        implementation.SUMY = Implementation.where("DATE(DAT) = ? AND N = ?", date - 1.day, naim).first.SUMM.to_f + sum
+      end
+    else
+      date = params[:implementation][:DAT]? params[:implementation][:DAT].to_date : implementation.DAT.to_date
+      sum = params[:implementation][:SUM].to_f #|| implementation.SUM.to_f
+      naim = params[:implementation][:NAIM]? params[:implementation][:NAIM] : implementation.N
+      implementation.SUMM = Implementation.where("DATE(DAT) = ? AND N = ?",date - 1.day, naim).first.SUMM.to_f + sum
+      implementation.SUMY = Implementation.where("DATE(DAT) = ? AND N = ?",date - 1.day, naim).first.SUMY.to_f + sum
+    end
   end
 end

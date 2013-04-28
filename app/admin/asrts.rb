@@ -41,8 +41,8 @@ ActiveAdmin.register Asrt do
     #column :DN
     column :PLM
     column :PLS
-    #column :PLD
-    column(:PLD) { |i| best_in_place i, :PLD, :type => :input, :path => [:admin, i] }
+    column :PLD
+    #column(:PLD) { |i| best_in_place i, :PLD, :type => :input, :path => [:admin, i] }
     #column :VRY
     column :VRS
     #column :VRD
@@ -69,25 +69,6 @@ ActiveAdmin.register Asrt do
     end
   end
 
-  #controller do
-  #  def scoped_collection
-  #    Asrt.where("DAT = ?", Time.now.to_date) #if params[:q].blank?
-  #  end
-  #end
-
-  #collection_action :index, :method => :get do
-  #  # Only get the items belonging to a group owned by the current user
-  #  scope = Asrt.where("DAT = ?", Time.now.to_date - 1.year)
-  #
-  #  @collection = scope.page(params[:page]).per(10)
-  #
-  #  respond_to do |format|
-  #    format.html {
-  #      render "active_admin/resource/index"
-  #    }
-  #  end
-  #end
-
   filter :N
   filter :DAT
   filter :NAIM
@@ -96,21 +77,21 @@ ActiveAdmin.register Asrt do
 
   form do |f|
     f.inputs "План" do
-      #f.input :C
+      f.input :C
       f.input :NAIM, :as => :select, :collection => Assortment.all
       f.input :DAT, :as => :datepicker
-      #f.input :N
-      #f.input :KOD
+      f.input :N
+      f.input :KOD
 
-      #f.input :DN
-      #f.input :PLM
-      #f.input :PLS
+      f.input :DN
+      f.input :PLM
+      f.input :PLS
       f.input :PLD
-      #f.input :VRY
-      #f.input :VRS
+      f.input :VRY
+      f.input :VRS
       f.input :VRD
       f.input :OST
-      #f.input :OST1
+      f.input :OST1
       f.input :RLD
       #f.input :NSS
       #f.input :A1
@@ -134,6 +115,17 @@ ActiveAdmin.register Asrt do
     #asrt.NAIM = Direction.find(params[:implementation][:NAIM]).name
     #asrt.DN = params[:implementation][:DAT].to_date.day
 
+    if (params[:asrt] && params[:asrt][:DAT] && params[:asrt][:DAT].to_date.day ==  1) || asrt.DAT.to_date.day ==  1
+      asrt.VRS = params[:asrt][:VRS]
+      asrt.PLS = params[:asrt][:PLD]
+    else
+      date = params[:asrt][:DAT]? params[:asrt][:DAT].to_date : asrt.DAT.to_date
+      #sum = params[:asrts][:PLD].to_f || asrt.PLD.to_f
+      sumvrd = params[:asrt][:VRD]? params[:asrt][:VRD].to_f : asrt.VRD.to_f
+      naim = params[:asrt][:NAIM] || asrt.N
+      asrt.PLS = Asrt.where("DATE(DAT) = ? AND N = ?", date - 1.day, naim).first.PLS.to_f + asrt.PLD.to_f
+      asrt.VRS = Asrt.where("DATE(DAT) = ? AND N = ?", date - 1.day, naim).first.VRS.to_f + sumvrd
+    end
   end
 
 end

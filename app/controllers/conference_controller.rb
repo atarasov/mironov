@@ -1,7 +1,7 @@
 # encoding: utf-8
 class ConferenceController < BaseController
   def index
-    
+
     @plan = Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) = ?  AND DN = ? AND N = 1",Time.now.year,Time.now.month, (Time.now - 1.day).day).first
     #raise @plan.inspect
     if @plan.blank? || @plan == nil
