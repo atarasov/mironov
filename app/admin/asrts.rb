@@ -33,9 +33,9 @@ ActiveAdmin.register Asrt do
 
 
   index do
+    column :N
     #column :C
     column :DAT
-    #column :N
     #column :KOD
     column :NAIM
     #column :DN

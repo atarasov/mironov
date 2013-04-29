@@ -9,6 +9,7 @@ class Ability
       can :manage, Plan
       can :manage, Asrt
       can :manage, Assortment
+      can :manage, Quantity
     end
     if admin_user.cash_admin?
       can :manage, Cash
@@ -19,6 +20,7 @@ class Ability
     if admin_user.implementation_admin?
       can :manage, Implementation
       can :manage, Direction
+      can :manage, Quantity
     end
 
     if admin_user.super_admin?
