@@ -68,14 +68,44 @@ class PlanController < BaseController
 
 
     @bar_graph = LazyHighCharts::HighChart.new('Area') do |f|
-      f.xAxis([{:labels => {:rotation => 0, :align => 'right'}, :categories => @month_arr},
+      f.xAxis([{:labels => {:rotation => 0, :align => 'right'}, :categories => @month_arr,
+                :pointWidth => '25',
+                :groupPadding => '0.9',
+                :dataLabels => {
+                    :enabled => true,
+                    :rotation => 0,
+                    :color => '#FFFFFF',
+                    :align => 'right',
+                    :x => -20,
+                    :y => 3,
+                }},
                {:labels => {:rotation => 0, :align => 'left'}, :categories => @itog, linkedTo: 0, opposite: true}])
       #f.options[:xAxis][:categories] = @month_arr
-      f.series(:type=> 'bar', :name=>'План на месяц',:data=> @plan_arr)
-      f.series(:type=> 'bar', :name=>'Факт нарастающий',:data=> @fact_arr)
+      f.series(:type=> 'bar', :name=>'План на месяц',:data=> @plan_arr,
+               :pointWidth => '25',
+               :groupPadding => '0.9',
+               :dataLabels => {
+                   :enabled => true,
+                   :rotation => 0,
+                   :color => '#FFFFFF',
+                   :align => 'right',
+                   :x => -20,
+                   :y => 3,
+               })
+      f.series(:type=> 'bar', :name=>'Факт нарастающий',:data=> @fact_arr,
+               :pointWidth => '25',
+               :groupPadding => '0.9',
+               :dataLabels => {
+                   :enabled => true,
+                   :rotation => 0,
+                   :color => '#FFFFFF',
+                   :align => 'right',
+                   :x => -20,
+                   :y => 3,
+               })
       #f.plotOptions[{:bar => {  :dataLabels => { :enabled => true} }}],
-      f.plot_options({ :bar=> {:dataLabels => { :enabled => true}}})
-      f.html_options[:style] = "width:100% !important; height:900px !important;"
+      #f.plot_options({ :bar=> {:dataLabels => { :enabled => true}}})
+      f.html_options[:style] = "width:100% !important; height:1200px !important;"
       f.tooltip({:shared => true, :crosshairs=> true,:valueSuffix => ' т'})
       f.legend({ layout: 'vertical',
                  align: 'right',
@@ -113,11 +143,31 @@ class PlanController < BaseController
     @days_bar_graph = LazyHighCharts::HighChart.new('Area') do |f|
       f.xAxis([{:labels => {:rotation => 0, :align => 'right'}, :categories => @days_month_arr},
                {:labels => {:rotation => 0, :align => 'left'}, :categories => @day_itog, linkedTo: 0, opposite: true}])
-      f.series(:type=> 'bar', :name=>'План нарастающий',:data=> @days_plan_arr)
-      f.series(:type=> 'bar', :name=>'Факт нарастающий',:data=> @days_fact_arr)
+      f.series(:type=> 'bar', :name=>'План нарастающий',:data=> @days_plan_arr,
+               :pointWidth => '25',
+               :groupPadding => '0.9',
+               :dataLabels => {
+                   :enabled => true,
+                   :rotation => 0,
+                   :color => '#FFFFFF',
+                   :align => 'right',
+                   :x => -20,
+                   :y => 3,
+               })
+      f.series(:type=> 'bar', :name=>'Факт нарастающий',:data=> @days_fact_arr,
+               :pointWidth => '25',
+               :groupPadding => '0.9',
+               :dataLabels => {
+                   :enabled => true,
+                   :rotation => 0,
+                   :color => '#FFFFFF',
+                   :align => 'right',
+                   :x => -20,
+                   :y => 3,
+               })
       #f.plotOptions[{:bar => {  :dataLabels => { :enabled => true} }}],
-      f.plot_options({ :bar=> {:dataLabels => { :enabled => true}}})
-      f.html_options[:style] = "width:95% !important; height:900px !important;"
+      #f.plot_options({ :bar=> {:dataLabels => { :enabled => true}}})
+      f.html_options[:style] = "width:95% !important; height:1200px !important;"
       f.tooltip({:shared => true, :crosshairs=> true,:valueSuffix => ' т'})
       f.legend({ layout: 'vertical',
                  align: 'right',

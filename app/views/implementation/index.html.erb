@@ -5,7 +5,9 @@
         <li><%= link_to_unless_current year, implementation_url(:year => year)%></li>
     <% end %>
   </ul>
-  <ul class="years">
+  <br/>
+  <br/>
+  <ul class="years ul_days">
    <li><%= link_to_unless_current "Сегодня", implementation_url()%></li>
    <li><%= link_to_unless_current 'Два дня назад', implementation_url(:day => 1)%></li>
    <li><%= link_to_unless_current 'Три дня назад', implementation_url(:day => 2)%></li>
