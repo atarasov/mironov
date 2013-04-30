@@ -1,5 +1,9 @@
 Mironov::Application.routes.draw do
   root :to => 'main#index'
+
+  get 'application/plan_create', :as => :plan_create
+  get 'application/implementation_create', :as => :implementation_create
+
   devise_for :admin_users, ActiveAdmin::Devise.config do
     ActiveAdmin.routes(self)
   end

@@ -1,6 +1,7 @@
 # encoding: utf-8
 ActiveAdmin.register Direction do
   index do
+    selectable_column
     column :name
     column :old_id
 

@@ -1,4 +1,10 @@
 ru:
+  date:
+    formats:
+      long: "%Y-%m-%d"
+  time:
+    formats:
+      long: "%Y-%m-%d"
   activerecord:
       models:
         direction:
@@ -154,6 +160,9 @@ ru:
           name: Направление
           old_id: Старый id
   active_admin:
+      sidebars:
+        implementation_create: Управление шаблонами
+        plan_create: Управление шаблонами
       scopes:
         all: Все записи
         today: На сегодня
@@ -178,3 +187,16 @@ ru:
         entry:
           one: "запись"
           other: "записей"
+      batch_actions:
+        button_label: "Групповые операции"
+        delete_confirmation: "Вы уверены, что хотите удалить %{plural_model}? Вы не сможете это отменить."
+        succesfully_destroyed:
+          one: "Успешно удалено: 1 запись"
+          two: "Успешно удалено: 2 записи"
+          many: "Успешно удалено: %{count} записей"
+          other: "Успешно удалено: %{count} записей"
+        selection_toggle_explanation: "(Отметить всё / Снять выделение)"
+        link: "Создать"
+        action_label: "%{title} выбранное"
+        labels:
+          destroy: "Удалить"
