@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   def plan_create
+    #raise params.inspect
     @asrt = Asrt.where("DAY(DAT) = ? AND MONTH(DAT) = ? AND YEAR(DAT) = ?", Time.now.day, Time.now.month, Time.now.year)
     if @asrt && @asrt.size == 0
       @plan = Plan.where("MONTH(date) = ? AND YEAR(date) = ?",Time.now.month, Time.now.year)

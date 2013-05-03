@@ -40,12 +40,26 @@ ActiveAdmin.register Implementation, {:sort_order => "N ASC"} do
     #column :DN
     #column :KOD
     column :NAIM
-    column :DAT
+    column :DAT  do |implementation|
+      Russian::strftime(implementation.DAT, "%d %B %Y")
+    end
     column :DN
     #column :SUM
-    column(:SUM) { |i| best_in_place i, :SUM, :type => :input, :path => [:admin, i] }
-    column :SUMM
-    column :SUMY
+    column(:SUM) { |i| best_in_place i,
+                                     :SUM,
+                                     :type => :input,
+                                     :path => [:admin, i],
+                                     :display_with => :number_to_currency,
+                                     :helper_options => {:delimiter => " ",
+                                                         :precision => 0,
+                                                         :unit => ""}
+    }
+    column :SUMM do |implementation|
+      number_to_currency implementation.SUMM, :delimiter => " ", :precision => 0, :unit => ""
+    end
+    column :SUMY do |implementation|
+      number_to_currency implementation.SUMY, :delimiter => " ", :precision => 0, :unit => ""
+    end
     #column :P
     #column :AWT
     if current_admin_user.super_admin?

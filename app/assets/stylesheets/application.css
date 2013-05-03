@@ -70,6 +70,10 @@ body {
     text-shadow: 0 1px 0 #FFFFFF;}
 
 
+.assortment .w0{margin-left: 0px !important;}
+.assortment .w5{margin-left: 10px !important;}
+.assortment .w10{margin-left: 20px !important;}
+
 .navbar .nav li > a.active{background-color: #E5E5E5;}
 .navbar .nav li > a.active:hover{background-color: #E5E5E5;}
 .navbar .nav a.active{color: #555555;}

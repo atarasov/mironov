@@ -37,23 +37,56 @@ ActiveAdmin.register Asrt, {:sort_order => "N ASC"} do
     selectable_column
     column :N
     #column :C
-    column :DAT
+    column :DAT  do |asrt|
+      Russian::strftime(asrt.DAT, "%d %B %Y")
+    end
     #column :KOD
     column :NAIM
     #column :DN
-    column :PLM
-    column :PLS
-    column :PLD
+    column :PLM do |asrt|
+      number_to_currency asrt.PLM, :separator => ".", :delimiter => " ", :precision => 3, :unit => ""
+    end
+    column :PLS do |asrt|
+      number_to_currency asrt.PLS, :separator => ".", :delimiter => " ", :precision => 3, :unit => ""
+    end
+    column :PLD do |asrt|
+      number_to_currency asrt.PLD, :separator => ".", :delimiter => " ", :precision => 3, :unit => ""
+    end
     #column(:PLD) { |i| best_in_place i, :PLD, :type => :input, :path => [:admin, i] }
     #column :VRY
     column :VRS
     #column :VRD
-    column(:VRD) { |i| best_in_place i, :VRD, :type => :input, :path => [:admin, i] }
+    column(:VRD) { |i| best_in_place i,
+                                     :VRD,
+                                     :type => :input,
+                                     :path => [:admin, i] ,
+                                     :display_with => :number_to_currency,
+                                     :helper_options => {:separator => ".",
+                                                         :delimiter => " ",
+                                                         :precision => 3,
+                                                         :unit => ""} }
     #column :OST
-    column(:OST) { |i| best_in_place i, :OST, :type => :input, :path => [:admin, i] }
+    column(:OST) { |i| best_in_place i,
+                                     :OST,
+                                     :type => :input,
+                                     :path => [:admin, i],
+                                     :display_with => :number_to_currency,
+                                     :helper_options => {:separator => ".",
+                                                         :delimiter => " ",
+                                                         :precision => 3,
+                                                         :unit => ""} }
     #column :OST1
     #column :RLD
-    column(:RLD) { |i| best_in_place i, :RLD, :type => :input, :path => [:admin, i] }
+
+    column(:RLD) { |i| best_in_place i,
+                                     :RLD,
+                                     :type => :input,
+                                     :path => [:admin, i],
+                                     :display_with => :number_to_currency,
+                                     :helper_options => {:separator => ".",
+                                                         :delimiter => " ",
+                                                         :precision => 3,
+                                                         :unit => ""} }
     #column :NSS
     #column :A1
     #column :A2

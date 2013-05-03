@@ -1,10 +1,10 @@
 ru:
   date:
     formats:
-      long: "%Y-%m-%d"
+      long: "%Y-%B-%d"
   time:
     formats:
-      long: "%Y-%m-%d"
+      long: "%Y-%B-%d"
   activerecord:
       models:
         direction:
@@ -59,6 +59,7 @@ ru:
           kol: количество
           date: дата
         assortment:
+          old_id: №
           name:
             one: Наименование
             few: Наименования
@@ -67,7 +68,7 @@ ru:
         asrt:
           C:
           DAT: Дата
-          N:
+          N: №
           KOD:
           NAIM: Наименование
           DN: День
@@ -94,7 +95,7 @@ ru:
           AWT:
         implementation:
           S:
-          N:
+          N: №
           DAT: Дата
           DN: День
           KOD:
@@ -105,7 +106,7 @@ ru:
           P:
           AWT:
         cash:
-          N:
+          N: №
           DAT: Дата
           KOD: Код
           NAIM: Наименование
@@ -122,7 +123,7 @@ ru:
           BK4:
           BK5:
         cashc:
-          N:
+          N: №
           DAT: Дата
           KOD: Код
           NAIM: Наименование
@@ -158,7 +159,7 @@ ru:
           plan_admin: Редактирование плана
         direction:
           name: Направление
-          old_id: Старый id
+          old_id: №
   active_admin:
       sidebars:
         implementation_create: Управление шаблонами
@@ -193,6 +194,7 @@ ru:
         succesfully_destroyed:
           one: "Успешно удалено: 1 запись"
           two: "Успешно удалено: 2 записи"
+          few: "Успешно удалено: %{count} записи"
           many: "Успешно удалено: %{count} записей"
           other: "Успешно удалено: %{count} записей"
         selection_toggle_explanation: "(Отметить всё / Снять выделение)"
