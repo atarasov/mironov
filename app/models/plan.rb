@@ -12,6 +12,10 @@ class Plan < ActiveRecord::Base
     kar_all = Plan.where("YEAR(date) = ? AND MONTH(date) = ?",self.date.to_date.year, self.date.to_date.month).joins(:assortment).where("old_id IN (3, 4, 5, 9)").sum("month")
     drage = Plan.where("YEAR(date) = ? AND MONTH(date) = ?",self.date.to_date.year, self.date.to_date.month).joins(:assortment).where("old_id = 15").first
 
+    kar_all = kar_all.blank? ? 0 : kar_all
+    konf_all = drage.blank? ? 0 : konf_all
+    drage = drage.blank? ? 0 : drage
+
     all =  drage.month + konf_all + kar_all
     Plan.where("YEAR(date) = ? AND MONTH(date) = ?",self.date.to_date.year, self.date.to_date.month).joins(:assortment).where("old_id = 11").update_all(:month => konf_all, :day => konf_all / self.date.to_date.end_of_month.to_date.day)
     Plan.where("YEAR(date) = ? AND MONTH(date) = ?",self.date.to_date.year, self.date.to_date.month).joins(:assortment).where("old_id = 2").update_all(:month => kar_all, :day => kar_all / self.date.to_date.end_of_month.to_date.day)
