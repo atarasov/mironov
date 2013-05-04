@@ -38,7 +38,7 @@ ActiveAdmin.register Asrt, {:sort_order => "N ASC"} do
     column :N
     #column :C
     column :DAT  do |asrt|
-      Russian::strftime(asrt.DAT, "%d %B %Y")
+      Russian::strftime(asrt.DAT, "%d %B %y")
     end
     #column :KOD
     column :NAIM
