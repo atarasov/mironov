@@ -19,7 +19,7 @@ class Asrt < ActiveRecord::Base
 
     #raise @drage.inspect
 
-    if @drage.blank? || @drage.month.blank?
+    if @drage.blank? || @drage.OST.blank?
       all = konf_all + kar_all
     else
       all =  @drage.OST + konf_all + kar_all
@@ -46,7 +46,7 @@ class Asrt < ActiveRecord::Base
 
     #raise @drage.inspect
 
-    if @drage.blank? || @drage.month.blank?
+    if @drage.blank? || @drage.VRD.blank?
       all = konf_all + kar_all
     else
       all =  @drage.VRD + konf_all + kar_all
@@ -73,7 +73,7 @@ class Asrt < ActiveRecord::Base
 
     #raise @drage.inspect
 
-    if @drage.blank? || @drage.month.blank?
+    if @drage.blank? || @drage.RLD.blank?
       all = konf_all + kar_all
     else
       all =  @drage.RLD + konf_all + kar_all
