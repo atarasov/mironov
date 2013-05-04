@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
                        :DN =>Time.now.day,
                        :PLD =>  @plan2.where(:assortment_id => assortment.id).first.day,
                        :PLM =>  @plan2.where(:assortment_id => assortment.id).first.month,
-                       :N => assortment.id,
+                       :N => assortment.old_id,
                        :DAT => Time.now})  if @plan.where(:assortment_id => assortment.id).first
           end
           #Asrt.create({:NAIM => assort.name,:DN =>Time.now.day, :N => assort.id, :DAT => Time.now})
@@ -31,7 +31,7 @@ class ApplicationController < ActionController::Base
                        :DN =>Time.now.day,
                        :PLD =>  @plan.where(:assortment_id => assortment.id).first.day,
                        :PLM =>  @plan.where(:assortment_id => assortment.id).first.month,
-                       :N => assortment.id,
+                       :N => assortment.old_id,
                        :DAT => Time.now})  if @plan.where(:assortment_id => assortment.id).first
         end
         #
