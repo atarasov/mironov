@@ -7,14 +7,14 @@ class Plan < ActiveRecord::Base
   after_update :summing
 
   def summing
-    konf_all = Plan.where("MONTH(date) = 1 AND YEAR(date) = 2013", self.date.to_date.year, self.date.to_date.month).joins(:assortment).where("old_id IN (12, 13, 14, 6, 7, 8)").sum("month")
+    konf_all = Plan.where("YEAR(date) = ? AND MONTH(date) = ?", self.date.to_date.year, self.date.to_date.month).joins(:assortment).where("old_id IN (12, 13, 14, 6, 7, 8)").sum("month")
     #konf_all = Plan.where("YEAR(date) = ? AND MONTH(date) = ?",self.date.to_date.year, self.date.to_date.month).joins(:assortment).where("assortment.old_id IN (12, 13, 14, 6, 7, 8)").sum("month")
     kar_all = Plan.where("YEAR(date) = ? AND MONTH(date) = ?",self.date.to_date.year, self.date.to_date.month).joins(:assortment).where("old_id IN (3, 4, 5, 9)").sum("month")
     @drage = Plan.where("YEAR(date) = ? AND MONTH(date) = ?",self.date.to_date.year, self.date.to_date.month).joins(:assortment).where("old_id = 15").first
 
+    #raise @drage.inspect
 
-
-    if @drage.blank?
+    if @drage.blank? || @drage.month.blank?
       all = konf_all + kar_all
     else
       all =  @drage.month + konf_all + kar_all
