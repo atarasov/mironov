@@ -1,6 +1,10 @@
 <div class="buttons">
   <ul style="list-style: none">
-    <%#= params.inspect%>
-    <li><%= link_to "Создать таблицу плана", plan_create_path %></li>
+    <% if params[:scope] %>
+        <li><%= link_to "Создать таблицу плана", plan_create_path(:scope => params[:scope]) %></li>
+    <% else %>
+        <li><%= link_to "Создать таблицу плана", plan_create_path %></li>
+    <% end %>
+
   </ul>
 </div>

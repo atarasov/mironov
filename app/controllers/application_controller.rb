@@ -1,13 +1,29 @@
 #include BestInPlace::BestInPlaceHelpers
 class ApplicationController < ActionController::Base
   include BestInPlace
-  #before_filter :plan_create, :only => :index
+  #before_filter :sum_cor, :only => :index
   #before_filter :implementation_create, :only => :index
   protect_from_forgery
 
+
+  def sum_cor
+    Direction.all.each do |assortment|
+      summ = Implementation.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) <= ? AND N = ?",assortment.DAT.year, assortment.DAT.month, assortment.DAT.day, assortment.old_id).sum("SUM")
+      sumy = Implementation.where("YEAR(DAT) = ? AND DAY(DAT) <= ? AND N = ?",assortment.DAT.year, assortment.DAT.day, assortment.old_id).sum("SUM")
+      Implementation.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ? AND N = ?",assortment.DAT.to_date.year, assortment.DAT.to_date.month, assortment.DAT.to_date.day, assortment.old_id).update_all(:SUMY => sumy, :SUMM => summ )
+    end
+
+  end
+
   def plan_create
-    #raise params.inspect
-    @asrt = Asrt.where("DAY(DAT) = ? AND MONTH(DAT) = ? AND YEAR(DAT) = ?", Time.now.day, Time.now.month, Time.now.year)
+    if params[:scope] && params[:scope] != 'today'
+      @day = Time.now - (params[:scope].split('day')[1].to_i - 1).day
+    elsif params[:scope] == 'today'
+      @day = Time.now
+    else
+      @day = Time.now - 1.day
+    end
+    @asrt = Asrt.where("DAY(DAT) = ? AND MONTH(DAT) = ? AND YEAR(DAT) = ?", @day.day, @day.month, @day.year)
     if @asrt && @asrt.size == 0
       @plan = Plan.where("MONTH(date) = ? AND YEAR(date) = ?",Time.now.month, Time.now.year)
       Assortment.all.each do |assortment|
@@ -19,20 +35,20 @@ class ApplicationController < ActionController::Base
           @plan2 = Plan.where("MONTH(date) = ? AND YEAR(date) = ?",Time.now.month, Time.now.year)
           if @plan2 && @plan.size != 0
           Asrt.create({:NAIM => assortment.name,
-                       :DN =>Time.now.day,
+                       :DN =>@day.day,
                        :PLD =>  @plan2.where(:assortment_id => assortment.id).first.day,
                        :PLM =>  @plan2.where(:assortment_id => assortment.id).first.month,
                        :N => assortment.old_id,
-                       :DAT => Time.now})  if @plan.where(:assortment_id => assortment.id).first
+                       :DAT => @day})  if @plan.where(:assortment_id => assortment.id).first
           end
           #Asrt.create({:NAIM => assort.name,:DN =>Time.now.day, :N => assort.id, :DAT => Time.now})
         else
           Asrt.create({:NAIM => assortment.name,
-                       :DN =>Time.now.day,
+                       :DN =>@day.day,
                        :PLD =>  @plan.where(:assortment_id => assortment.id).first.day,
                        :PLM =>  @plan.where(:assortment_id => assortment.id).first.month,
                        :N => assortment.old_id,
-                       :DAT => Time.now})  if @plan.where(:assortment_id => assortment.id).first
+                       :DAT => @day})  if @plan.where(:assortment_id => assortment.id).first
         end
         #
       end
@@ -45,10 +61,17 @@ class ApplicationController < ActionController::Base
 
   end
   def implementation_create
-    @impl = Implementation.where("DAY(DAT) = ? AND MONTH(DAT) = ? AND YEAR(DAT) = ?", Time.now.day, Time.now.month, Time.now.year)
+    if params[:scope] && params[:scope] != 'today'
+      @day = Time.now - (params[:scope].split('day')[1].to_i - 1).day
+    elsif params[:scope] == 'today'
+      @day = Time.now
+    else
+      @day = Time.now - 1.day
+    end
+    @impl = Implementation.where("DAY(DAT) = ? AND MONTH(DAT) = ? AND YEAR(DAT) = ?", @day.day, @day.month, @day.year)
     if @impl && @impl.size == 0
       Direction.all.each do |direction|
-        Implementation.create({:NAIM => direction.name,:DN =>Time.now.day, :N => direction.id, :DAT => Time.now})
+        Implementation.create({:NAIM => direction.name,:DN =>@day.day, :N => direction.old_id, :DAT => @day})
       end
       flash.keep[:notice]="Реализация успешно созданна!"
       redirect_to admin_implementations_url
