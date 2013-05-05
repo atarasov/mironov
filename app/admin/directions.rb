@@ -1,5 +1,5 @@
 # encoding: utf-8
-ActiveAdmin.register Direction do
+ActiveAdmin.register Direction, {:sort_order => "old_id ASC"}  do
   index do
     selectable_column
     column :name

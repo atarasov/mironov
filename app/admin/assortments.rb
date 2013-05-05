@@ -5,7 +5,21 @@ ActiveAdmin.register Assortment, {:sort_order => "old_id ASC"}  do
   #end
   index do
     selectable_column
-    column :name
+
+    column :name do |assortment|
+      if assortment.level == 2
+        @class ='w5'
+      elsif assortment.level == 3
+        @class ='w10'
+      else
+        @class ='w0'
+      end
+      div :class => @class do
+        assortment.name
+      end
+    end
+
+    #column :name
     column :old_id
 
     default_actions
