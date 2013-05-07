@@ -7,7 +7,7 @@ ActiveAdmin.register Implementation, {:sort_order => "N ASC"} do
     implementation.where("DAY(DAT) = ? AND MONTH(DAT) = ? AND YEAR(DAT) = ?", Time.now.day, Time.now.month, Time.now.year).order('N ASC')
   end
 
-  scope :day2, :default => true do |implementation|
+  scope :day2 do |implementation|
     implementation.where("DAY(DAT) = ? AND MONTH(DAT) = ? AND YEAR(DAT) = ?", (Time.now - 1.day).day, (Time.now - 1.day).month, (Time.now - 1.day).year).order('N ASC')
   end
 
@@ -67,9 +67,9 @@ ActiveAdmin.register Implementation, {:sort_order => "N ASC"} do
     end
   end
 
-  filter :DN
-  filter :DAT
-  filter :NAIM
+  filter :year, :as => :select, :collection => (2008..Time.now.year.to_i)
+  filter :month, :as => :select, :collection => (1..12)
+  filter :day, :as => :select, :collection => (1..Time.now.end_of_month.day.to_i)
 
 
   form do |f|

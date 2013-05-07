@@ -66,6 +66,9 @@ ru:
             many: Наименования
             other: Наименованию
         asrt:
+          year: Год
+          month: Месяц
+          day: День
           C:
           DAT: Дата
           N: №
@@ -161,7 +164,12 @@ ru:
           name: Направление
           old_id: №
   active_admin:
+
       sidebars:
+        search:
+          year: Год
+          month: Месяц
+          day: День
         implementation_create: Управление шаблонами
         plan_create: Управление шаблонами
       scopes:

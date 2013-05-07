@@ -7,6 +7,14 @@ class Asrt < ActiveRecord::Base
   after_update :summing_rld
   after_update :summing_vrd
 
+  scope :year_eq, lambda{ |year| where("YEAR(DAT) = ?", year.to_i) }
+  scope :month_eq, lambda{ |month| where("MONTH(DAT) = ?", month.to_i) }
+  scope :day_eq, lambda{ |day| where("DAY(DAT) = ?", day.to_i) }
+
+  search_methods :year_eq
+  search_methods :month_eq
+  search_methods :day_eq
+
 
   def summing_ost
     konf_all = Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ? AND N IN (12, 13, 14, 6, 7, 8)", self.DAT.to_date.year, self.DAT.to_date.month, self.DAT.to_date.day).sum("OST")

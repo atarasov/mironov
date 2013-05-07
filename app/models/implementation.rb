@@ -13,6 +13,14 @@ class Implementation < ActiveRecord::Base
   after_update :summing_summ
   after_update :summing_sumy
 
+  scope :year_eq, lambda{ |year| where("YEAR(DAT) = ?", year.to_i) }
+  scope :month_eq, lambda{ |month| where("MONTH(DAT) = ?", month.to_i) }
+  scope :day_eq, lambda{ |day| where("DAY(DAT) = ?", day.to_i) }
+
+  search_methods :year_eq
+  search_methods :month_eq
+  search_methods :day_eq
+
 
   def sum_cor
     summ = Implementation.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) <= ? AND N = ?",self.DAT.year, self.DAT.month, self.DAT.day, self.N).sum("SUM")

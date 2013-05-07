@@ -3,7 +3,7 @@ ActiveAdmin.register Asrt, {:sort_order => "N ASC"} do
 
   scope :all
 
-  scope :today, :default => true do |asrts|
+  scope :today do |asrts|
     asrts.where("DAY(DAT) = ? AND MONTH(DAT) = ? AND YEAR(DAT) = ?", Time.now.day, Time.now.month, Time.now.year).order('N ASC')
   end
 
@@ -104,10 +104,14 @@ ActiveAdmin.register Asrt, {:sort_order => "N ASC"} do
     end
   end
 
-  filter :N
-  filter :DAT
-  filter :NAIM
-  filter :DN
+  #filter :N
+
+  filter :year, :as => :select, :collection => (2008..Time.now.year.to_i)
+  filter :month, :as => :select, :collection => (1..12)
+  filter :day, :as => :select, :collection => (1..Time.now.end_of_month.day.to_i)
+  #filter :DAT, :as => :equals
+  #filter :NAIM
+  #filter :DN
 
 
   form do |f|
