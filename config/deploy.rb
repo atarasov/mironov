@@ -36,7 +36,7 @@ set :unicorn_conf,    "/etc/unicorn/#{application}.#{login}.rb"
 set :unicorn_pid,     "/var/run/unicorn/#{application}.#{login}.pid"
 set :bundle_dir,      File.join(fetch(:shared_path), 'gems')
 set :delayed_job_server_role, :delayed_job
-role :delayed_job, 'delayed_job.boron.locum.ru'
+role :delayed_job,    deploy_server
 role :web,            deploy_server
 role :app,            deploy_server
 role :db,             deploy_server, :primary => true
