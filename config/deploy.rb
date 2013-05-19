@@ -1,5 +1,6 @@
 # coding: utf-8
 require 'bundler/capistrano'
+require 'bundler/setup'
 #require 'thinking_sphinx/deploy/capistrano'
 # В rails 3 по умолчанию включена функция assets pipelining,
 # которая позволяет значительно уменьшить размер статических
@@ -9,7 +10,9 @@ require 'bundler/capistrano'
 # Если вы не используете assets pipelining в своем проекте,
 # или у вас старая версия rails, закомментируйте эту строку.
 load 'deploy/assets'
+
 require "delayed/recipes"
+
 # Для удобства работы мы рекомендуем вам настроить авторизацию
 # SSH по ключу. При работе capistrano будет использоваться
 # ssh-agent, который предоставляет возможность пробрасывать
@@ -100,7 +103,6 @@ end
 
 set :unicorn_start_cmd, "(cd #{deploy_to}/current; rvm use #{rvm_ruby_string} do bundle exec unicorn_rails -Dc #{unicorn_conf})"
 set :parse_start_cmd, "(cd #{deploy_to}/current; rvm use #{rvm_ruby_string} do bundle exec rake bestru_parse RAILS_ENV=production)"
-
 
 
 # - for unicorn - #
