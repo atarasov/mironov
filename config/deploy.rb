@@ -9,7 +9,7 @@ require 'bundler/capistrano'
 # Если вы не используете assets pipelining в своем проекте,
 # или у вас старая версия rails, закомментируйте эту строку.
 load 'deploy/assets'
-
+require "delayed/recipes"
 # Для удобства работы мы рекомендуем вам настроить авторизацию
 # SSH по ключу. При работе capistrano будет использоваться
 # ssh-agent, который предоставляет возможность пробрасывать
@@ -21,7 +21,7 @@ ssh_options[:forward_agent] = true
 # Имя вашего проекта в панели управления.
 # Не меняйте это значение без необходимости, оно используется дальше.
 set :application,     "mironov"
-
+set :rails_env, "production"
 # Сервер размещения проекта.
 set :deploy_server,   "boron.locum.ru"
 
@@ -35,6 +35,8 @@ set :deploy_to,       "/home/#{user}/projects/#{application}"
 set :unicorn_conf,    "/etc/unicorn/#{application}.#{login}.rb"
 set :unicorn_pid,     "/var/run/unicorn/#{application}.#{login}.pid"
 set :bundle_dir,      File.join(fetch(:shared_path), 'gems')
+set :delayed_job_server_role, :delayed_job
+role :delayed_job, 'delayed_job.boron.locum.ru'
 role :web,            deploy_server
 role :app,            deploy_server
 role :db,             deploy_server, :primary => true
@@ -46,6 +48,7 @@ set :rvm_ruby_string, "1.9.3"
 set :rake,            "rvm use #{rvm_ruby_string} do bundle exec rake"
 set :bundle_cmd,      "rvm use #{rvm_ruby_string} do bundle"
 
+set :delayed_job_args, "-n 2"
 
 # Настройка системы контроля версий и репозитария,
 # по умолчанию - git, если используется иная система версий,
@@ -64,6 +67,10 @@ set :repository,      "git://204.232.175.90/atarasov/mironov.git"
 ## Чтобы не хранить database.yml в системе контроля версий, поместите
 ## dayabase.yml в shared-каталог проекта на сервере и раскомментируйте
 ## следующие строки.
+
+after "deploy:stop",    "delayed_job:stop"
+after "deploy:start",   "delayed_job:start"
+after "deploy:restart", "delayed_job:restart"
 
 before "deploy:assets:precompile", :copy_database_config
 task :copy_database_config, roles => :app do

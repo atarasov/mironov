@@ -21,7 +21,8 @@ gem "meta_search", '>= 1.1.0.pre'
 gem "cancan"
 gem "best_in_place"
 gem "dbf"
-
+gem 'delayed_job_active_record'
+gem "daemons"
 gem 'iconv'
 
 # Gems used only for assets and not required

@@ -37,7 +37,7 @@ ActiveAdmin.register Asrt, {:sort_order => "N ASC"} do
     selectable_column
     column :N
     #column :C
-    column :DAT  do |asrt|
+    column :DAT do |asrt|
       Russian::strftime(asrt.DAT, "%d %B %y")
     end
     #column :KOD
@@ -56,37 +56,51 @@ ActiveAdmin.register Asrt, {:sort_order => "N ASC"} do
     #column :VRY
     column :VRS
     #column :VRD
-    column(:VRD) { |i| best_in_place i,
-                                     :VRD,
-                                     :type => :input,
-                                     :path => [:admin, i] ,
-                                     :display_with => :number_to_currency,
-                                     :helper_options => {:separator => ".",
-                                                         :delimiter => " ",
-                                                         :precision => 3,
-                                                         :unit => ""} }
-    #column :OST
-    column(:OST) { |i| best_in_place i,
-                                     :OST,
-                                     :type => :input,
-                                     :path => [:admin, i],
-                                     :display_with => :number_to_currency,
-                                     :helper_options => {:separator => ".",
-                                                         :delimiter => " ",
-                                                         :precision => 3,
-                                                         :unit => ""} }
-    #column :OST1
-    #column :RLD
+    if can? :create, Asrt
+      column(:VRD) { |i| best_in_place i,
+                                       :VRD,
+                                       :type => :input,
+                                       :path => [:admin, i],
+                                       :display_with => :number_to_currency,
+                                       :helper_options => {:separator => ".",
+                                                           :delimiter => " ",
+                                                           :precision => 3,
+                                                           :unit => ""} }
+      #column :OST
+      column(:OST) { |i| best_in_place i,
+                                       :OST,
+                                       :type => :input,
+                                       :path => [:admin, i],
+                                       :display_with => :number_to_currency,
+                                       :helper_options => {:separator => ".",
+                                                           :delimiter => " ",
+                                                           :precision => 3,
+                                                           :unit => ""} }
+      #column :OST1
+      #column :RLD
 
-    column(:RLD) { |i| best_in_place i,
-                                     :RLD,
-                                     :type => :input,
-                                     :path => [:admin, i],
-                                     :display_with => :number_to_currency,
-                                     :helper_options => {:separator => ".",
-                                                         :delimiter => " ",
-                                                         :precision => 3,
-                                                         :unit => ""} }
+      column(:RLD) { |i| best_in_place i,
+                                       :RLD,
+                                       :type => :input,
+                                       :path => [:admin, i],
+                                       :display_with => :number_to_currency,
+                                       :helper_options => {:separator => ".",
+                                                           :delimiter => " ",
+                                                           :precision => 3,
+                                                           :unit => ""} }
+    else
+      column :VRD do |asrt|
+        number_to_currency asrt.VRD, :separator => ".", :delimiter => " ", :precision => 3, :unit => ""
+      end
+
+      column :OST do |asrt|
+        number_to_currency asrt.OST, :separator => ".", :delimiter => " ", :precision => 3, :unit => ""
+      end
+
+      column :RLD do |asrt|
+        number_to_currency asrt.RLD, :separator => ".", :delimiter => " ", :precision => 3, :unit => ""
+      end
+    end
     #column :NSS
     #column :A1
     #column :A2
@@ -154,13 +168,13 @@ ActiveAdmin.register Asrt, {:sort_order => "N ASC"} do
     #asrt.NAIM = Direction.find(params[:implementation][:NAIM]).name
     #asrt.DN = params[:implementation][:DAT].to_date.day
 
-    if (params[:asrt] && params[:asrt][:DAT] && params[:asrt][:DAT].to_date.day ==  1) || asrt.DAT.to_date.day ==  1
+    if (params[:asrt] && params[:asrt][:DAT] && params[:asrt][:DAT].to_date.day == 1) || asrt.DAT.to_date.day == 1
       asrt.VRS = params[:asrt][:VRS]
       asrt.PLS = params[:asrt][:PLD]
     else
-      date = params[:asrt][:DAT]? params[:asrt][:DAT].to_date : asrt.DAT.to_date
+      date = params[:asrt][:DAT] ? params[:asrt][:DAT].to_date : asrt.DAT.to_date
       #sum = params[:asrts][:PLD].to_f || asrt.PLD.to_f
-      sumvrd = params[:asrt][:VRD]? params[:asrt][:VRD].to_f : asrt.VRD.to_f
+      sumvrd = params[:asrt][:VRD] ? params[:asrt][:VRD].to_f : asrt.VRD.to_f
       naim = params[:asrt][:NAIM] || asrt.N
       asrt.PLS = Asrt.where("DATE(DAT) = ? AND N = ?", date - 1.day, naim).first.PLS.to_f + asrt.PLD.to_f
       asrt.VRS = Asrt.where("DATE(DAT) = ? AND N = ?", date - 1.day, naim).first.VRS.to_f + sumvrd

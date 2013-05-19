@@ -8,9 +8,16 @@ class DbfFile < ActiveRecord::Base
                     :path => 'public/system/implementations/:class/:id/:filename'
   attr_accessible :implementation, :plan
 
-  after_save :parse_data
+  after_save :start_parse
+
+
+
+  def start_parse
+    Delayed::Job.enqueue(ParseJob.new(self.id))
+  end
 
   def parse_data
+
     if self.plan.present?
       plan = DBF::Table.new(self.plan.path())
       #ActiveRecord::Migration.drop_table(:PL)
@@ -63,19 +70,22 @@ class DbfFile < ActiveRecord::Base
         naim = encode.iconv(record.naim)
         kod = encode.iconv(record.kod)
         Implementation.create({
-            :S => record.s,
-            :N => record.n,
-            :DAT => record.dat,
-            :DN => record.dn,
-            :KOD => kod,
-            :NAIM => naim,
-            :SUM => record.sum,
-            :SUMM => record.summ,
-            :SUMY => record.sumy,
-            :P => record.p,
-            :AWT => record.awt})
+                                  :S => record.s,
+                                  :N => record.n,
+                                  :DAT => record.dat,
+                                  :DN => record.dn,
+                                  :KOD => kod,
+                                  :NAIM => naim,
+                                  :SUM => record.sum,
+                                  :SUMM => record.summ,
+                                  :SUMY => record.sumy,
+                                  :P => record.p,
+                                  :AWT => record.awt})
       end
 
     end
+
   end
+  handle_asynchronously :parse_data
+
 end

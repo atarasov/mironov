@@ -2,14 +2,15 @@ class Ability
   include CanCan::Ability
 
 
-
   def initialize(admin_user)
     can :read, Assortment
     if admin_user.plan_admin?
-      can :manage, Plan
-      can :manage, Asrt
-      can :manage, Assortment
-      can :manage, Quantity
+      #can :manage, Plan
+      can :read, Plan
+      #can :manage, Asrt
+      can :read, Asrt
+      #can :manage, Assortment
+      #can :manage, Quantity
       can :manage, DbfFile
     end
     if admin_user.cash_admin?
@@ -19,8 +20,9 @@ class Ability
       can :manage, Quantity
     end
     if admin_user.implementation_admin?
-      can :manage, Implementation
-      can :manage, Direction
+      #can :manage, Implementation
+      can :read, Implementation
+      #can :manage, Direction
       can :manage, Quantity
       can :manage, DbfFile
     end
