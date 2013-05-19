@@ -5,6 +5,7 @@ gem 'rails', '3.2.11'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
+gem "paperclip", "~> 3.0"
 gem 'mysql2'
 #gem 'simple_form'
 gem "therubyracer"
@@ -20,7 +21,7 @@ gem "meta_search", '>= 1.1.0.pre'
 gem "cancan"
 gem "best_in_place"
 gem "dbf"
-gem "paperclip", "~> 3.0"
+
 gem 'iconv'
 
 # Gems used only for assets and not required

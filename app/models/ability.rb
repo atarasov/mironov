@@ -10,6 +10,7 @@ class Ability
       can :manage, Asrt
       can :manage, Assortment
       can :manage, Quantity
+      can :manage, DbfFile
     end
     if admin_user.cash_admin?
       can :manage, Cash
@@ -21,6 +22,7 @@ class Ability
       can :manage, Implementation
       can :manage, Direction
       can :manage, Quantity
+      can :manage, DbfFile
     end
 
     if admin_user.super_admin?
