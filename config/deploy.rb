@@ -40,8 +40,9 @@ role :app,            deploy_server
 role :db,             deploy_server, :primary => true
 set :keep_releases, 3
 
-# Следующие строки необходимы, т.к. ваш проект использует rvm.
-set :rvm_ruby_string, "2.0.0"
+# Следующие строки необходимы, т.к. ваш проект использует rvm.    1.9.3
+set :rvm_ruby_string, "1.9.3"
+#set :rvm_ruby_string, "2.0.0"
 set :rake,            "rvm use #{rvm_ruby_string} do bundle exec rake"
 set :bundle_cmd,      "rvm use #{rvm_ruby_string} do bundle"
 

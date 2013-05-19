@@ -1,4 +1,4 @@
-#include BestInPlace::BestInPlaceHelpers
+# encoding: utf-8
 class ApplicationController < ActionController::Base
   include BestInPlace
   #before_filter :sum_cor, :only => :index
