@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130424181417) do
+ActiveRecord::Schema.define(:version => 20130512134811) do
 
   create_table "ASRT", :id => false, :force => true do |t|
     t.integer  "K_SW"
@@ -36,68 +36,6 @@ ActiveRecord::Schema.define(:version => 20130424181417) do
     t.decimal  "OSV",                  :precision => 7, :scale => 3
   end
 
-  create_table "BUF", :id => false, :force => true do |t|
-    t.datetime "DAT"
-    t.string   "NAIM", :limit => 20
-    t.decimal  "PLM",                :precision => 10, :scale => 3
-    t.decimal  "PLS",                :precision => 10, :scale => 3
-    t.decimal  "VRD",                :precision => 10, :scale => 3
-    t.decimal  "VRS",                :precision => 10, :scale => 3
-    t.decimal  "RLD",                :precision => 10, :scale => 3
-    t.decimal  "OST",                :precision => 10, :scale => 3
-    t.integer  "NSS"
-  end
-
-  create_table "BUF_NA", :id => false, :force => true do |t|
-    t.integer "K_SW"
-    t.string  "NAIM", :limit => 20
-    t.integer "NP"
-  end
-
-  create_table "BUF_PL", :id => false, :force => true do |t|
-    t.string   "C",    :limit => 1
-    t.datetime "DAT"
-    t.integer  "N"
-    t.string   "KOD",  :limit => 4
-    t.string   "NAIM", :limit => 20
-    t.integer  "DN"
-    t.decimal  "PLM",                :precision => 10, :scale => 3
-    t.decimal  "PLS",                :precision => 10, :scale => 3
-    t.decimal  "PLD",                :precision => 10, :scale => 3
-    t.decimal  "VRY",                :precision => 10, :scale => 3
-    t.decimal  "VRS",                :precision => 10, :scale => 3
-    t.decimal  "VRD",                :precision => 10, :scale => 3
-    t.decimal  "OST",                :precision => 10, :scale => 3
-    t.decimal  "OST1",               :precision => 10, :scale => 3
-    t.decimal  "RLD",                :precision => 10, :scale => 3
-    t.integer  "NSS"
-    t.string   "A1",   :limit => 1
-    t.string   "A2",   :limit => 1
-    t.string   "A3",   :limit => 1
-    t.string   "A4",   :limit => 1
-    t.string   "A5",   :limit => 1
-    t.string   "A6",   :limit => 1
-    t.string   "A7",   :limit => 1
-    t.string   "A8",   :limit => 1
-    t.string   "A9",   :limit => 1
-    t.string   "P",    :limit => 1
-    t.string   "AWT",  :limit => 1
-  end
-
-  create_table "BUF_RL", :id => false, :force => true do |t|
-    t.string   "S",    :limit => 1
-    t.integer  "N"
-    t.datetime "DAT"
-    t.integer  "DN"
-    t.string   "KOD",  :limit => 2
-    t.string   "NAIM", :limit => 30
-    t.integer  "SUM"
-    t.integer  "SUMM"
-    t.integer  "SUMY"
-    t.string   "P",    :limit => 1
-    t.string   "AWT",  :limit => 1
-  end
-
   create_table "KC", :force => true do |t|
     t.integer  "N"
     t.datetime "DAT"
@@ -116,8 +54,6 @@ ActiveRecord::Schema.define(:version => 20130424181417) do
     t.string   "BK5",  :limit => 9
     t.string   "AWT",  :limit => 1
   end
-
-  add_index "KC", ["id"], :name => "id_UNIQUE", :unique => true
 
   create_table "KS", :force => true do |t|
     t.integer  "N"
@@ -138,9 +74,7 @@ ActiveRecord::Schema.define(:version => 20130424181417) do
     t.string   "BK5",  :limit => 9
   end
 
-  add_index "KS", ["id"], :name => "id_UNIQUE", :unique => true
-
-  create_table "N_ASRT", :id => false, :force => true do |t|
+  create_table "N_ASRT", :force => true do |t|
     t.integer "K_SW"
     t.string  "NAIM", :limit => 20
     t.integer "NP"
@@ -176,8 +110,6 @@ ActiveRecord::Schema.define(:version => 20130424181417) do
     t.string   "AWT",  :limit => 1
   end
 
-  add_index "PL", ["id"], :name => "id_UNIQUE", :unique => true
-
   create_table "RL", :force => true do |t|
     t.string   "S",    :limit => 1
     t.integer  "N"
@@ -192,8 +124,6 @@ ActiveRecord::Schema.define(:version => 20130424181417) do
     t.string   "AWT",  :limit => 1
   end
 
-  add_index "RL", ["id"], :name => "id_UNIQUE", :unique => true
-
   create_table "TARX", :force => true do |t|
     t.string   "DATA",   :limit => 8
     t.datetime "DAT"
@@ -202,8 +132,6 @@ ActiveRecord::Schema.define(:version => 20130424181417) do
     t.string   "NAMEPO", :limit => 80
     t.string   "NAZN",   :limit => 252
   end
-
-  add_index "TARX", ["id"], :name => "id_UNIQUE", :unique => true
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -250,9 +178,22 @@ ActiveRecord::Schema.define(:version => 20130424181417) do
   create_table "assortments", :force => true do |t|
     t.string   "name"
     t.integer  "old_id"
+    t.integer  "level"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
-    t.integer  "level"
+  end
+
+  create_table "dbf_files", :force => true do |t|
+    t.string   "plan_file_name"
+    t.string   "plan_content_type"
+    t.integer  "plan_file_size"
+    t.datetime "plan_updated_at"
+    t.string   "implementation_file_name"
+    t.string   "implementation_content_type"
+    t.integer  "implementation_file_size"
+    t.datetime "implementation_updated_at"
+    t.datetime "created_at",                  :null => false
+    t.datetime "updated_at",                  :null => false
   end
 
   create_table "directions", :force => true do |t|

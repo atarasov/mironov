@@ -1,6 +1,6 @@
 class Implementation < ActiveRecord::Base
   self.table_name = 'RL'
-  attr_accessible :S, :N, :DAT, :DN, :KOD, :NAIM, :SUM, :SUMM, :SUMY, :P, :AWT
+  attr_accessible :S, :N, :DAT, :DN, :KOD, :NAIM, :SUM, :SUMM, :SUMY, :P, :AWT, :s, :n, :dat, :dn, :kod, :naim, :sum, :summ, :sumy, :p, :awt
   #field :KOD
   #field :NAIM
   #field :SUM

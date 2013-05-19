@@ -7,6 +7,11 @@ ru:
       long: "%Y-%B-%d"
   activerecord:
       models:
+        dbf_file:
+          one:  "Файл БД"
+          few:  "Файла БД"
+          many: "Файлов БД"
+          other: "Файлы БД"
         direction:
           one:  "Направление"
           few:  "Направления"
@@ -49,7 +54,15 @@ ru:
           few: Администратора
           many: Администраторы
           other: "Администраторы"
+        user:
+          one: Пользователь
+          few: Пользователя
+          many: Пользователи
+          other: "Пользователи"
       attributes:
+        dbf_file:
+          plan: Выработка
+          implementation: Реализация
         plan:
           day: Дневной план
           month: План на месяц
@@ -149,6 +162,13 @@ ru:
           S: Сумма 2
           NAMEPO: Наименование
           NAZN: Назначение
+        user:
+          current_sign_in_at: Дата текущего входа
+          last_sign_in_at: Дата последнего входа
+          sign_in_count: Количество входов
+          email: E-Mail
+          password: Пароль
+          password_confirmation: Подтверждение пароля
         admin_user:
           current_sign_in_at: Дата текущего входа
           last_sign_in_at: Дата последнего входа
