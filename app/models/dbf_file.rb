@@ -86,6 +86,6 @@ class DbfFile < ActiveRecord::Base
     end
 
   end
-  handle_asynchronously :parse_data
+  #handle_asynchronously :parse_data
 
 end
