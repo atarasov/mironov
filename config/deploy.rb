@@ -46,8 +46,8 @@ role :db,             deploy_server, :primary => true
 set :keep_releases, 3
 
 # Следующие строки необходимы, т.к. ваш проект использует rvm.    1.9.3
-set :rvm_ruby_string, "1.9.3"
-#set :rvm_ruby_string, "2.0.0"
+#set :rvm_ruby_string, "1.9.3"
+set :rvm_ruby_string, "2.0.0"
 set :rake,            "rvm use #{rvm_ruby_string} do bundle exec rake"
 set :bundle_cmd,      "rvm use #{rvm_ruby_string} do bundle"
 
@@ -106,7 +106,7 @@ namespace :dj do
   desc "Kill all running delayed_job daemons."
   task :kill, :roles => :app do
     run "sudo lsof | grep '#{deploy_to}/shared/log/delayed_job.log' | cut -c 1-21 | uniq | awk '/^ruby/ {if(NR > 0){system(\"kill -9 \" $2)}}'"
-    run "if [-d #{current_path} ]; then cd #{current_path} && RAILS_ENV=#{rails_env} script/delayed_job stop; fi" # removes orphaned pid file(s)
+    run "if [-d #{current_path} ]; then cd #{current_path} && RAILS_ENV=#{rails_env} rvm use #{rvm_ruby_string} do bundle exec script/delayed_job stop; fi" # removes orphaned pid file(s)
   end
 end
 
