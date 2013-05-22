@@ -1,6 +1,8 @@
 <% if current_user.admin? %>
 <div class="span12">
+  <% if @plans.first %>
 <h3>Выполнение плана - <%= Russian::strftime(@plans.first.DAT, "%d %B %Y") %></h3>
+      <% end %>
   <ul class="years">
   <% @m.each do |year| %>
   <li><%= link_to_unless_current year, plan_url(:year => year)%></li>

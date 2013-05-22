@@ -45,21 +45,21 @@ ActiveAdmin.register Implementation, {:sort_order => "N ASC"} do
     end
     column :DN
     #column :SUM
-    if can? :create, Implementation
-      column(:SUM) { |i| best_in_place i,
-                                       :SUM,
-                                       :type => :input,
-                                       :path => [:admin, i],
-                                       :display_with => :number_to_currency,
-                                       :helper_options => {:delimiter => " ",
-                                                           :precision => 0,
-                                                           :unit => ""}
-      }
-    else
+    #if can? :create, Implementation
+    #  column(:SUM) { |i| best_in_place i,
+    #                                   :SUM,
+    #                                   :type => :input,
+    #                                   :path => [:admin, i],
+    #                                   :display_with => :number_to_currency,
+    #                                   :helper_options => {:delimiter => " ",
+    #                                                       :precision => 0,
+    #                                                       :unit => ""}
+    #  }
+    #else
       column :SUM do |implementation|
         number_to_currency implementation.SUM, :delimiter => " ", :precision => 0, :unit => ""
       end
-    end
+    #end
     column :SUMM do |implementation|
       number_to_currency implementation.SUMM, :delimiter => " ", :precision => 0, :unit => ""
     end

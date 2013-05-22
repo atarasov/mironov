@@ -71,11 +71,11 @@ set :repository,      "git://204.232.175.90/atarasov/mironov.git"
 ## dayabase.yml в shared-каталог проекта на сервере и раскомментируйте
 ## следующие строки.
 
-#after "deploy:start", "dj:start"
-#after "deploy:stop", "dj:stop"
-#
-#before "deploy:update_code", "dj:stop"
-#after "deploy:restart", "dj:restart"
+after "deploy:start", "dj:start"
+after "deploy:stop", "dj:stop"
+
+before "deploy:update_code", "dj:stop"
+after "deploy:restart", "dj:restart"
 
 # delayed_job
 namespace :dj do
@@ -100,12 +100,12 @@ namespace :dj do
 
   desc "List the PIDs of all running delayed_job daemons."
   task :pids, :roles => :app do
-    run "sudo lsof | grep '#{deploy_to}/shared/log/delayed_job.log' | cut -c 1-21 | uniq | awk '/^ruby/ {if(NR > 0){system(\"echo \" $2)}}'"
+    run "lsof | grep '#{deploy_to}/shared/log/delayed_job.log' | cut -c 1-21 | uniq | awk '/^ruby/ {if(NR > 0){system(\"echo \" $2)}}'"
   end
 
   desc "Kill all running delayed_job daemons."
   task :kill, :roles => :app do
-    run "sudo lsof | grep '#{deploy_to}/shared/log/delayed_job.log' | cut -c 1-21 | uniq | awk '/^ruby/ {if(NR > 0){system(\"kill -9 \" $2)}}'"
+    run "lsof | grep '#{deploy_to}/shared/log/delayed_job.log' | cut -c 1-21 | uniq | awk '/^ruby/ {if(NR > 0){system(\"kill -9 \" $2)}}'"
     run "if [-d #{current_path} ]; then cd #{current_path} && RAILS_ENV=#{rails_env} rvm use #{rvm_ruby_string} do bundle exec script/delayed_job stop; fi" # removes orphaned pid file(s)
   end
 end

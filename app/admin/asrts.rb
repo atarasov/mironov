@@ -56,39 +56,39 @@ ActiveAdmin.register Asrt, {:sort_order => "N ASC"} do
     #column :VRY
     column :VRS
     #column :VRD
-    if can? :create, Asrt
-      column(:VRD) { |i| best_in_place i,
-                                       :VRD,
-                                       :type => :input,
-                                       :path => [:admin, i],
-                                       :display_with => :number_to_currency,
-                                       :helper_options => {:separator => ".",
-                                                           :delimiter => " ",
-                                                           :precision => 3,
-                                                           :unit => ""} }
-      #column :OST
-      column(:OST) { |i| best_in_place i,
-                                       :OST,
-                                       :type => :input,
-                                       :path => [:admin, i],
-                                       :display_with => :number_to_currency,
-                                       :helper_options => {:separator => ".",
-                                                           :delimiter => " ",
-                                                           :precision => 3,
-                                                           :unit => ""} }
-      #column :OST1
-      #column :RLD
-
-      column(:RLD) { |i| best_in_place i,
-                                       :RLD,
-                                       :type => :input,
-                                       :path => [:admin, i],
-                                       :display_with => :number_to_currency,
-                                       :helper_options => {:separator => ".",
-                                                           :delimiter => " ",
-                                                           :precision => 3,
-                                                           :unit => ""} }
-    else
+    #if can? :create, Asrt
+    #  column(:VRD) { |i| best_in_place i,
+    #                                   :VRD,
+    #                                   :type => :input,
+    #                                   :path => [:admin, i],
+    #                                   :display_with => :number_to_currency,
+    #                                   :helper_options => {:separator => ".",
+    #                                                       :delimiter => " ",
+    #                                                       :precision => 3,
+    #                                                       :unit => ""} }
+    #  #column :OST
+    #  column(:OST) { |i| best_in_place i,
+    #                                   :OST,
+    #                                   :type => :input,
+    #                                   :path => [:admin, i],
+    #                                   :display_with => :number_to_currency,
+    #                                   :helper_options => {:separator => ".",
+    #                                                       :delimiter => " ",
+    #                                                       :precision => 3,
+    #                                                       :unit => ""} }
+    #  #column :OST1
+    #  #column :RLD
+    #
+    #  column(:RLD) { |i| best_in_place i,
+    #                                   :RLD,
+    #                                   :type => :input,
+    #                                   :path => [:admin, i],
+    #                                   :display_with => :number_to_currency,
+    #                                   :helper_options => {:separator => ".",
+    #                                                       :delimiter => " ",
+    #                                                       :precision => 3,
+    #                                                       :unit => ""} }
+    #else
       column :VRD do |asrt|
         number_to_currency asrt.VRD, :separator => ".", :delimiter => " ", :precision => 3, :unit => ""
       end
@@ -100,7 +100,7 @@ ActiveAdmin.register Asrt, {:sort_order => "N ASC"} do
       column :RLD do |asrt|
         number_to_currency asrt.RLD, :separator => ".", :delimiter => " ", :precision => 3, :unit => ""
       end
-    end
+    #end
     #column :NSS
     #column :A1
     #column :A2
