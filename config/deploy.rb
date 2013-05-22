@@ -81,7 +81,7 @@ after "deploy:restart", "dj:restart"
 namespace :dj do
   desc "Start delayed_job daemon."
   task :start, :roles => :app do
-    run "if [ -d #{current_path} ]; then cd #{current_path} && RAILS_ENV=#{rails_env} rvm use #{rvm_ruby_string} do bundle exec script/delayed_job start; fi"
+    run "if [ -d #{current_path} ]; then cd #{current_path} && RAILS_ENV=#{rails_env} rvm use #{rvm_ruby_string} do bundle exec script/delayed_job -n 2 start; fi"
   end
   desc "Stop delayed_job daemon."
   task :stop, :roles => :app do
@@ -90,7 +90,7 @@ namespace :dj do
 
   desc "Restart delayed_job daemon."
   task :restart, :roles => :app do
-    run "if [ -d #{current_path} ]; then cd #{current_path} && RAILS_ENV=#{rails_env} rvm use #{rvm_ruby_string} do bundle exec script/delayed_job restart; fi"
+    run "if [ -d #{current_path} ]; then cd #{current_path} && RAILS_ENV=#{rails_env} rvm use #{rvm_ruby_string} do bundle exec script/delayed_job -n2 restart; fi"
   end
 
   desc "Show delayed_job daemon status."

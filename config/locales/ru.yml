@@ -7,6 +7,11 @@ ru:
       long: "%Y-%B-%d"
   activerecord:
       models:
+        cash_files:
+          one: "Файл (Бухгалтерия)"
+          few: "Файла (Бухгалтерия)"
+          many: "Файлов (Бухгалтерия)"
+          other: "Файлы (Бухгалтерия)"
         dbf_file:
           one: "Файл (Реализация-Выработка)"
           few: "Файла (Реализация-Выработка)"
@@ -60,6 +65,10 @@ ru:
           many: Пользователи
           other: "Пользователи"
       attributes:
+        cash_files:
+          balance: Расход-Оплата
+          cash: Касса Виктория
+          cashc: Касса Виктоия-С
         dbf_file:
           plan: Выработка
           implementation: Реализация

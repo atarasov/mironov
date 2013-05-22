@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130519133803) do
+ActiveRecord::Schema.define(:version => 20130522193947) do
 
   create_table "ASRT", :id => false, :force => true do |t|
     t.integer  "K_SW"
@@ -181,6 +181,23 @@ ActiveRecord::Schema.define(:version => 20130519133803) do
     t.integer  "level"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "cash_files", :force => true do |t|
+    t.string   "cash_file_name"
+    t.string   "cash_content_type"
+    t.integer  "cash_file_size"
+    t.datetime "cash_updated_at"
+    t.string   "cashc_file_name"
+    t.string   "cashc_content_type"
+    t.integer  "cashc_file_size"
+    t.datetime "cashc_updated_at"
+    t.string   "balance_file_name"
+    t.string   "balance_content_type"
+    t.integer  "balance_file_size"
+    t.datetime "balance_updated_at"
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
   end
 
   create_table "dbf_files", :force => true do |t|
