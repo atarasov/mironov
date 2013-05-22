@@ -14,6 +14,7 @@ class Ability
       can :manage, DbfFile
     end
     if admin_user.cash_admin?
+      can :manage, CashFiles
       can :manage, Cash
       can :manage, Cashc
       can :manage, Balance

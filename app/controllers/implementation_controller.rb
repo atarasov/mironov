@@ -29,8 +29,18 @@ class ImplementationController < BaseController
     @month_plans_arr = []
     @days_plans_arr = []
     (Time.now.year - 1).to_i.upto Time.now.year.to_i do |year|
-      1.upto 12 do |month|
-        @day = Time.new(year, month, 1).end_of_month.day
+      if year == Time.now.year
+        months = Time.now.month
+      else
+        months = 12
+      end
+      1.upto months do |month|
+        if year == Time.now.year && month == Time.now.month
+          @day = (Time.now - 1.day).day
+        else
+          @day = Time.new(year, month, 1).end_of_month.day
+        end
+
         @month_plans_arr << Implementation.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], year, month, @day).first
         #@days_plans_arr << Implementation.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], year, month, Time.now.day).first
       end
@@ -46,18 +56,20 @@ class ImplementationController < BaseController
     @days_plan_arr =[]
     @days_fact_arr =[]
     @days_month_arr =[]
-
+    #raise @month_plans_arr.inspect
     @month_plans_arr.each do |m|
       if m
-        @month_arr << m.SUMM.to_f if m
+        #@month_arr << m.SUMM.to_f if m
+        @month_arr << Implementation.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND N = ?", m.DAT.to_date.year, m.DAT.to_date.month, params[:id]).sum("SUM").to_f if m
         s =Implementation.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ? AND N = ?", m.DAT.to_date.year, m.DAT.to_date.month, (Time.now - 1.day).day, params[:id]).first if m
-        @day_to_now_arr << s.SUMM.to_f if m
+        @day_to_now_arr << s.SUMM.to_f if s
+        #raise m.inspect
         @date_arr << Russian::strftime(s.DAT.to_date, "%d %B %Y").to_s #+"  <br/>(<b>"+ Implementation.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ? AND N = ?",m.DAT.to_date.year, m.DAT.to_date.month, Time.now.day, params[:id]).first.SUMY.to_s+" тонн</b>)"
         @name = s.NAIM if m
         @yearsumm << Implementation.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ? AND N = ?", m.DAT.to_date.year, m.DAT.to_date.month, (Time.now - 1.day).day, params[:id]).first.SUMY.to_s + " т" if m
       end
     end
-
+   #raise @month_arr.inspect
 
     #@days_plans_arr.each do |d|
     #  @days_plan_arr << d.PLM.to_f if d

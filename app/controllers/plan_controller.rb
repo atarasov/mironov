@@ -28,7 +28,12 @@ class PlanController < BaseController
     @month_plans_arr = []
     @days_plans_arr = []
     (Time.now.year - 1).to_i.upto Time.now.year.to_i do |year|
-      1.upto 12 do |month|
+      if year == Time.now.year
+        months = Time.now.month
+      else
+        months = 12
+      end
+      1.upto months do |month|
         @day = Time.new(year,month,1).end_of_month.day
         @month_plans_arr << Asrt.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], year, month, @day).first
         @days_plans_arr << Asrt.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], year, month, (Time.now - 1.day).day).first
@@ -49,7 +54,7 @@ class PlanController < BaseController
     @month_plans_arr.each do |m|
       if m
         @plan_arr << m.PLM.to_f if m
-        @fact_arr << m.VRS.to_f if m
+        @fact_arr << Asrt.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], m.DAT.to_date.year, m.DAT.to_date.month, (Time.now - 1.day).day).first.VRS.to_f if m
         @month_arr << Russian::strftime(m.DAT.to_date, "%d %B %Y") if m#.to_s+"  <br/>(<b>"+ Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) <= ? AND N = ?",m.DAT.to_date.year, m.DAT.to_date.month, params[:id]).sum("VRD").to_s+" тонн</b>)"
         @years_count_arr << Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) <= ? AND N = ?",m.DAT.to_date.year, m.DAT.to_date.month, params[:id]).sum("VRD").to_f if m
         #raise @years_count_arr.inspect
