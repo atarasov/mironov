@@ -11,6 +11,10 @@ class PlanController < BaseController
       @plans = Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?",params[:year], Time.now.month, @day )
     else
       @plans = Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?",Time.now.year, Time.now.month, @day)
+      while @plans.size == 0 do
+        @plans = Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?",Time.now.year, Time.now.month, @day)
+        @day = @day - 1
+      end
     end
 
 
@@ -27,16 +31,23 @@ class PlanController < BaseController
   def show
     @month_plans_arr = []
     @days_plans_arr = []
-    (Time.now.year - 1).to_i.upto Time.now.year.to_i do |year|
+    @planday = (Time.now - 1.day).day
+    pl = Asrt.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], Time.now.year, Time.now.month, @planday).first
+    while pl == nil do
+      pl = Asrt.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], Time.now.year, Time.now.month, @planday).first
+      @nowday = @planday
+      @planday = @planday -1
+    end
+    Time.now.year.to_i.downto (Time.now.year - 1).to_i do |year|
       if year == Time.now.year
         months = Time.now.month
       else
         months = 12
       end
-      1.upto months do |month|
+      months.downto 1  do |month|
         @day = Time.new(year,month,1).end_of_month.day
         @month_plans_arr << Asrt.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], year, month, @day).first
-        @days_plans_arr << Asrt.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], year, month, (Time.now - 1.day).day).first
+        @days_plans_arr << Asrt.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], year, month, @nowday).first
 
       end
     end
@@ -125,14 +136,14 @@ class PlanController < BaseController
 
     @line_graph = LazyHighCharts::HighChart.new('Area') do |f|
       f.options[:xAxis][:gridLineWidth] =  2
-      f.series(:type=> 'spline', :name=>'План на месяц',:data=> @plan_arr)
-      f.series(:type=> 'spline', :name=>'Факт нарастающий',:data=> @fact_arr)
+      f.series(:type=> 'spline', :name=>'План на месяц',:data=> @plan_arr.reverse)
+      f.series(:type=> 'spline', :name=>'Факт нарастающий',:data=> @fact_arr.reverse)
       f.title({ :text=>"Динамика выполнения плана по месяцам - <b>" +@name+"</b>"})
       f.exporting({ :enabled => true})
       f.html_options[:style] = " !important; height:800px !important;"
       f.tooltip({:shared => true, :crosshairs=> true,:valueSuffix => ' т'})
       f.plot_options({ :line=> {:dataLabels => { :enabled => true}}})
-      f.xAxis({:labels => {:rotation => 0, :align => 'right'}, :categories => @month_arr })
+      f.xAxis({:labels => {:rotation => 0, :align => 'right'}, :categories => @month_arr.reverse })
       f.legend({ layout: 'vertical',
                  align: 'right',
                  verticalAlign: 'top',
@@ -186,14 +197,14 @@ class PlanController < BaseController
     end
 
     @days_line_graph = LazyHighCharts::HighChart.new('Area') do |f|
-      f.series(:type=> 'spline', :name=>'План нарастающий',:data=> @days_plan_arr)
-      f.series(:type=> 'spline', :name=>'Факт нарастающий',:data=> @days_fact_arr)
+      f.series(:type=> 'spline', :name=>'План нарастающий',:data=> @days_plan_arr.reverse)
+      f.series(:type=> 'spline', :name=>'Факт нарастающий',:data=> @days_fact_arr.reverse)
       f.tooltip({:shared => true, :crosshairs=> true,:valueSuffix => ' т'})
-      f.title({ :text=>"Динамика выполнения плана по месяцам за "+(Time.now - 1.day).day.to_s+" рабочих дней - <b>" +@name+"</b>"})
+      f.title({ :text=>"Динамика выполнения плана по месяцам за "+@nowday.to_s+" рабочих дней - <b>" +@name+"</b>"})
       f.html_options[:style] = "width:96% !important; height:800px !important;"
       f.tooltip({:shared => true, :crosshairs=> true })
       f.plot_options({ :line=> {:dataLabels => { :enabled => true}}})
-      f.xAxis({:labels => {:rotation => 0, :align => 'right'}, :categories => @days_month_arr })
+      f.xAxis({:labels => {:rotation => 0, :align => 'right'}, :categories => @days_month_arr.reverse })
       f.legend({ layout: 'vertical',
                  align: 'right',
                  verticalAlign: 'top',

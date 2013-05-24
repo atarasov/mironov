@@ -1,8 +1,6 @@
 <% if current_user.admin? %>
 <div class="span12">
-  <% if @plans.first %>
-<h3>Выполнение плана - <%= Russian::strftime(@plans.first.DAT, "%d %B %Y") %></h3>
-      <% end %>
+
   <ul class="years">
   <% @m.each do |year| %>
   <li><%= link_to_unless_current year, plan_url(:year => year)%></li>
@@ -11,12 +9,15 @@
   <br/>
   <br />
   <ul class="years ul_days">
-    <li><%= link_to "Сегодня", plan_url()%></li>
-    <li><%= link_to_unless_current 'Два дня назад', plan_url(:day => 1)%></li>
-    <li><%= link_to_unless_current 'Три дня назад', plan_url(:day => 2)%></li>
-    <li><%= link_to_unless_current 'Четыре дня назад', plan_url(:day => 3)%></li>
+    <li><%= link_to Russian::strftime(Time.now - 1.day, "%d %B %Y"), plan_url()%></li>
+    <li><%= link_to_unless_current Russian::strftime(Time.now - 2.day, "%d %B %Y"), plan_url(:day => 1)%></li>
+    <li><%= link_to_unless_current Russian::strftime(Time.now - 3.day, "%d %B %Y"), plan_url(:day => 2)%></li>
+    <li><%= link_to_unless_current Russian::strftime(Time.now - 4.day, "%d %B %Y"), plan_url(:day => 3)%></li>
   </ul>  <br/>
   <br/>
+  <% if @plans.first %>
+      <h3>Выполнение плана - <%= Russian::strftime(@plans.first.DAT, "%d %B %Y") %></h3>
+  <% end %>
 <table id="accordion-plan" class="table table-hover scrol">
   <tr>
     <th>Наименование</th>

@@ -9,7 +9,10 @@
     <div class="span9">
       <h3><%= @plan.NAIM %></h3>
       <%= high_chart("my_bar_div", @bar) %>
+      <p>Факт текущий &mdash;  <%= @plan.VRS %> тонн / <%=number_to_percentage((@plan.VRS / @plan.PLM) *100, :precision => 0) %></p>
+      <p>От плана на текущий день &mdash; <%=number_to_percentage((@plan.VRS / @plan.PLS) *100, :precision => 0) %></p>
       <%= high_chart("my_bar_div1", @bar2) %>
+      <p>Реализация дневная &mdash;  <%= @plan.RLD %> тонн / <%=number_to_percentage( @plan.RLD*100/(@plan.VRD+@plan.OST), :precision => 0) %></p>
     </div>
 <% else %>
     <h2>Недостаточно прав</h2>

@@ -12,6 +12,10 @@ class ImplementationController < BaseController
       @implementations = Implementation.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?", params[:year], Time.now.month, @day)
     else
       @implementations = Implementation.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?", Time.now.year, Time.now.month, @day)
+      while @implementations.size == 0 do
+        @implementations = Implementation.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?", Time.now.year, Time.now.month, @day)
+        @day = @day - 1
+      end
     end
 
     @p = Implementation.select("DISTINCT YEAR(DAT) AS YEARS")
@@ -28,20 +32,31 @@ class ImplementationController < BaseController
 
     @month_plans_arr = []
     @days_plans_arr = []
-    (Time.now.year - 1).to_i.upto Time.now.year.to_i do |year|
+    Time.now.year.to_i.downto (Time.now.year - 1).to_i do |year|
       if year == Time.now.year
         months = Time.now.month
       else
         months = 12
       end
-      1.upto months do |month|
+      months.downto 1 do |month|
         if year == Time.now.year && month == Time.now.month
           @day = (Time.now - 1.day).day
+          @nowday = @day
+          impl = Implementation.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], year, month, @day).first
+          #raise impl.inspect
+          while impl == nil do
+            impl = Implementation.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], year, month, @day).first
+            @nowday = @day
+            @day = @day - 1
+          end
+
+          @month_plans_arr << impl
         else
           @day = Time.new(year, month, 1).end_of_month.day
+          @month_plans_arr << Implementation.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], year, month, @day).first
         end
 
-        @month_plans_arr << Implementation.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], year, month, @day).first
+
         #@days_plans_arr << Implementation.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], year, month, Time.now.day).first
       end
     end
@@ -61,15 +76,15 @@ class ImplementationController < BaseController
       if m
         #@month_arr << m.SUMM.to_f if m
         @month_arr << Implementation.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND N = ?", m.DAT.to_date.year, m.DAT.to_date.month, params[:id]).sum("SUM").to_f if m
-        s =Implementation.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ? AND N = ?", m.DAT.to_date.year, m.DAT.to_date.month, (Time.now - 1.day).day, params[:id]).first if m
+        s =Implementation.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ? AND N = ?", m.DAT.to_date.year, m.DAT.to_date.month, @nowday , params[:id]).first if m
         @day_to_now_arr << s.SUMM.to_f if s
         #raise m.inspect
-        @date_arr << Russian::strftime(s.DAT.to_date, "%d %B %Y").to_s #+"  <br/>(<b>"+ Implementation.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ? AND N = ?",m.DAT.to_date.year, m.DAT.to_date.month, Time.now.day, params[:id]).first.SUMY.to_s+" тонн</b>)"
-        @name = s.NAIM if m
-        @yearsumm << Implementation.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ? AND N = ?", m.DAT.to_date.year, m.DAT.to_date.month, (Time.now - 1.day).day, params[:id]).first.SUMY.to_s + " т" if m
+        @date_arr << Russian::strftime(s.DAT.to_date, "%d %B %Y").to_s if s#+"  <br/>(<b>"+ Implementation.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ? AND N = ?",m.DAT.to_date.year, m.DAT.to_date.month, Time.now.day, params[:id]).first.SUMY.to_s+" тонн</b>)"
+        @name = s.NAIM if s
+        @yearsumm << Implementation.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ? AND N = ?", m.DAT.to_date.year, m.DAT.to_date.month, @nowday , params[:id]).first.SUMY.to_s + " т" if m
       end
     end
-   #raise @month_arr.inspect
+    #raise @month_arr.inspect
 
     #@days_plans_arr.each do |d|
     #  @days_plan_arr << d.PLM.to_f if d
@@ -77,7 +92,7 @@ class ImplementationController < BaseController
     #  @days_month_arr << d.DAT.to_date if d
     #end
 
-
+    #raise @name.inspect
     @bar_graph = LazyHighCharts::HighChart.new('Area') do |f|
       f.xAxis([{:labels => {:rotation => 0, :align => 'right'}, :categories => @date_arr},
                {:labels => {:rotation => 0, :align => 'left'}, :categories => @yearsumm, linkedTo: 0, opposite: true}])
@@ -94,7 +109,7 @@ class ImplementationController < BaseController
                    :x => -20,
                    :y => 3,
                })
-      f.series(:type => 'bar', :name => 'Реализация на сегодняшний день('+(Time.now - 1.day).day.to_s+' рабочих дней) ',
+      f.series(:type => 'bar', :name => 'Реализация на сегодняшний день('+@nowday.to_s+' рабочих дней) ',
                :data => @day_to_now_arr,
                :pointWidth => '25',
                :groupPadding => '0.9',
@@ -123,13 +138,13 @@ class ImplementationController < BaseController
 
     @line_graph = LazyHighCharts::HighChart.new('Area') do |f|
       f.options[:xAxis][:gridLineWidth] = 1
-      f.series(:type => 'spline', :name => 'Реализация за месяц', :data => @month_arr)
-      f.series(:type => 'spline', :name => 'Реализация на сегодняшний день('+(Time.now - 1.day).day.to_s+' рабочих дней) ', :data => @day_to_now_arr)
+      f.series(:type => 'spline', :name => 'Реализация за месяц', :data => @month_arr.reverse)
+      f.series(:type => 'spline', :name => 'Реализация на сегодняшний день('+@nowday.to_s+' рабочих дней) ', :data => @day_to_now_arr.reverse)
       f.title({:text => "Динамика реализации - <b>" +@name +"</b>"})
       f.exporting({:enabled => true})
       f.html_options[:style] = "width:96% !important; height:800px !important;"
       f.tooltip({:shared => true, :crosshairs => true, :valueSuffix => ' т'})
-      f.xAxis({:labels => {:rotation => 0, :align => 'right'}, :categories => @date_arr})
+      f.xAxis({:labels => {:rotation => 0, :align => 'right'}, :categories => @date_arr.reverse})
       f.legend({layout: 'vertical',
                 align: 'right',
                 verticalAlign: 'top',
@@ -173,17 +188,17 @@ class ImplementationController < BaseController
       f.xAxis([{:labels => {:rotation => 0, :align => 'right'}, :categories => @date_arr},
                {:labels => {:rotation => 0, :align => 'left'}, :categories => @yearsumm, linkedTo: 0, opposite: true}])
       f.title({:text => "Динамика реализации - <b>" +@name +"</b>"})
-      f.series(:type => 'bar', :name => 'Реализация на сегодняшний день('+(Time.now - 1.day).day.to_s+' рабочих дней) ', :data => @day_to_now_arr,
+      f.series(:type => 'bar', :name => 'Реализация на сегодняшний день('+@nowday.to_s+' рабочих дней) ', :data => @day_to_now_arr,
                :pointWidth => '25',
-          :groupPadding => '0.9',
-          :dataLabels => {
-          :enabled => true,
-          :rotation => 0,
-          :color => '#FFFFFF',
-          :align => 'right',
-          :x => -20,
-          :y => 3,
-      })
+               :groupPadding => '0.9',
+               :dataLabels => {
+                   :enabled => true,
+                   :rotation => 0,
+                   :color => '#FFFFFF',
+                   :align => 'right',
+                   :x => -20,
+                   :y => 3,
+               })
       #f.plotOptions[{:bar => {  :dataLabels => { :enabled => true} }}],
       f.plot_options({:bar => {:dataLabels => {:enabled => true}}})
       f.html_options[:style] = "width:95% !important; height:800px !important;"
