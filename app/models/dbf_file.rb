@@ -8,7 +8,8 @@ class DbfFile < ActiveRecord::Base
                     :path => 'public/system/implementations/:class/:id/:filename'
   attr_accessible :implementation, :plan
 
-  after_save :start_parse
+  #after_save :start_parse
+  after_save :parse_data
 
 
 
@@ -28,9 +29,12 @@ class DbfFile < ActiveRecord::Base
         encode = Iconv.new('UTF-8','ibm866')
         naim = encode.iconv(record.naim)
         kod = encode.iconv(record.kod)
+
+
         Asrt.create(
+
             :C => record.c,
-            :DAT => record.dat,
+            :DAT => record.dat.to_date + 4.hours,
             :N => record.n,
             :KOD => kod,
             :NAIM => naim,
@@ -57,7 +61,9 @@ class DbfFile < ActiveRecord::Base
             :P => record.p,
             :AWT => record.awt
         )
+        #raise Asrt.first.inspect
       end
+
     end
     if self.implementation.present?
       implementation = DBF::Table.new(self.implementation.path())
@@ -72,7 +78,7 @@ class DbfFile < ActiveRecord::Base
         Implementation.create({
                                   :S => record.s,
                                   :N => record.n,
-                                  :DAT => record.dat,
+                                  :DAT => record.dat.to_date + 4.hours,
                                   :DN => record.dn,
                                   :KOD => kod,
                                   :NAIM => naim,

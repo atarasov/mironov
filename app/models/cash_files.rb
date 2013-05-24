@@ -33,7 +33,7 @@ class CashFiles < ActiveRecord::Base
         kod = encode.iconv(record.kod)
         Cash.create(
             :N => record.n,
-            :DAT => record.dat,
+            :DAT => record.dat.to_date + 4.hours,
             :KOD => kod,
             :NAIM => naim,
             :SUM => record.sum,
@@ -63,7 +63,7 @@ class CashFiles < ActiveRecord::Base
         kod = encode.iconv(record.kod)
         Cashc.create({
                                   :N => record.n,
-                                  :DAT => record.dat,
+                                  :DAT => record.dat.to_date + 4.hours,
                                   :KOD => kod,
                                   :NAIM => naim,
                                   :SUM => record.sum,
@@ -91,7 +91,7 @@ class CashFiles < ActiveRecord::Base
         nazn = encode.iconv(record.nazn)
         Balance.create({
                                   :DATA => record.data,
-                                  :DAT => record.dat,
+                                  :DAT => record.dat.to_date + 4.hours,
                                   :RSUM => record.rsum,
                                   :S => record.s,
                                   :NAMEPO => naim,

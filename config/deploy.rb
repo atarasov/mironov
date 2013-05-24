@@ -26,15 +26,15 @@ ssh_options[:forward_agent] = true
 set :application,     "mironov"
 set :rails_env, "production"
 # Сервер размещения проекта.
-set :deploy_server,   "boron.locum.ru"
+set :deploy_server,   "88.198.0.42"
 
 # Не включать в поставку разработческие инструменты и пакеты тестирования.
 set :bundle_without,  [:development, :test]
 
-set :user,            "hosting_lexakorsar"
-set :login,           "lexakorsar"
+set :user,            "mironov"
+set :login,           "mironov"
 set :use_sudo,        false
-set :deploy_to,       "/home/#{user}/projects/#{application}"
+set :deploy_to,       "/home/#{user}/www/project/#{login}"
 set :unicorn_conf,    "/etc/unicorn/#{application}.#{login}.rb"
 set :unicorn_pid,     "/var/run/unicorn/#{application}.#{login}.pid"
 set :bundle_dir,      File.join(fetch(:shared_path), 'gems')
@@ -47,7 +47,7 @@ set :keep_releases, 3
 
 # Следующие строки необходимы, т.к. ваш проект использует rvm.    1.9.3
 #set :rvm_ruby_string, "1.9.3"
-set :rvm_ruby_string, "2.0.0"
+set :rvm_ruby_string, "ruby-2.0.0-p195@mironov"
 set :rake,            "rvm use #{rvm_ruby_string} do bundle exec rake"
 set :bundle_cmd,      "rvm use #{rvm_ruby_string} do bundle"
 
@@ -70,6 +70,11 @@ set :repository,      "git://204.232.175.90/atarasov/mironov.git"
 ## Чтобы не хранить database.yml в системе контроля версий, поместите
 ## dayabase.yml в shared-каталог проекта на сервере и раскомментируйте
 ## следующие строки.
+
+
+#after "deploy:stop",    "delayed_job:stop"
+#after "deploy:start",   "delayed_job:start"
+#after "deploy:restart", "delayed_job:restart"
 
 after "deploy:start", "dj:start"
 after "deploy:stop", "dj:stop"
