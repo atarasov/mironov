@@ -32,6 +32,7 @@ class PlanController < BaseController
     @month_plans_arr = []
     @days_plans_arr = []
     @planday = (Time.now - 1.day).day
+    @nowday = @planday
     pl = Asrt.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], Time.now.year, Time.now.month, @planday).first
     while pl == nil do
       pl = Asrt.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], Time.now.year, Time.now.month, @planday).first
