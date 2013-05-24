@@ -8,8 +8,8 @@ class DbfFile < ActiveRecord::Base
                     :path => 'public/system/implementations/:class/:id/:filename'
   attr_accessible :implementation, :plan
 
-  #after_save :start_parse
-  after_save :parse_data
+  after_save :start_parse
+  #after_save :parse_data
 
 
 
