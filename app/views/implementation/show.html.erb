@@ -53,8 +53,7 @@
                          end
                       %>
                       <div class="progress progress-danger">
-                        <div class="bar" style="width: <%= number_to_percentage((sum / @max_m.to_f) *100, :precision => 0) %>"><%= int_register sum.to_i %>
-                          кг
+                        <div class="bar" style="width: <%= number_to_percentage((sum / @max_m.to_f) *100, :precision => 0) %>"><p><%= sum.to_i %> кг</p>
                         </div>
                       </div>
                     </div>
@@ -102,7 +101,7 @@
                       <% end %>
                       <div class="progress progress-success">
                         <div class="bar" style="width: <%= number_to_percentage((plan.SUMM.to_f / @max.to_f) *100, :precision => 0) %>">
-                          <p><%= int_register plan.SUMM %> тонн </p></div>
+                          <p><%= int_register plan.SUMM %> кг </p></div>
                       </div>
                     </div>
                     <div class="span2">

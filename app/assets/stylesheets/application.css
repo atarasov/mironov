@@ -132,3 +132,5 @@ ul.ul_days a {color: #6DBAFE;}
 .background {background-color: #FFF !important; padding-bottom: 5px !important;}
 .tab-pane .label{font-size: 16px !important; padding: 5px;}
 .bottomblok{min-height: 700px;}
+.tab-pane .bar p{color: #FFF; float: left !important;}
+.tab-pane .progress {background-color: #B7B7B7; background-image: none}
