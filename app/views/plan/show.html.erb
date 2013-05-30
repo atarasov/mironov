@@ -11,14 +11,97 @@
 
 <div class="tab-content">
   <div class="tab-pane" id="month">
-    Динамика выполнения плана по месяцам - <b><%= @name %></b>
-    <%= high_chart("monthBarGraph", @bar_graph) %>
-    <%= high_chart("monthLineGraph", @line_graph) %>
+
+<div class="row-fluid" >
+    Динамика выполнения плана по месяцам - <b><%= @month_plans.first.NAIM %></b>
+</div><br/>
+<%
+max_pls_m = @month_plans.maximum('PLM')
+max_vrs_m = @month_plans.maximum('VRS')
+if max_pls_m > max_vrs_m
+	@max_m = max_pls_m
+else
+	@max_m = max_vrs_m
+end
+@d = "scroller"
+%>
+<% @month_plans.each do |plan| %>
+	<div class="row-fluid <%= @d %>" >
+		<div class="span2">
+          <% if @d != 1 %>
+              Дата <br/> <br/>
+          <% end %>
+          <%= Russian::strftime(plan.DAT, "%d %B %Y")%></div>
+		<div class="span8">
+          <% if @d != 1 %>
+              <span class="label label-success">План на месяц</span>
+              <span class="label label-important">Факт нарастающий </span> <br/><br/>
+          <% end %>
+		<div class="progress progress-success">
+			<div class="bar" style="width: <%= number_to_percentage((plan.PLM / @max_m) *100, :precision => 0)  %>"><p><%= decimal_register plan.PLM %> тонн</p></div>
+		</div>
+		<div class="progress progress-danger">
+			<div class="bar" style="width: <%= number_to_percentage((plan.VRS / @max_m) *100, :precision => 0)  %>"><%= decimal_register plan.VRS %> тонн</div>
+		</div>
+		</div>
+		<div class="span2">
+          <% if @d != 1 %>
+              Выработка с начала года <br/><br/>
+          <% end %>
+          <%= decimal_register Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) <= ? AND N = ?",plan.DAT.to_date.year, plan.DAT.to_date.month, plan.N).sum("VRD").to_f %> тонн
+        </div>
+	</div><br/>
+<% @d = 1%>
+<% end %>
+
+    <%#= high_chart("monthBarGraph", @bar_graph) %>
+    <%#= high_chart("monthLineGraph", @line_graph) %>
   </div>
   <div class="tab-pane" id="day">
-    Динамика выполнения плана по месяцам за <%= @nowday %> рабочих дней - <b><%= @name %></b>
-    <%= high_chart("daysBarGraph", @days_bar_graph) %>
-    <%= high_chart("daysLineGraph", @days_line_graph) %>
+<%
+max_pls = @plans.where('DAY(DAT) = ?', Time.now.day - 1).maximum('PLS')
+max_vrs = @plans.where('DAY(DAT) = ?', Time.now.day - 1).maximum('VRS')
+if max_pls > max_vrs
+	@max = max_pls
+else
+	@max = max_vrs
+end
+@d = "scroller"
+%>
+<div class="row-fluid" >
+Динамика выполнения плана по месяцам за <%= @nowday %> рабочих дней - <b><%= @plans.first.NAIM %></b>
+</div><br/>
+<% @plans.where('DAY(DAT) = ?', @nowday).each do |plan| %>
+	<div class="row-fluid <%= @d %>" >
+		<div class="span2">
+          <% if @d != 1 %>
+              Дата <br/> <br/>
+          <% end %>
+          <%= Russian::strftime(plan.DAT, "%d %B %Y")%></div>
+		<div class="span8">
+          <% if @d != 1 %>
+              <span class="label label-success">План нарастающий</span>
+              <span class="label label-important">Факт нарастающий </span> <br/><br/>
+          <% end %>
+		<div class="progress progress-success">
+			<div class="bar" style="width: <%= number_to_percentage((plan.PLS / @max) *100, :precision => 0)  %>"><p><%= decimal_register plan.PLS %> тонн</p></div>
+		</div>
+		<div class="progress progress-danger">
+			<div class="bar" style="width: <%= number_to_percentage((plan.VRS / @max) *100, :precision => 0)  %>"><%= decimal_register plan.VRS %> тонн</div>
+		</div>
+		</div>
+		<div class="span2">
+          <% if @d != 1 %>
+              План на месяц <br/><br/>
+          <% end %>
+          <%= decimal_register plan.PLM %> тонн</div>
+	</div><br/>
+<% @d = 1%>
+<% end %>
+
+
+    <%#= high_chart("daysBarGraph", @days_bar_graph) %>
+    <%#= high_chart("daysLineGraph", @days_line_graph) %>
   </div>
 </div>
 </div>

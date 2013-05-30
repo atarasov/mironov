@@ -29,6 +29,36 @@ class PlanController < BaseController
   end
 
   def show
+    year = Time.now.year - 1
+    @plans = Asrt.where('N = ? AND YEAR(DAT) >= ?', params[:id], year).order("DAT DESC")
+    @month_plans = []
+    @days_plans_arr = []
+    @planday = (Time.now - 1.day).day
+    @nowday = @planday
+    pl = Asrt.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], Time.now.year, Time.now.month, @planday).first
+    while pl == nil do
+      pl = Asrt.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], Time.now.year, Time.now.month, @planday).first
+      @nowday = @planday
+      @planday = @planday -1
+    end
+    Time.now.year.to_i.downto (Time.now.year - 1).to_i do |year|
+      if year == Time.now.year
+        months = Time.now.month
+      else
+        months = 12
+      end
+      months.downto 1  do |month|
+        @day = Time.new(year,month,1).end_of_month.day
+        @month_plans << Asrt.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], year, month, @day).first.id if Asrt.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], year, month, @day).first
+        @days_plans_arr << Asrt.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], year, month, @nowday).first
+
+      end
+    end
+    @month_plans << Asrt.where('N = ?', params[:id]).last.id
+    @month_plans = Asrt.where('id IN (?)', @month_plans).order("DAT DESC")
+  end
+
+  def show2
     @month_plans_arr = []
     @days_plans_arr = []
     @planday = (Time.now - 1.day).day

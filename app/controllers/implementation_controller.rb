@@ -29,6 +29,43 @@ class ImplementationController < BaseController
   end
 
   def show
+    year = Time.now.year - 2
+    @plans = Implementation.where('N = ? AND YEAR(DAT) >= ?', params[:id], year).order("DAT DESC")
+
+    @month_plans_arr = []
+    @days_plans_arr = []
+    Time.now.year.to_i.downto (Time.now.year - 1).to_i do |year|
+      if year == Time.now.year
+        months = Time.now.month
+      else
+        months = 12
+      end
+      months.downto 1 do |month|
+        if year == Time.now.year && month == Time.now.month
+          @day = (Time.now - 1.day).day
+          @nowday = @day
+          impl = Implementation.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], year, month, @day).first
+          #raise impl.inspect
+          while impl == nil do
+            impl = Implementation.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], year, month, @day).first
+            @nowday = @day
+            @day = @day - 1
+          end
+
+          @month_plans_arr << impl.id if impl
+        else
+          @day = Time.new(year, month, 1).end_of_month.day
+          @month_plans_arr << Implementation.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], year, month, @day).first.id if @month_plans_arr << Implementation.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], year, month, @day).first
+        end
+
+
+        #@month_plans << Implementation.where('N = ?', params[:id]).last.id
+        @month_plans = Implementation.where('id IN (?)',@month_plans_arr).order("DAT DESC")
+      end
+    end
+  end
+
+  def show2
 
     @month_plans_arr = []
     @days_plans_arr = []

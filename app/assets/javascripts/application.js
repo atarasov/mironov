@@ -26,3 +26,16 @@ $('li > a').click(function() {
     $(this).parent().addClass('active');
 });
 
+function fixDiv() {
+  var $cache = $('.scroller');
+  if ($(window).scrollTop() > 150){
+    $cache.css({'position': 'fixed', 'top': '0px', 'width': '98%'});
+    $cache.addClass("background");
+}
+  else{
+    $cache.css({'position': 'relative', 'top': 'auto', 'width': '100%'});
+    $cache.removeClass("background");
+}
+}
+$(window).scroll(fixDiv);
+fixDiv();

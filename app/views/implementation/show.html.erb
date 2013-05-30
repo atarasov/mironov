@@ -1,5 +1,5 @@
 <% if current_user.admin? %>
-    <div class="span12">
+    <div class="span12" xmlns="http://www.w3.org/1999/html">
       <p><%= link_to "Данные за все время", implementationall_url(params[:id]) %></p>
       <ul class="nav nav-tabs" id="myTab">
         <li><a href="#day">По дням</a></li>
@@ -9,12 +9,98 @@
 
       <div class="tab-content">
         <div class="tab-pane" id="month">
-          <%= high_chart("monthBarGraph", @bar_graph) %>
-          <%= high_chart("monthLineGraph", @line_graph) %>
+          <div class="row-fluid">
+            Динамика реализации - <b><%= @month_plans.first.NAIM %></b>
+          </div>  <br/>
+          <%
+             #max_pls_m = @month_plans.maximum('PLM')
+             max_summ_m = @month_plans.maximum('SUMM')
+             #if max_pls_m > max_vrs_m
+             #	@max_m = max_pls_m
+             #else
+             #	@max_m = max_vrs_m
+             #end
+             @max_m = max_summ_m
+             @d = "scroller"
+          %>
+          <% @month_plans.each do |plan| %>
+              <div class="row-fluid <%= @d %>">
+                <div class="span2">
+                  <% if @d != 1 %>
+                      Дата <br/> <br/>
+                  <% end %>
+                  <%= Russian::strftime(plan.DAT, "%d %B %Y") %></div>
+                <div class="span8">
+                  <% if @d != 1 %>
+                      <span class="label label-success">Реализация за месяц</span>
+                      <span class="label label-important">Реализация на сегодняшний день(<%= @nowday %> рабочих дней) </span> <br/><br/>
+                  <% end %>
+                  <div class="progress progress-success">
+
+                    <div class="bar" style="width: <%= number_to_percentage((plan.SUMM / @max_m.to_f) *100, :precision => 0) %>">
+                      <p><%= int_register plan.SUMM %> кг</p></div>
+                  </div>
+                  <% sum =Implementation.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ? AND N = ?", plan.DAT.to_date.year, plan.DAT.to_date.month, @nowday, plan.N).first.SUMM.to_f %>
+                  <div class="progress progress-danger">
+                    <div class="bar" style="width: <%= number_to_percentage((sum / @max_m.to_f) *100, :precision => 0) %>"><%= int_register sum.to_i %>
+                      кг
+                    </div>
+                  </div>
+                </div>
+                <div class="span2">
+                  <% if @d != 1 %>
+                      Реализация за год <br/><br/>
+                  <% end %>
+                  <%= int_register plan.SUMY %> кг</div>
+              </div>
+              <br/>
+              <% @d = 1 %>
+          <% end %>
+          <%#= high_chart("monthBarGraph", @bar_graph) %>
+          <%#= high_chart("monthLineGraph", @line_graph) %>
         </div>
         <div class="tab-pane" id="day">
-          <%#= high_chart("daysBarGraph", @days_bar_graph) %>
-          <%= high_chart("daysLineGraph", @day_sbar_graph) %>
+          <%
+             @max = @plans.where('DAY(DAT) = ?', Time.now.day - 1).maximum('SUMM')
+             @d = "scroller"
+          %>
+          <div class="row-fluid">
+            Динамика выполнения плана по месяцам за <%= @nowday %> рабочих дней - <b><%= @plans.first.NAIM %></b>
+          </div>
+          <br/>
+          <% @plans.where('DAY(DAT) = ?', @nowday).each do |plan| %>
+
+              <div class="row-fluid <%= @d %>">
+
+                <div class="span2">
+                  <% if @d != 1 %>
+                      Дата <br/> <br/>
+                  <% end %>
+                  <%= Russian::strftime(plan.DAT, "%d %B %Y") %></div>
+                <div class="span8">
+                  <% if @d != 1 %>
+                      <span class="label label-success">Реализация на сегодняшний день</span> <br/><br/>
+                  <% end %>
+                  <div class="progress progress-success">
+                    <div class="bar" style="width: <%= number_to_percentage((plan.SUMM.to_f / @max.to_f) *100, :precision => 0) %>">
+                      <p><%= int_register plan.SUMM %> тонн </p></div>
+                  </div>
+                </div>
+                <div class="span2">
+                  <% if @d != 1 %>
+                      Реализация за год <br/><br/>
+                  <% end %>
+                  <%= int_register plan.SUMY %> кг
+                </div>
+              </div>
+              <br/>
+              <% @d = 1 %>
+          <% end %>
+
+
+<%#= high_chart("daysBarGraph", @days_bar_graph) %>
+
+<%#= high_chart("daysLineGraph", @day_sbar_graph) %>
         </div>
       </div>
     </div>
