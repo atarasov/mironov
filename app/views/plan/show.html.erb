@@ -71,8 +71,8 @@
         </div>
         <div class="tab-pane" id="day">
           <%
-             max_pls = @plans.where('DAY(DAT) = ?', Time.now.day - 1).maximum('PLS')
-             max_vrs = @plans.where('DAY(DAT) = ?', Time.now.day - 1).maximum('VRS')
+             max_pls = @plans.where('DAY(DAT) = ?', @planday.day).maximum('PLS')
+             max_vrs = @plans.where('DAY(DAT) = ?', @planday.day).maximum('VRS')
              if max_pls > max_vrs
                @max = max_pls
              else
@@ -81,11 +81,11 @@
              @d = "scroller"
           %>
           <br/>
-          <% @plans.where('DAY(DAT) = ?', @nowday).each do |plan| %>
+          <% @plans.where('DAY(DAT) = ?', @nowday.day).each do |plan| %>
               <div class="row-fluid <%= @d %>">
                 <div class="span12">
                   <% if @d != 1 %>
-                      Динамика выполнения плана по месяцам за <%= @nowday %> рабочих дней - <b><%= @plans.first.NAIM %></b>
+                      Динамика выполнения плана по месяцам за <%= @nowday.day %> рабочих дней - <b><%= @plans.first.NAIM %></b>
                       <br/>
                       <br/>
                   <% end %>

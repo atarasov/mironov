@@ -3,17 +3,17 @@ class PlanController < BaseController
 
   def index
     if params[:day]
-      @day = (Time.now - (params[:day].to_i + 1).day).day
+      @dat = (Time.now - (params[:day].to_i + 1).day)
     else
-      @day = (Time.now - 1.day).day
+      @dat = (Time.now - 1.day)
     end
     if params[:year]
-      @plans = Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?",params[:year], Time.now.month, @day )
+      @plans = Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?",params[:year], @dat.month, @dat.day )
     else
-      @plans = Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?",Time.now.year, Time.now.month, @day)
+      @plans = Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?",@dat.year, @dat.month, @dat.day)
       while @plans.size == 0 do
-        @plans = Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?",Time.now.year, Time.now.month, @day)
-        @day = @day - 1
+        @plans = Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?",@dat.year, @dat.month, @dat.day)
+        @dat = @dat - 1.day
       end
     end
 
@@ -33,13 +33,14 @@ class PlanController < BaseController
     @plans = Asrt.where('N = ? AND YEAR(DAT) >= ?', params[:id], year).order("DAT DESC")
     @month_plans = []
     @days_plans_arr = []
-    @planday = (Time.now - 1.day).day
+    @planday = (Time.now - 1.day)
     @nowday = @planday
-    pl = Asrt.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], Time.now.year, Time.now.month, @planday).first
+    pl = Asrt.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], @planday.year, @planday.month, @planday.day).first
     while pl == nil do
-      pl = Asrt.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], Time.now.year, Time.now.month, @planday).first
+      @planday = @planday -1.day
+      pl = Asrt.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], @planday.year, @planday.month, @planday.day).first
       @nowday = @planday
-      @planday = @planday -1
+
     end
     Time.now.year.to_i.downto (Time.now.year - 1).to_i do |year|
       if year == Time.now.year
@@ -50,7 +51,7 @@ class PlanController < BaseController
       months.downto 1  do |month|
         @day = Time.new(year,month,1).end_of_month.day
         @month_plans << Asrt.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], year, month, @day).first.id if Asrt.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], year, month, @day).first
-        @days_plans_arr << Asrt.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], year, month, @nowday).first
+        @days_plans_arr << Asrt.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], year, month, @nowday.day).first
 
       end
     end

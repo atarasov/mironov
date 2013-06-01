@@ -4,16 +4,19 @@ class ImplementationController < BaseController
 
   def index
     if params[:day]
+      @dat = Time.now - (params[:day].to_i + 1).day
       @day = (Time.now - (params[:day].to_i + 1).day).day
     else
+      @dat = (Time.now - 1.day)
       @day = (Time.now - 1.day).day
     end
     if params[:year]
-      @implementations = Implementation.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?", params[:year], Time.now.month, @day)
+      @implementations = Implementation.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?", params[:year], @dat.month, @day)
     else
-      @implementations = Implementation.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?", Time.now.year, Time.now.month, @day)
+      @implementations = Implementation.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?", @dat.year, @dat.month, @day)
       while @implementations.size == 0 do
-        @implementations = Implementation.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?", Time.now.year, Time.now.month, @day)
+        @implementations = Implementation.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?", @dat.year, @dat.month, @dat.day)
+        @dat = @dat - 1.day
         @day = @day - 1
       end
     end
@@ -43,19 +46,21 @@ class ImplementationController < BaseController
       months.downto 1 do |month|
         if year == Time.now.year && month == Time.now.month
           @day = (Time.now - 1.day).day
-          @nowday = @day
-          impl = Implementation.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], year, month, @day).first
+          @dat = (Time.now - 1.day)
+          @nowday = @dat.day
+          impl = Implementation.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], year, month, @dat.day).first
           #raise impl.inspect
           while impl == nil do
-            impl = Implementation.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], year, month, @day).first
-            @nowday = @day
+            impl = Implementation.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], @dat.year, @dat.month, @dat.day).first
+            @nowday = @dat.day
+            @dat = @dat - 1.day
             @day = @day - 1
           end
 
           @month_plans_arr << impl.id if impl
         else
           @day = Time.new(year, month, 1).end_of_month.day
-          @month_plans_arr << Implementation.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], year, month, @day).first.id if @month_plans_arr << Implementation.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], year, month, @day).first
+          @month_plans_arr << Implementation.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], year, month, @day).first.id if Implementation.where('N = ? AND YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?', params[:id], year, month, @day).first
         end
 
 

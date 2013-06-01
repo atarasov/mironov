@@ -53,7 +53,7 @@
                          end
                       %>
                       <div class="progress progress-danger">
-                        <div class="bar" style="width: <%= number_to_percentage((sum / @max_m.to_f) *100, :precision => 0) %>"><p><%= sum.to_i %> кг</p>
+                        <div class="bar" style="width: <%= number_to_percentage((sum / @max_m.to_f) *100, :precision => 0) %>"><p><%= int_register sum.to_i %> кг</p>
                         </div>
                       </div>
                     </div>
@@ -75,13 +75,13 @@
         </div>
         <div class="tab-pane" id="day">
           <%
-             @max = @plans.where('DAY(DAT) = ?', Time.now.day - 1).maximum('SUMM')
+             @max = @plans.where('DAY(DAT) = ?', @nowday).maximum('SUMM')
              @d = "scroller"
           %>
 
           <br/>
           <% @plans.where('DAY(DAT) = ?', @nowday).each do |plan| %>
-
+              <%#= plan.inspect %>
               <div class="row-fluid <%= @d %>">
                 <div class="span12">
                   <% if @d != 1 %>
