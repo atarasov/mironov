@@ -7,6 +7,14 @@
   </ul>
   <br/>
   <br/>
+  <ul class="years ul_days">
+    <li><%= link_to Russian::strftime(Time.now - 1.day, "%d %B %Y"), cash_url()%></li>
+    <li><%= link_to_unless_current Russian::strftime(Time.now - 2.day, "%d %B %Y"), cash_url(:day => 1)%></li>
+    <li><%= link_to_unless_current Russian::strftime(Time.now - 3.day, "%d %B %Y"), cash_url(:day => 2)%></li>
+    <li><%= link_to_unless_current Russian::strftime(Time.now - 4.day, "%d %B %Y"), cash_url(:day => 3)%></li>
+  </ul>
+  <br/>
+  <br/>
   <h3>Данные по банкам и по кассе - <%= Russian::strftime(@cash.first.DAT.to_date, "%d %B %Y") if @cash.first %></h3>
   <table class="table table-hover">
     <tr>
