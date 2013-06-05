@@ -1,0 +1,2 @@
+$('#implementation_table').hide( 'slide', {direction: 'right'}, 1500, {} );
+$('#implementation_table').html('<%=j render partial: 'implementation/table', locals: { implementations: @implementations, dat: @dat } %>').fadeIn("slow")

@@ -1,0 +1,2 @@
+$('#cashc_table').hide( 'slide', {direction: 'right'}, 1500, {} );
+$('#cashc_table').html('<%=j render partial: 'cashc/table', locals: { cashc: @cashc, dat: @dat } %>').fadeIn("slow")

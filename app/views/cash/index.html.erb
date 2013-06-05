@@ -5,9 +5,21 @@
         <li><%= link_to_unless_current year, cash_url(:year => year)%></li>
     <% end %>
   </ul>
-  <br/>
-  <br/>
-  <h3>Данные по банкам и по кассе - <%= Russian::strftime(@cash.first.DAT.to_date, "%d %B %Y") if @cash.first %></h3>
+  <div id="cash_table">
+    <h3>Данные по банкам и по кассе - <%= Russian::strftime(@cash.first.DAT.to_date, "%d %B %Y") if @cash.first %></h3>
+    <div class="row-fluid">
+      <div class="span2">
+        <%= link_to Russian::strftime(@dat - 1.day, "%d %B %Y"), cash_prev_day_url(:dat => @dat), remote: true, :id => "prev_day" %>
+      </div>
+      <div class="span8">
+
+      </div>
+
+      <div class="span2">
+        <%= link_to Russian::strftime(@dat + 1.day, "%d %B %Y"), cash_next_day_url(:dat => @dat), remote: true, :id => "next_day" %>
+      </div>
+    </div>
+
   <table class="table table-hover">
     <tr>
       <th>Наименование</th>
@@ -16,6 +28,7 @@
     </tr>
     <%= render :partial => "cash/cash_item", :collection => @cash, :as => :item  %>
   </table>
+</div>
 </div>
 <% else %>
     <h2>Недостаточно прав</h2>

@@ -9,6 +9,18 @@ Mironov::Application.routes.draw do
   end
 
   devise_for :users do
+    get 'plan/next_day', :as => :plan_next_day
+    get 'plan/prev_day', :as => :plan_prev_day
+
+    get 'implementation/next_day', :as => :implementation_next_day
+    get 'implementation/prev_day', :as => :implementation_prev_day
+
+    get 'cash/next_day', :as => :cash_next_day
+    get 'cash/prev_day', :as => :cash_prev_day
+
+    get 'cashc/next_day', :as => :cashc_next_day
+    get 'cashc/prev_day', :as => :cashc_prev_day
+
     match 'balance/' => 'balance#index'
     match 'cash/' => 'cash#index'
     match 'cashc/' => 'cashc#index'

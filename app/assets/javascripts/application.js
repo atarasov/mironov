@@ -37,5 +37,16 @@ function fixDiv() {
     $cache.removeClass("background");
 }
 }
+
+$(window).bind("keypress", function(e) {
+    if (e.keyCode == 37) {
+        $("a#prev_day").click();
+    }
+
+    if (e.keyCode == 39) {
+        $("a#next_day").click();
+    }
+});
+
 $(window).scroll(fixDiv);
 fixDiv();

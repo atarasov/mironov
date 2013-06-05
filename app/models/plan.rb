@@ -40,4 +40,5 @@ class Plan < ActiveRecord::Base
       Asrt.where("MONTH(DAT) = ? AND YEAR(DAT) = ? AND N = ?", self.date.month, self.date.year, self.assortment.old_id).update_all(:PLM => self.month, :PLD => self.day)
     end
   end
+
 end

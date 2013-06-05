@@ -1,0 +1,2 @@
+$('#plan_table').hide( 'slide', {direction: 'left'}, 1500, {} );
+$('#plan_table').html('<%=j render partial: 'plan/table', locals: { plans: @plans, dat: @dat} %>').fadeIn("slow")
