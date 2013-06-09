@@ -49,7 +49,7 @@ class CashController < BaseController
 
   def next_day
 
-    @dat = params[:dat].to_date - 1.day
+    @dat = params[:dat].to_date + 1.day
 
     @cash = Cash.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?", @dat.year, @dat.month, @dat.day )
 

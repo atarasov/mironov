@@ -36,7 +36,7 @@ set :login,           "mironov"
 set :use_sudo,        false
 set :deploy_to,       "/home/#{user}/www/project/#{login}"
 set :unicorn_conf,    "/etc/unicorn/#{application}.#{login}.rb"
-set :unicorn_pid,     "/var/run/unicorn/#{application}.#{login}.pid"
+set :unicorn_pid,     "/home/#{user}/www/project/#{application}/shared/pids/#{application}.#{login}.pid"
 set :bundle_dir,      File.join(fetch(:shared_path), 'gems')
 set :delayed_job_server_role, :delayed_job
 role :delayed_job,    deploy_server
