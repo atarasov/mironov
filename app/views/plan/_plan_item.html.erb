@@ -12,12 +12,13 @@
     <div id="item<%= item.N %>" class=" accordion-body collapse">
       <div class="plan-progress">
         <% if item.PLM.to_i > 0 %>
-
+            План
             <div class="progress">
-              <div class="bar bar-success" style="width: <%= number_to_percentage((item.PLS / item.PLM) *100, :precision => 0) %>;">План
-                текущий - <%= number_to_percentage((item.PLS / item.PLM) *100, :precision => 0) %></div>
+
+              <div class="bar bar-success" style="width: <%= number_to_percentage((item.PLS / item.PLM) *100, :precision => 0) %>;">
+                 <%= number_to_percentage((item.PLS / item.PLM) *100, :precision => 0) %></div>
               <div class="bar bar-danger" style="width: <%= number_to_percentage( 100 - (item.PLS / item.PLM) *100, :precision => 0) %>;">
-                План осталось - <%= number_to_percentage(100 - (item.PLS / item.PLM) *100, :precision => 0) %></div>
+                <%= number_to_percentage(100 - (item.PLS / item.PLM) *100, :precision => 0) %></div>
             </div>
 
         <% else %>
@@ -26,11 +27,10 @@
       </div>
       <div class="fact-progress">
         <% if item.PLS.to_i > 0 %>
+            Факт
             <div class="progress">
-              <div class="bar bar-success" style="width: <%= number_to_percentage((item.VRS / item.PLS) *100, :precision => 0) %>;">Факт
-                текущий - <%= number_to_percentage((item.VRS / item.PLS) *100, :precision => 0) %></div>
-              <div class="bar bar-danger" style="width: <%= number_to_percentage( 100 - (item.VRS / item.PLS) *100, :precision => 0) %>;">Факт
-                осталось -  <%= number_to_percentage(100 - (item.VRS / item.PLS) *100, :precision => 0) %></div>
+              <div class="bar bar-success" style="width: <%= number_to_percentage((item.VRS / item.PLS) *100, :precision => 0) %>;"><%= number_to_percentage((item.VRS / item.PLS) *100, :precision => 0) %></div>
+              <div class="bar bar-danger" style="width: <%= number_to_percentage( 100 - (item.VRS / item.PLS) *100, :precision => 0) %>;"><%= number_to_percentage(100 - (item.VRS / item.PLS) *100, :precision => 0) %></div>
             </div>
         <% else %>
             Нет данных

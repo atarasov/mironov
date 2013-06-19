@@ -112,9 +112,9 @@
                 </div>
                 <div class="span2">
                   <% if @d != 1 %>
-                      План на месяц <br/><br/>
+                      Выработка с начала года <br/><br/>
                   <% end %>
-                  <%= decimal_register plan.PLM %> тонн
+                  <%= decimal_register Asrt.where("YEAR(DAT) = ? AND DAT < ?  AND N = ?", plan.DAT.to_date.year, plan.DAT.to_date + 1.day, plan.N).sum("VRD").to_f%> тонн
                 </div>
               </div>
               </div>
