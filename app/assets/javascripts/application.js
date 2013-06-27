@@ -25,7 +25,12 @@ $('li > a').click(function() {
     $('li').removeClass();
     $(this).parent().addClass('active');
 });
-
+$(function() {
+    $('#plan_table .nav-pills li a').click(function(e) {
+//        e.preventDefault();
+        $(this).parent().addClass('active').siblings().removeClass('active');
+    });
+});
 function fixDiv() {
   var $cache = $('.scroller');
   if ($(window).scrollTop() > 150){

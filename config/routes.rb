@@ -1,4 +1,5 @@
 Mironov::Application.routes.draw do
+
   root :to => 'main#index'
 
   get 'application/plan_create', :as => :plan_create
@@ -20,6 +21,8 @@ Mironov::Application.routes.draw do
 
     get 'cashc/next_day', :as => :cashc_next_day
     get 'cashc/prev_day', :as => :cashc_prev_day
+
+    get "sold_done/index" , :as => :sold_done
 
     match 'balance/' => 'balance#index'
     match 'cash/' => 'cash#index'

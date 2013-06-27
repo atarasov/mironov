@@ -94,7 +94,7 @@ SimpleNavigation::Configuration.run do |navigation|
     primary.item :cash, 'Касса/Вик', cash_url
     primary.item :cashс, 'Касса/Вик-С', cashc_url
     primary.item :balance, 'Расход/оплата ресурсов', balance_url
-
+    primary.item :sold_done, "Сделанно/проданно", sold_done_url
     # Add an item which has a sub navigation (same params, but with block)
     #primary.item :key_2, 'name', url, options do |sub_nav|
       # Add an item to the sub navigation (same params again)

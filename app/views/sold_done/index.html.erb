@@ -1,0 +1,158 @@
+<% if current_user.admin? %>
+
+
+    <div class="span12">
+      <ul class="nav nav-tabs" id="myTab">
+        <li><a href="#day">По дням</a></li>
+        <li><a href="#month">По месяцам</a></li>
+
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane" id="month">
+
+
+          <%
+             max_pls_m = @month_plans.maximum('PLM')
+             max_vrs_m = @month_plans.maximum('VRS')
+             max_impl_m= @month_implementations.maximum('SUMM') / 1000
+             if max_pls_m > max_vrs_m
+               @max_m = max_pls_m
+             else
+               @max_m = max_vrs_m
+             end
+
+             if max_impl_m > @max_m
+               @max_m = max_impl_m
+             end
+             @d = "scroller"
+          %>
+          <% @month_plans.each do |plan| %>
+              <div class="row-fluid <%= @d %>">
+                <div class="span12">
+                  <% if @d != 1 %>
+                      Динамика производства - продажи по месяцам - <b><%= @month_plans.first.NAIM %>/ <%= @month_implementations.first.NAIM%></b>
+                      <br/>
+                      <br/>
+                  <% end %>
+                  <div class="row-fluid">
+                    <div class="span2">
+                      <% if @d != 1 %>
+                          Дата <br/> <br/>
+                      <% end %>
+                      <%= Russian::strftime(plan.DAT, "%d %B %Y") %></div>
+                    <div class="span8">
+                      <% if @d != 1 %>
+                          <span class="label label-success">План на месяц</span>
+                          <span class="label label-important">Факт нарастающий </span>
+                          <span class="label label-info">Реализация с начала месяца </span> <br/><br/>
+                      <% end %>
+                      <div class="progress progress-success">
+                        <div class="bar" style="width: <%= number_to_percentage((plan.PLM / @max_m) *100, :precision => 0) %>">
+                          <p><%= decimal_register plan.PLM %> тонн</p></div>
+                      </div>
+                      <div class="progress progress-danger">
+                        <div class="bar" style="width: <%= number_to_percentage((plan.VRS / @max_m) *100, :precision => 0) %>"><p><%= decimal_register plan.VRS %>  тонн</p>
+
+                        </div>
+                      </div>
+                      <div class="progress progress-info">
+                        <% @impl = @month_implementations.where(:DAT => plan.DAT).first.SUMM.to_f / 1000  %>
+                        <div class="bar" style="width: <%= number_to_percentage((@impl/ @max_m) *100, :precision => 0) %>"><p><%= decimal_register @impl %>  тонн</p>
+
+                        </div>
+                      </div>
+                    </div>
+                    <div class="span2">
+                      <% if @d != 1 %>
+                          Выработка с начала года / Реализация с начала года<br/><br/>
+                      <% end %>
+                      <%= decimal_register Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) <= ? AND N = ?", plan.DAT.to_date.year, plan.DAT.to_date.month, plan.N).sum("VRD").to_f %>  /
+                      <%= decimal_register @month_implementations.where(:DAT => plan.DAT).first.SUMY.to_f / 1000 %>
+                      тонн
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <br/>
+              <% @d = 1 %>
+          <% end %>
+          <div class="row-fluid bottomblok"></div>
+          <%#= high_chart("monthBarGraph", @bar_graph) %>
+          <%#= high_chart("monthLineGraph", @line_graph) %>
+        </div>
+        <div class="tab-pane" id="day">
+          <%
+             max_pls = @plans.where('DAY(DAT) = ?', @planday.day).maximum('PLS')
+             max_vrs = @plans.where('DAY(DAT) = ?', @planday.day).maximum('VRS')
+             max_impl = @month_implementations.where('DAY(DAT) = ?', @planday.day).maximum('SUMM') / 1000
+             if max_pls > max_vrs
+               @max = max_pls
+             else
+               @max = max_vrs
+             end
+
+             if max_impl > @max
+               @max = max_impl
+             end
+             @d = "scroller"
+          %>
+          <br/>
+          <% @plans.where('DAY(DAT) = ?', @nowday.day).each do |plan| %>
+              <div class="row-fluid <%= @d %>">
+                <div class="span12">
+                  <% if @d != 1 %>
+                      Динамика производства - продажи по месяцам за <%= @nowday.day %> рабочих дней - <b><%= @plans.first.NAIM %> / <%= @month_implementations.first.NAIM%></b>
+                      <br/>
+                      <br/>
+                  <% end %>
+                  <div class="row-fluid">
+                    <div class="span2">
+                      <% if @d != 1 %>
+                          Дата <br/> <br/>
+                      <% end %>
+                      <%= Russian::strftime(plan.DAT, "%d %B %Y") %></div>
+                    <div class="span8">
+                      <% if @d != 1 %>
+                          <span class="label label-success">План нарастающий</span>
+                          <span class="label label-important">Факт нарастающий </span>
+                          <span class="label label-info">Реализация с начала месяца </span> <br/><br/>
+                      <% end %>
+                      <div class="progress progress-success">
+                        <div class="bar" style="width: <%= number_to_percentage((plan.PLS / @max) *100, :precision => 0) %>">
+                          <p><%= decimal_register plan.PLS %> тонн</p></div>
+                      </div>
+                      <div class="progress progress-danger">
+                        <div class="bar" style="width: <%= number_to_percentage((plan.VRS / @max) *100, :precision => 0) %>"><p><%= decimal_register plan.VRS %>
+                          тонн </p>
+                        </div>
+                      </div>
+                      <% @impld = @month_implementations.where('YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) < ?',plan.DAT.to_date.year, plan.DAT.to_date.month, plan.DAT.to_date.day + 1).sum("SUM").to_f / 1000 %>
+                      <div class="progress progress-info">
+                        <div class="bar" style="width: <%= number_to_percentage((@impld / @max) *100, :precision => 0) %>"><p><%= decimal_register @impld %> тонн </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="span2">
+                      <% if @d != 1 %>
+                          Выработка с начала года  / Реализация с начала года<br/><br/>
+                      <% end %>
+                      <%= decimal_register Asrt.where("YEAR(DAT) = ? AND DAT < ?  AND N = ?", plan.DAT.to_date.year, plan.DAT.to_date + 1.day, plan.N).sum("VRD").to_f%> тонн  /
+                      <%= decimal_register @month_implementations.where(:DAT => plan.DAT).first.SUMY.to_f / 1000 if @month_implementations.where(:DAT => plan.DAT).first%>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <br/>
+              <% @d = 1 %>
+          <% end %>
+          <div class="row-fluid bottomblok"> </div>
+
+          <%#= high_chart("daysBarGraph", @days_bar_graph) %>
+          <%#= high_chart("daysLineGraph", @days_line_graph) %>
+        </div>
+      </div>
+    </div>
+<% else %>
+    <h2>Недостаточно прав</h2>
+<% end %>

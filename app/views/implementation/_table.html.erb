@@ -1,20 +1,30 @@
-  <div class="row-fluid">
-    <div class="span2">
-      <%= link_to Russian::strftime(dat - 1.day, "%d %B %Y"), implementation_prev_day_url(:dat => dat), remote: true, :id => "prev_day" %>
-    </div>
-    <div class="span8">
-      <ul class="years ul_days">
-        <li><%= link_to Russian::strftime(Time.now - 1.day, "%d %B %Y"), implementation_url()%></li>
-        <li><%= link_to_unless_current Russian::strftime(Time.now - 2.day, "%d %B %Y"), implementation_url(:day => 1)%></li>
-        <li><%= link_to_unless_current Russian::strftime(Time.now - 3.day, "%d %B %Y"), implementation_url(:day => 2)%></li>
-        <li><%= link_to_unless_current Russian::strftime(Time.now - 4.day, "%d %B %Y"), implementation_url(:day => 3)%></li>
-      </ul>
-    </div>
+<div class="row-fluid">
+  <div class="span3">
+    <ul class="pager">
+      <li class="previous">
+        <%= link_to Russian::strftime(dat - 1.day, "%d %B %Y"), implementation_prev_day_url(:dat => dat), remote: true, :id => "prev_day" %>
+      </li>
 
-    <div class="span2">
-      <%= link_to Russian::strftime(dat + 1.day, "%d %B %Y"), implementation_next_day_url(:dat => dat), remote: true, :id => "next_day" %>
-    </div>
+    </ul>
   </div>
+
+  <div class="span6">
+    <ul class="nav nav-pills">
+      <li ><%= link_to Russian::strftime(Time.now - 1.day, "%d %B %Y"), implementation_url()%></li>
+      <li class="<%=params[:day] == '1' ? 'active' : '' %>"><%= link_to Russian::strftime(Time.now - 2.day, "%d %B %Y"), implementation_url(:day => 1)%></li>
+      <li class="<%=params[:day] == '2' ? 'active' : '' %>"><%= link_to Russian::strftime(Time.now - 3.day, "%d %B %Y"), implementation_url(:day => 2)%></li>
+      <li class="<%=params[:day] == '3' ? 'active' : '' %>"><%= link_to Russian::strftime(Time.now - 4.day, "%d %B %Y"), implementation_url(:day => 3)%></li>
+    </ul>
+  </div>
+
+  <div class="span3">
+    <ul class="pager">
+      <li class="next">
+        <%= link_to Russian::strftime(dat + 1.day, "%d %B %Y"), implementation_next_day_url(:dat => dat), remote: true, :id => "next_day" %>
+      </li>
+    </ul>
+  </div>
+</div>
   <% if implementations.first %>
       <h3>Реализация продукции  - <%= Russian::strftime(implementations.first.DAT.to_date, "%d %B %Y")%></h3>
   <% end %>

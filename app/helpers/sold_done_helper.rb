@@ -1,0 +1,2 @@
+module SoldDoneHelper
+end
