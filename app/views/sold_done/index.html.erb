@@ -43,14 +43,12 @@
                       <%= Russian::strftime(plan.DAT, "%d %B %Y") %></div>
                     <div class="span8">
                       <% if @d != 1 %>
-                          <span class="label label-success">План на месяц</span>
+
                           <span class="label label-important">Факт нарастающий </span>
-                          <span class="label label-info">Реализация с начала месяца </span> <br/><br/>
+                          <span class="label label-info">Реализация с начала месяца </span>
+                          <span class="label label-success">План на месяц</span><br/><br/>
                       <% end %>
-                      <div class="progress progress-success">
-                        <div class="bar" style="width: <%= number_to_percentage((plan.PLM / @max_m) *100, :precision => 0) %>">
-                          <p><%= decimal_register plan.PLM %> тонн</p></div>
-                      </div>
+
                       <div class="progress progress-danger">
                         <div class="bar" style="width: <%= number_to_percentage((plan.VRS / @max_m) *100, :precision => 0) %>"><p><%= decimal_register plan.VRS %>  тонн</p>
 
@@ -62,14 +60,18 @@
 
                         </div>
                       </div>
+                      <div class="progress progress-success">
+                        <div class="bar" style="width: <%= number_to_percentage((plan.PLM / @max_m) *100, :precision => 0) %>">
+                          <p><%= decimal_register plan.PLM %> тонн</p></div>
+                      </div>
                     </div>
                     <div class="span2">
                       <% if @d != 1 %>
-                          Выработка с начала года / Реализация с начала года<br/><br/>
+                          Выработка с начала года <br/>  Реализация с начала года <br/>  План по сегодняшний день<br/>
                       <% end %>
-                      <%= decimal_register Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) <= ? AND N = ?", plan.DAT.to_date.year, plan.DAT.to_date.month, plan.N).sum("VRD").to_f %>  /
-                      <%= decimal_register @month_implementations.where(:DAT => plan.DAT).first.SUMY.to_f / 1000 %>
-                      тонн
+                      <span class="label label-important"><%= decimal_register Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) <= ? AND N = ?", plan.DAT.to_date.year, plan.DAT.to_date.month, plan.N).sum("VRD").to_f %> тонн</span> <br/>
+                      <span class="label label-info"><%= decimal_register @month_implementations.where(:DAT => plan.DAT).first.SUMY.to_f / 1000 %> тонн</span> <br/>
+                      <span class="label label-success"><%= decimal_register Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) <= ? AND N = ?", plan.DAT.to_date.year, plan.DAT.to_date.month, plan.N).sum("PLD").to_f %> тонн</span>
                     </div>
                   </div>
                 </div>
@@ -114,31 +116,34 @@
                       <%= Russian::strftime(plan.DAT, "%d %B %Y") %></div>
                     <div class="span8">
                       <% if @d != 1 %>
-                          <span class="label label-success">План нарастающий</span>
+
                           <span class="label label-important">Факт нарастающий </span>
-                          <span class="label label-info">Реализация с начала месяца </span> <br/><br/>
+                          <span class="label label-info">Реализация с начала месяца </span>
+                          <span class="label label-success">План нарастающий</span><br/><br/>
                       <% end %>
-                      <div class="progress progress-success">
-                        <div class="bar" style="width: <%= number_to_percentage((plan.PLS / @max) *100, :precision => 0) %>">
-                          <p><%= decimal_register plan.PLS %> тонн</p></div>
-                      </div>
+
                       <div class="progress progress-danger">
                         <div class="bar" style="width: <%= number_to_percentage((plan.VRS / @max) *100, :precision => 0) %>"><p><%= decimal_register plan.VRS %>
                           тонн </p>
                         </div>
                       </div>
-                      <% @impld = @month_implementations.where('YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) < ?',plan.DAT.to_date.year, plan.DAT.to_date.month, plan.DAT.to_date.day + 1).sum("SUM").to_f / 1000 %>
+                      <% @impld = @month_implementations.where('YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?',plan.DAT.to_date.year, plan.DAT.to_date.month, plan.DAT.to_date.day).first ? @month_implementations.where('YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?',plan.DAT.to_date.year, plan.DAT.to_date.month, plan.DAT.to_date.day).first.SUMM.to_f / 1000 : 0%>
                       <div class="progress progress-info">
                         <div class="bar" style="width: <%= number_to_percentage((@impld / @max) *100, :precision => 0) %>"><p><%= decimal_register @impld %> тонн </p>
                         </div>
                       </div>
+                      <div class="progress progress-success">
+                        <div class="bar" style="width: <%= number_to_percentage((plan.PLS / @max) *100, :precision => 0) %>">
+                          <p><%= decimal_register plan.PLS %> тонн</p></div>
+                      </div>
                     </div>
                     <div class="span2">
                       <% if @d != 1 %>
-                          Выработка с начала года  / Реализация с начала года<br/><br/>
+                          Выработка с начала месяца <br/> Реализация с начала месяца<br/> План с начала месяца
                       <% end %>
-                      <%= decimal_register Asrt.where("YEAR(DAT) = ? AND DAT < ?  AND N = ?", plan.DAT.to_date.year, plan.DAT.to_date + 1.day, plan.N).sum("VRD").to_f%> тонн  /
-                      <%= decimal_register @month_implementations.where(:DAT => plan.DAT).first.SUMY.to_f / 1000 if @month_implementations.where(:DAT => plan.DAT).first%>
+                      <span class="label label-important"><%= decimal_register Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?  AND N = ?", plan.DAT.to_date.year, plan.DAT.to_date.month, plan.DAT.to_date.day, plan.N).first.VRS.to_f%> тонн</span>  <br/>
+                      <span class="label label-info"><%= decimal_register @month_implementations.where(:DAT => plan.DAT).first ? @month_implementations.where(:DAT => plan.DAT).first.SUMM.to_f / 1000 : 0%> тонн</span>  <br/>
+                      <span class="label label-success"><%= decimal_register Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) = ? AND DAY(DAT) = ?  AND N = ?", plan.DAT.to_date.year, plan.DAT.to_date.month, plan.DAT.to_date.day, plan.N).first.PLS.to_f%> тонн</span>
                     </div>
                   </div>
                 </div>
