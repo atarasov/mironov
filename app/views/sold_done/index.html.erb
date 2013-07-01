@@ -55,7 +55,7 @@
                         </div>
                       </div>
                       <div class="progress progress-info">
-                        <% @impl = @month_implementations.where(:DAT => plan.DAT).first.SUMM.to_f / 1000  %>
+                        <% @impl = @month_implementations.where(:DAT => plan.DAT).first ? @month_implementations.where(:DAT => plan.DAT).first.SUMM.to_f / 1000 : 0  %>
                         <div class="bar" style="width: <%= number_to_percentage((@impl/ @max_m) *100, :precision => 0) %>"><p><%= decimal_register @impl %>  тонн</p>
 
                         </div>
@@ -70,7 +70,7 @@
                           Выработка с начала года <br/>  Реализация с начала года <br/>  План по сегодняшний день<br/>
                       <% end %>
                       <span class="label label-important"><%= decimal_register Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) <= ? AND N = ?", plan.DAT.to_date.year, plan.DAT.to_date.month, plan.N).sum("VRD").to_f %> тонн</span> <br/>
-                      <span class="label label-info"><%= decimal_register @month_implementations.where(:DAT => plan.DAT).first.SUMY.to_f / 1000 %> тонн</span> <br/>
+                      <span class="label label-info"><%= decimal_register  @month_implementations.where(:DAT => plan.DAT).first ? @month_implementations.where(:DAT => plan.DAT).first.SUMY.to_f / 1000 : 0  %> тонн</span> <br/>
                       <span class="label label-success"><%= decimal_register Asrt.where("YEAR(DAT) = ? AND MONTH(DAT) <= ? AND N = ?", plan.DAT.to_date.year, plan.DAT.to_date.month, plan.N).sum("PLD").to_f %> тонн</span>
                     </div>
                   </div>
